@@ -946,35 +946,65 @@ using namespace std;`,
     id: "flow_1",
     category: "flowcharts",
     categoryName: "الخوارزميات وخرائط التدفق (Flowcharts)",
-    title: "Celsius to Fahrenheit Converter",
-    text: "Write a pseudocode and understand the flowchart that converts temperature from Celsius to Fahrenheit: F = (C * (9/5)) + 32.",
-    textAr: "كود زائف (Pseudocode) وخريطة تدفق لتحويل درجة الحرارة من مئوية إلى فهرنهايت: F = (C × (9/5)) + 32.",
+    title: "Celsius to Fahrenheit Converter Flowchart",
+    text: "Build the complete flowchart that converts temperature from Celsius to Fahrenheit: F = (C * (9.0 / 5.0)) + 32. Drag or click the appropriate shape for each step, and write the required instruction inside each shape.",
+    textAr: "المطلوب نصاً من سلايد 6: ارسم خريطة التدفق الكاملة لتحويل درجة الحرارة من مئوية إلى فهرنهايت F = (C * 9.0/5.0) + 32. اسحب الشكل الهندسي المناسب لكل خطوة من الصندوق واكتب بداخله الأمر أو العملية المطلوبة:",
     source: "Slide 6 - Question",
-    type: "conceptual_flow",
+    type: "interactive_flowchart",
     pseudocode: `Algorithm:
 1. Start
 2. Read Celsius temperature (C)
 3. Calculate Fahrenheit: F = (C * 9.0 / 5.0) + 32
 4. Display / Print Fahrenheit (F)
 5. End`,
-    flowchartSteps: [
-      { shape: "Oval", text: "Start" },
-      { shape: "Parallelogram", text: "Input C" },
-      { shape: "Rectangle", text: "F = (C * 9/5) + 32" },
-      { shape: "Parallelogram", text: "Print F" },
-      { shape: "Oval", text: "End" }
+    interactiveSlots: [
+      {
+        label: "بداية الخوارزمية",
+        expectedShape: "Oval",
+        acceptedKeywords: ["start", "begin", "بداية"],
+        hint: "شكل بيضاوي (Oval) ونكتب بداخله Start",
+        modelText: "Start"
+      },
+      {
+        label: "إدخال درجة الحرارة C",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["read", "input", "cin", "c", "ادخال", "قراءة"],
+        hint: "عملية إدخال تتطلب متوازي أضلاع (Parallelogram) ونكتب Read C أو Input C",
+        modelText: "Input C"
+      },
+      {
+        label: "حساب معادلة التحويل الرياضية",
+        expectedShape: "Rectangle",
+        acceptedKeywords: ["f", "c", "9", "5", "32", "1.8"],
+        hint: "عملية حسابية ومعالجة تتطلب مستطيلاً (Rectangle) ونكتب F = (C * 9.0/5.0) + 32",
+        modelText: "F = (C * 9.0 / 5.0) + 32"
+      },
+      {
+        label: "طباعة وإخراج الناتج النهائي F",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["print", "output", "cout", "f", "طباعة", "اخراج"],
+        hint: "عملية إخراج تتطلب متوازي أضلاع (Parallelogram) ونكتب Print F أو Output F",
+        modelText: "Print F"
+      },
+      {
+        label: "نهاية الخوارزمية",
+        expectedShape: "Oval",
+        acceptedKeywords: ["end", "stop", "نهاية", "توقف"],
+        hint: "نهاية البرنامج تتطلب شكلاً بيضاوياً (Oval) ونكتب End أو Stop",
+        modelText: "End"
+      }
     ],
-    explanation: "المعادلة الرياضية واضحة ومباشرة وتعتمد على تسلسل خطي بسيط (Sequential structure) بدون شروط أو تكرار."
+    explanation: "المعادلة تسير في تسلسل خطي مباشر (Sequential structure): 1) البداية Oval، 2) إدخال Parallelogram، 3) حساب المعادلة Rectangle، 4) إخراج الناتج Parallelogram، 5) النهاية Oval."
   },
   {
     id: "flow_2",
     category: "flowcharts",
     categoryName: "الخوارزميات وخرائط التدفق (Flowcharts)",
-    title: "Check Positive or Negative Number",
-    text: "Write an algorithm, pseudocode, and flowchart that prints if a number entered by a user is negative or positive.",
-    textAr: "اكتب خوارزمية وكود زائف وخريطة تدفق لطباعة ما إذا كان الرقم المدخل موجباً أو سالباً.",
+    title: "Check Positive or Negative Number Flowchart",
+    text: "Build the complete flowchart that checks whether a number N entered by the user is positive or negative. Place each shape in its correct slot and write the appropriate condition and output inside.",
+    textAr: "المطلوب نصاً من سلايد 8: ارسم خريطة التدفق لفحص ما إذا كان الرقم المدخل N موجباً أم سالباً. اسحب الشكل الصحيح لكل خطوة واكتب بداخله الشرط والطباعة المطلوبة:",
     source: "Slide 8 - Question",
-    type: "conceptual_flow",
+    type: "interactive_flowchart",
     pseudocode: `Algorithm:
 1. Start
 2. Input number (N)
@@ -983,25 +1013,63 @@ using namespace std;`,
    Else:
       Print "Negative"
 4. End`,
-    flowchartSteps: [
-      { shape: "Oval", text: "Start" },
-      { shape: "Parallelogram", text: "Input N" },
-      { shape: "Diamond", text: "Is N >= 0 ?" },
-      { shape: "Parallelogram (Branch True)", text: "Print 'Positive'" },
-      { shape: "Parallelogram (Branch False)", text: "Print 'Negative'" },
-      { shape: "Oval", text: "End" }
+    interactiveSlots: [
+      {
+        label: "بداية البرنامج",
+        expectedShape: "Oval",
+        acceptedKeywords: ["start", "begin", "بداية"],
+        hint: "شكل بيضاوي (Oval) ونكتب Start",
+        modelText: "Start"
+      },
+      {
+        label: "إدخال الرقم N من المستخدم",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["read", "input", "cin", "n", "ادخال", "قراءة"],
+        hint: "عملية إدخال تتطلب متوازي أضلاع (Parallelogram) ونكتب Input N أو Read N",
+        modelText: "Input N"
+      },
+      {
+        label: "اتخاذ القرار وفحص شرط الإشارة",
+        expectedShape: "Diamond",
+        acceptedKeywords: ["n", ">=", ">", "0", "positive", "موجب", "?"],
+        hint: "فحص الشروط يتطلب معيناً (Diamond) ونكتب شرط المقارنة Is N >= 0 ?",
+        modelText: "Is N >= 0 ?"
+      },
+      {
+        label: "تفرع نعم (Yes) - طباعة أن الرقم موجب",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["positive", "موجب", "print", "output"],
+        branchLabel: "Yes (إذا تحقق)",
+        hint: "عملية إخراج تتطلب متوازي أضلاع ونكتب Print 'Positive'",
+        modelText: "Print 'Positive'"
+      },
+      {
+        label: "تفرع لا (No) - طباعة أن الرقم سالب",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["negative", "سالب", "print", "output"],
+        branchLabel: "No (إذا لم يتحقق)",
+        hint: "عملية إخراج تتطلب متوازي أضلاع ونكتب Print 'Negative'",
+        modelText: "Print 'Negative'"
+      },
+      {
+        label: "نهاية البرنامج",
+        expectedShape: "Oval",
+        acceptedKeywords: ["end", "stop", "نهاية", "توقف"],
+        hint: "شكل بيضاوي (Oval) لنهاية البرنامج End أو Stop",
+        modelText: "End"
+      }
     ],
-    explanation: "تعتمد هذه المسألة على هيكل اتخاذ القرار (Decision structure) باستخدام شكل المعين (Diamond) للمقارنة `N >= 0` وتوجيه المسار وفقاً للشرط."
+    explanation: "تعتمد هذه المسألة على هيكل اتخاذ القرار (Decision structure) باستخدام شكل المعين (Diamond) للمقارنة N >= 0 وتوجيه المسار وفقاً للشرط إلى فرعي Yes و No."
   },
   {
     id: "flow_3",
     category: "flowcharts",
     categoryName: "الخوارزميات وخرائط التدفق (Flowcharts)",
-    title: "Sum of Squares from 1 to 50",
-    text: "Draw a flowchart to find the sum of squares of integers from 1 to 50.",
-    textAr: "ارسم خريطة تدفق لحساب مجموع مربعات الأعداد الصحيحة من 1 إلى 50 (Sum of squares: 1² + 2² + ... + 50²).",
+    title: "Sum of Squares from 1 to 50 Flowchart (Exam Paper Q3)",
+    text: "Build the complete flowchart from the exam paper to calculate the sum of squares of integers from 1 to 50: sum = 1² + 2² + ... + 50².",
+    textAr: "المطلوب نصاً من ورقة الامتحان (س3): ارسم خريطة التدفق لحساب مجموع مربعات الأعداد من 1 إلى 50 (Sum of squares: 1² + 2² + ... + 50²). اسحب الأشكال المناسبة واكتب العمليات الحسابية والشرط بداخلها:",
     source: "Exam Paper - Question 3",
-    type: "conceptual_flow",
+    type: "interactive_flowchart",
     pseudocode: `Algorithm:
 1. Start
 2. Initialize sum = 0, i = 1
@@ -1010,15 +1078,107 @@ using namespace std;`,
       i = i + 1
 4. Print sum
 5. End`,
-    flowchartSteps: [
-      { shape: "Oval", text: "Start" },
-      { shape: "Rectangle", text: "sum = 0, i = 1" },
-      { shape: "Diamond", text: "Is i <= 50 ?" },
-      { shape: "Rectangle (Loop Body)", text: "sum = sum + (i * i) \\n i = i + 1" },
-      { shape: "Parallelogram", text: "Print sum" },
-      { shape: "Oval", text: "End" }
+    interactiveSlots: [
+      {
+        label: "بداية الخوارزمية",
+        expectedShape: "Oval",
+        acceptedKeywords: ["start", "begin", "بداية"],
+        hint: "شكل بيضاوي (Oval) ونكتب Start",
+        modelText: "Start"
+      },
+      {
+        label: "تهيئة المجموع والعداد الابتدائية",
+        expectedShape: "Rectangle",
+        acceptedKeywords: ["sum", "0", "i", "1"],
+        hint: "عملية تهيئة حسابية تتطلب مستطيلاً (Rectangle) ونكتب sum = 0, i = 1",
+        modelText: "sum = 0, i = 1"
+      },
+      {
+        label: "فحص شرط استمرار حلقة التكرار",
+        expectedShape: "Diamond",
+        acceptedKeywords: ["i", "50", "<=", "<", "51", "?"],
+        hint: "فحص الشرط يتطلب معيناً (Diamond) ونكتب شرط الحلقة: Is i <= 50 ?",
+        modelText: "Is i <= 50 ?"
+      },
+      {
+        label: "جسم الحلقة (تراكم المربع وزيادة العداد)",
+        expectedShape: "Rectangle",
+        acceptedKeywords: ["sum", "i", "*", "+"],
+        branchLabel: "Yes (تكرار الحلقة)",
+        hint: "عملية معالجة حسابية تتطلب مستطيلاً ونكتب sum = sum + (i*i), i = i + 1",
+        modelText: "sum = sum + (i * i) \n i = i + 1"
+      },
+      {
+        label: "طباعة وإخراج المجموع النهائي عند انتهاء الدوران",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["print", "output", "cout", "sum", "طباعة", "المجموع"],
+        branchLabel: "No (الخروج من الحلقة)",
+        hint: "عملية إخراج تتطلب متوازي أضلاع (Parallelogram) ونكتب Print sum",
+        modelText: "Print sum"
+      },
+      {
+        label: "نهاية البرنامج",
+        expectedShape: "Oval",
+        acceptedKeywords: ["end", "stop", "نهاية", "توقف"],
+        hint: "نهاية الخريطة تتطلب شكلاً بيضاوياً (Oval) ونكتب End",
+        modelText: "End"
+      }
     ],
-    explanation: "تعتمد على هيكل التكرار (Looping structure). تبدأ العداد i بـ 1 وتراكم مربع i في المتغير sum، وتكرر حتى يصل العداد إلى 50 ثم تخرج وتطبع الناتج النهائي."
+    explanation: "تعتمد على هيكل التكرار (Looping structure). تبدأ بتهيئة المتغيرات في مستطيل، ثم فحص شرط العداد في معين (Diamond)، ثم تكرار حساب المربع وزيادة العداد داخل مستطيل، وأخيراً طباعة المجموع في متوازي أضلاع والانتهاء في بيضاوي."
+  },
+  {
+    id: "flow_4",
+    category: "flowcharts",
+    categoryName: "الخوارزميات وخرائط التدفق (Flowcharts)",
+    title: "Read Two Numbers, Calculate Sum and Print",
+    text: "Build the flowchart that reads two numbers A and B, calculates their sum (sum = A + B), and prints the result.",
+    textAr: "تدريب عملي: ارسم خريطة التدفق لقراءة عددين A و B وحساب مجموعهما (sum = A + B) وطباعة الناتج النهائي:",
+    source: "Fundamental Sequential Flowchart Practice",
+    type: "interactive_flowchart",
+    pseudocode: `Algorithm:
+1. Start
+2. Input A, B
+3. sum = A + B
+4. Print sum
+5. End`,
+    interactiveSlots: [
+      {
+        label: "البداية",
+        expectedShape: "Oval",
+        acceptedKeywords: ["start", "begin", "بداية"],
+        hint: "شكل بيضاوي (Oval)",
+        modelText: "Start"
+      },
+      {
+        label: "إدخال وقراءة العددين A و B",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["read", "input", "cin", "a", "b", "ادخال", "قراءة"],
+        hint: "متوازي أضلاع (Parallelogram) لعمليات الإدخال",
+        modelText: "Input A, B"
+      },
+      {
+        label: "حساب المجموع (عملية حسابية)",
+        expectedShape: "Rectangle",
+        acceptedKeywords: ["sum", "a", "+", "b"],
+        hint: "مستطيل (Rectangle) للعمليات الحسابية",
+        modelText: "sum = A + B"
+      },
+      {
+        label: "طباعة وإخراج المجموع",
+        expectedShape: "Parallelogram",
+        acceptedKeywords: ["print", "output", "cout", "sum", "طباعة"],
+        hint: "متوازي أضلاع (Parallelogram) لعمليات الإخراج",
+        modelText: "Print sum"
+      },
+      {
+        label: "النهاية",
+        expectedShape: "Oval",
+        acceptedKeywords: ["end", "stop", "نهاية"],
+        hint: "شكل بيضاوي (Oval) للنهاية",
+        modelText: "End"
+      }
+    ],
+    explanation: "تسلسل خطي قياسي يوضح الأدوار الثلاثة الأساسية: الإدخال (Parallelogram) -> المعالجة (Rectangle) -> الإخراج (Parallelogram)."
   },
 
   // ==========================================

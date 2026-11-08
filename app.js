@@ -302,6 +302,12 @@ function renderQuestions() {
 
   listEl.innerHTML = filtered.map(q => renderQuestionCardHTML(q)).join("");
   attachCardEventListeners();
+
+  filtered.forEach(q => {
+    if (q.type === "interactive_flowchart" && typeof attachFlowchartCardListeners === "function") {
+      attachFlowchartCardListeners(q.id);
+    }
+  });
 }
 
 function renderSingleCard(questionId) {
@@ -317,6 +323,10 @@ function renderSingleCard(questionId) {
 
   cardEl.replaceWith(newCard);
   attachCardEventListenersFor(questionId);
+
+  if (q && q.type === "interactive_flowchart" && typeof attachFlowchartCardListeners === "function") {
+    attachFlowchartCardListeners(questionId);
+  }
 }
 
 function renderQuestionCardHTML(q) {
@@ -487,29 +497,11 @@ function renderQuestionActionArea(q, answerInfo) {
     `;
   }
 
-  // 5. Conceptual Flowcharts
-  if (q.type === "conceptual_flow") {
-    return `
-      <div class="flowchart-diagram">
-        ${q.flowchartSteps.map((step, idx) => {
-          let shapeClass = "flow-rect";
-          if (step.shape.includes("Oval")) shapeClass = "flow-oval";
-          if (step.shape.includes("Diamond")) shapeClass = "flow-diamond";
-          if (step.shape.includes("Parallelogram")) shapeClass = "flow-parallelogram";
-
-          return `
-            <div class="flow-step ${shapeClass}">${escapeHTML(step.text)}</div>
-            ${idx < q.flowchartSteps.length - 1 ? '<div class="flow-arrow">↓</div>' : ''}
-          `;
-        }).join("")}
-      </div>
-
-      <div style="margin-top: 1rem;">
-        <button class="btn-primary" data-action="toggle-pseudo" data-qid="${q.id}">
-          <span>📜 عرض الكود الزائف (Pseudocode) والخوارزمية</span>
-        </button>
-      </div>
-    `;
+  // 5. Interactive Drag & Drop Flowchart Builder
+  if (q.type === "interactive_flowchart" || q.type === "conceptual_flow") {
+    if (typeof renderInteractiveFlowchartArea === "function") {
+      return renderInteractiveFlowchartArea(q, answerInfo);
+    }
   }
 
   // 6. Theory & Definitions Reveal
