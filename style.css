@@ -773,6 +773,65 @@ code, pre, .font-mono {
   font-size: 1.2rem;
 }
 
+/* Code Fix Editor Container & Input */
+.code-fix-editor-container {
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.code-fix-input {
+  width: 100%;
+  min-height: 85px;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: #090d16;
+  color: #38bdf8;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  direction: ltr;
+  text-align: left;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.code-fix-input:focus:not(:disabled) {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.code-fix-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.code-fix-input.is-correct {
+  border-color: var(--success) !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+  color: #a7f3d0 !important;
+}
+
+.code-fix-input.is-wrong {
+  border-color: var(--danger) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #fca5a5 !important;
+}
+
+.code-hint-box {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  background: rgba(99, 102, 241, 0.1);
+  border-right: 3px solid var(--primary-light);
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 /* Essay & Conceptual Styles */
 .essay-container {
   margin: 1.25rem 0;

@@ -417,11 +417,29 @@ function renderQuestionActionArea(q, answerInfo) {
   // 4. Interactive Fix (Identify & Correct Code Errors)
   if (q.type === "interactive_fix") {
     const isAnswered = answerInfo !== undefined;
+    const userCode = answerInfo ? answerInfo.userAnswer : "";
+    const inputStatus = isAnswered ? (answerInfo.isCorrect ? "is-correct" : "is-wrong") : "";
+
     return `
-      <div style="margin: 1rem 0;">
-        <button class="btn-primary" data-action="reveal-fix" data-qid="${q.id}">
-          <span>${isAnswered ? '🔄 تحديث وإعادة عرض التصحيح' : '💡 اعرض الحل النموذجي وتحليل الخطأ'}</span>
-        </button>
+      <div class="code-fix-editor-container">
+        ${q.hint ? `
+          <div class="code-hint-box">
+            💡 <strong>تلميح:</strong> ${escapeHTML(q.hint)}
+          </div>
+        ` : ''}
+        <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block;">
+          اكتب الكود المصحح بنفسك هنا (سيتم فحصه برمجياً فور إرساله):
+        </label>
+        <textarea class="code-fix-input ${inputStatus}" 
+                  id="code-fix-input-${q.id}" 
+                  placeholder="مثال: اكتب السطر بعد التصحيح كاملاً..." 
+                  ${isAnswered ? 'disabled readonly' : ''}>${escapeHTML(userCode)}</textarea>
+        <div class="action-row">
+          <button class="btn-primary" data-action="check-code-fix" data-qid="${q.id}" ${isAnswered ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+            <span>${isAnswered ? '🔒 تم إرسال وفحص الكود' : '🚀 فحص تصحيحي للكود'}</span>
+          </button>
+        </div>
+        ${isAnswered ? '<div style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;"><span>🔒</span> تم تسجيل وفحص إجابتك وقفل السؤال (لا يمكن تعديل الكود بعد النتيجة).</div>' : ''}
       </div>
     `;
   }
@@ -491,9 +509,24 @@ function renderQuestionActionArea(q, answerInfo) {
 function renderFeedbackArea(q, answerInfo) {
   const isCorrect = answerInfo.isCorrect;
   const statusClass = isCorrect ? "correct" : "wrong";
-  const statusIcon = isCorrect ? "✅ إجابة صحيحة! أحسنت 🌟" : "❌ إجابة غير صحيحة";
+  let statusIcon = isCorrect ? "✅ إجابة صحيحة! أحسنت 🌟" : "❌ إجابة غير صحيحة";
+
+  if (q.type === "interactive_fix") {
+    statusIcon = isCorrect 
+      ? "✅ أحسنت! تصحيحك للكود دقيق وسليم برمجياً 100% 🌟" 
+      : "❌ تصحيح الكود غير دقيق، راجع الأخطاء والحل النموذجي أدناه";
+  }
 
   let specificDetails = "";
+
+  if (q.type === "interactive_fix" && answerInfo.userAnswer) {
+    specificDetails += `
+      <div style="margin-bottom: 0.75rem;">
+        <span style="font-size: 0.85rem; color: var(--text-muted);">الكود الذي كتبته أنت:</span>
+        <pre style="background: #090d16; padding: 0.6rem 0.8rem; border-radius: 6px; font-size: 0.9rem; color: ${isCorrect ? '#a7f3d0' : '#fca5a5'}; margin-top: 0.2rem;"><code>${escapeHTML(answerInfo.userAnswer)}</code></pre>
+      </div>
+    `;
+  }
 
   if (q.explanation) {
     specificDetails += `<p>${q.explanation}</p>`;
@@ -606,7 +639,7 @@ function attachCardEventListeners() {
     if (!q) return;
 
     // Lock check: if question is already answered, prevent changing answer
-    if ((action === "answer-tf" || action === "answer-mcq" || action === "check-inputs") && state.answers[qid]) {
+    if ((action === "answer-tf" || action === "answer-mcq" || action === "check-inputs" || action === "check-code-fix") && state.answers[qid]) {
       return;
     }
 
@@ -635,6 +668,16 @@ function attachCardEventListeners() {
       });
 
       handleAnswer(qid, userInputs, allCorrect);
+    }
+    else if (action === "check-code-fix") {
+      const inputElem = document.getElementById(`code-fix-input-${qid}`);
+      const userCode = inputElem ? inputElem.value.trim() : "";
+      if (!userCode) {
+        alert("الرجاء كتابة الكود المصحح في المربع أولاً قبل الضغط على زر الفحص!");
+        return;
+      }
+      const isCorrect = validateUserCodeFix(qid, userCode);
+      handleAnswer(qid, userCode, isCorrect);
     }
     else if (action === "reveal-fix") {
       handleAnswer(qid, "reviewed_fix", true);
@@ -747,6 +790,64 @@ function initGlobalListeners() {
       renderQuestions();
     };
   });
+}
+
+// Intelligent C++ Code Correction Validator
+function validateUserCodeFix(qid, rawCode) {
+  if (!rawCode) return false;
+  const code = rawCode.trim();
+
+  if (qid === "err_1") {
+    // Original: cout >> count >> '/n'
+    // Requirements: uses cout, uses <<, no >>, outputs count, newline character/endl, ends with semicolon ;
+    const hasCout = /\bcout\b/.test(code);
+    const noExtract = !/>>/.test(code);
+    const hasInsert = /<</.test(code);
+    const hasCount = /\bcount\b/.test(code);
+    const hasNewline = /('\\n'|"\n"|\bendl\b|\bstd::endl\b)/.test(code);
+    const noWrongSlash = !/('\/n'|"\/n")/.test(code);
+    const hasSemi = /;\s*$/.test(code);
+    return hasCout && noExtract && hasInsert && hasCount && hasNewline && noWrongSlash && hasSemi;
+  }
+
+  if (qid === "err_2") {
+    // Original: int double = 44;
+    // Requirements: must NOT use 'double' as variable identifier.
+    // Must declare variable of valid type and assign 44 (or 44.0) with semicolon.
+    const hasReservedIdentifier = /\b(?:int|double|float|long|short|auto)\s+double\s*=/i.test(code);
+    const match = code.match(/\b(int|double|float|long|auto)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*44(?:\.0*)?\s*;/);
+    if (!match || hasReservedIdentifier) return false;
+    const varName = match[2];
+    const reservedKeywords = ["double", "int", "float", "char", "bool", "void", "return", "if", "else", "switch", "case", "while", "for", "do"];
+    return !reservedKeywords.includes(varName);
+  }
+
+  if (qid === "err_3") {
+    // Original: #include <iostrem> \n Using namespace std;
+    const norm = code.replace(/\r?\n/g, " ");
+    const hasInclude = /#include\s*<\s*iostream\s*>/.test(norm);
+    const hasNamespace = /\busing\s+namespace\s+std\s*;/.test(norm);
+    return hasInclude && hasNamespace;
+  }
+
+  if (qid === "err_4") {
+    // Original: cin << number
+    const hasCin = /\bcin\b/.test(code);
+    const hasExtract = />>/.test(code);
+    const noInsert = !/<</.test(code);
+    const hasNumber = /\bnumber\b/.test(code);
+    const hasSemi = /;\s*$/.test(code);
+    return hasCin && hasExtract && noInsert && hasNumber && hasSemi;
+  }
+
+  if (qid === "err_5") {
+    // Original: if (score = 100);
+    const hasIf = /\bif\s*\(\s*score\s*==\s*100\s*\)/.test(code);
+    const noSemiAfterParen = !/\bif\s*\([^)]*\)\s*;/.test(code);
+    return hasIf && noSemiAfterParen;
+  }
+
+  return false;
 }
 
 // String Helper for matching binary/hex answers

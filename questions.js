@@ -611,10 +611,11 @@ cout << a << " " << b << " " << c;`,
     categoryName: "اكتشف الأخطاء وصححها (Identify & Fix Errors)",
     title: "C++ cout Stream and Escape Character",
     text: "Identify and correct the error in: cout >> count >> '/n'",
-    textAr: "حدد الخطأ وصححه في جملة C++ التالية: cout >> count >> '/n'",
+    textAr: "اكتب الكود المصحح لجملة C++ التالية: cout >> count >> '/n'",
     codeSnippet: `cout >> count >> '/n'`,
     type: "interactive_fix",
     source: "Exam Paper - Question 4(a)",
+    hint: "تأكد من اتجاه معامل الإخراج، رمز السطر الجديد، والفاصلة المنقوطة.",
     identifiedErrors: [
       "1) استخدام معامل الاستخراج '>>' مع cout بدلاً من معامل الإدراج '<<'.",
       "2) كتابة الرمز السلاش المائل للأمام '/n' بدلاً من السلاش المائل للخلف '\\n' المخصص لسطر جديد.",
@@ -632,10 +633,11 @@ cout << a << " " << b << " " << c;`,
     categoryName: "اكتشف الأخطاء وصححها (Identify & Fix Errors)",
     title: "Variable Identifier Reserved Keyword",
     text: "Identify and correct the error in: int double = 44;",
-    textAr: "حدد الخطأ وصححه في جملة C++ التالية: int double = 44;",
+    textAr: "اكتب الكود المصحح لجملة C++ التالية: int double = 44;",
     codeSnippet: `int double = 44;`,
     type: "interactive_fix",
     source: "Exam Paper - Question 4(b)",
+    hint: "تذكر قواعد تسمية المتغيرات والكلمات المحجوزة في C++.",
     identifiedErrors: [
       "استخدام الكلمة المحجوزة 'double' كاسم متغير، وهذا ممنوع في C++ لأن double هو نوع بيانات مدمج (Reserved Keyword)."
     ],
@@ -650,12 +652,13 @@ cout << a << " " << b << " " << c;`,
     category: "errors",
     categoryName: "اكتشف الأخطاء وصححها (Identify & Fix Errors)",
     title: "Header Typo & Case-Sensitivity",
-    text: "Identify errors in: #include <iostrem> and Using namespace std;",
-    textAr: "حدد الأخطاء الشائعة في كتابة الترويسة ومجال الأسماء من السلايد 9:",
+    text: "Identify errors and write correct code for: #include <iostrem> and Using namespace std;",
+    textAr: "اكتب الكود المصحح للسطرين التاليين (تصحيح الترويسة ومجال الأسماء):",
     codeSnippet: `#include <iostrem>
 Using namespace std;`,
     type: "interactive_fix",
     source: "Slide 9 - Code Observation",
+    hint: "انتبه لتهجئة المكتبة وحالة الأحرف (Capital/Small) في C++.",
     identifiedErrors: [
       "1) خطأ إملائي في اسم المكتبة: <iostrem> بدلاً من <iostream> (حرف a ناقص).",
       "2) لغة C++ حساسة لحالة الأحرف (Case-sensitive)، لذلك كلمة 'Using' بحرف كبير U خطأ ويجب أن تكون بحرف صغير 'using'."
@@ -664,6 +667,43 @@ Using namespace std;`,
 using namespace std;`,
     explanation: `1. اسم مكتبة الدخل والخرج القياسية هو iostream (Input/Output Stream).
 2. لغة C++ حساسة لحالة الأحرف تماماً، فكلمات اللغة المحجوزة مثل using و int و return تكتب كلها بحروف صغيرة (Lowercase).`
+  },
+  {
+    id: "err_4",
+    category: "errors",
+    categoryName: "اكتشف الأخطاء وصححها (Identify & Fix Errors)",
+    title: "cin Stream Extraction Operator",
+    text: "Identify and correct the error in: cin << number",
+    textAr: "اكتب الكود المصحح لجملة الإدخال التالية: cin << number",
+    codeSnippet: `cin << number`,
+    type: "interactive_fix",
+    source: "C++ I/O Operations Practice",
+    hint: "ما هو المعامل الصحيح المستخدم مع cin؟ وماذا ينقص نهاية الجملة؟",
+    identifiedErrors: [
+      "1) استخدام معامل الإدراج '<<' مع cin بدلاً من معامل الاستخراج '>>'.",
+      "2) نسيان الفاصلة المنقوطة (;) في نهاية الجملة."
+    ],
+    correctCode: `cin >> number;`,
+    explanation: `مع كائن الإدخال cin يجب استخدام معامل الاستخراج >> (Extraction operator) وليس <<. كما يجب إنهاء الجملة بفاصلة منقوطة (;).`
+  },
+  {
+    id: "err_5",
+    category: "errors",
+    categoryName: "اكتشف الأخطاء وصححها (Identify & Fix Errors)",
+    title: "Equality Operator vs Assignment in Condition",
+    text: "Identify and correct the logic/syntax error in: if (score = 100);",
+    textAr: "اكتب الكود المصحح لجملة الشرط التالية (المقصود فحص المساواة وبدء كتلة الشرط): if (score = 100);",
+    codeSnippet: `if (score = 100);`,
+    type: "interactive_fix",
+    source: "C++ Conditional Statements Common Pitfalls",
+    hint: "الفرق بين معامل التعيين ومعامل المقارنة، وتأثير الفاصلة المنقوطة بعد قوس الشرط.",
+    identifiedErrors: [
+      "1) استخدام معامل التعيين '=' بدلاً من معامل المقارنة للمساواة '=='.",
+      "2) وضع فاصلة منقوطة (;) بعد قوس جملة if مباشرة، مما ينهي جملة الشرط ويجعل كتلة الكود التالية تنفذ دائماً بشكل غير مقصود."
+    ],
+    correctCode: `if (score == 100) // بدون فاصلة منقوطة`,
+    explanation: `1. في C++، المعامل '==' يُستخدم لاختبار المساواة (Equality Comparison)، بينما '=' يُستخدم لتعيين وتغيير القيمة (Assignment).
+2. وضع فاصلة منقوطة بعد 'if (...);' يُعتبر خطأ منطقياً شائعاً لأنه ينهي الشرط فوراً ولا يربطه بما بعده.`
   },
 
   // ==========================================
