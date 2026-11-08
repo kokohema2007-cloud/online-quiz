@@ -144,41 +144,115 @@
     <!-- Questions Container -->
     <main id="questionsList" class="questions-list"></main>
 
-    <!-- Interactive Live Number Converter Tool / Bonus Utility -->
+    <!-- Interactive Bi-Directional Live Number Converter Tool / Bonus Utility -->
     <section class="question-card" style="margin-top: 2.5rem; border: 2px dashed var(--primary-light);">
       <div class="q-meta">
         <span class="q-badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">🛠️ أداة تدريب إضافية</span>
-        <span class="q-source">محاكي أنظمة العد التفاعلي</span>
+        <span class="q-source">محاكي أنظمة العد التفاعلي المتبادل</span>
       </div>
-      <h3 class="q-title">محاكي تحويل الأرقام الفوري وحساب المكمل الثنائي (Live Converter & 2's Complement)</h3>
-      <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem;">
-        جرّب إدخال أي رقم صحيح عشري لمشاهدة تحويله التلقائي إلى ثنائي (Binary)، وثماني (Octal)، وست عشري (Hexadecimal)، بالإضافة لحساب المكمل الأحادي (1's Complement) والمكمل الثنائي (2's Complement) في نظام 8-bit:
+      <h3 class="q-title">محاكي تحويل أنظمة العد التبادلي الفوري وحساب المكمل الثنائي (Multi-Directional Live Converter)</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1.2rem; font-size: 0.95rem;">
+        يمكنك الآن إدخال الأرقام <strong>في أي خانة تشاء</strong> (عشري، ثنائي، ثماني، ست عشري، أو المكمل الثنائي)، وسيقوم المحاكي بتحويلها فورياً لجميع الأنظمة الأخرى في نفس اللحظة! يدعم الأعداد الصحيحة، الكسور العشرية، الأعداد السالبة، وشرح خطوات الحل الرياضية خطوة بخطوة:
       </p>
 
+      <!-- Active Source Status & Clear Actions -->
+      <div class="calc-header-status">
+        <div class="calc-source-badge">
+          <span>🎯 النظام المصدر النشط:</span>
+          <span id="calcActiveSource" style="color: #38bdf8; font-weight: bold;">العشري (Decimal - Base 10)</span>
+        </div>
+        <div>
+          <button id="calcResetBtn" class="calc-preset-btn" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">
+            🗑️ مسح جميع الحقول
+          </button>
+        </div>
+      </div>
+
+      <!-- Exam Presets Quick Load Bar -->
+      <div class="calc-presets-bar">
+        <span class="calc-preset-label">📌 نماذج سريعة من جدول الامتحان والمذكرة:</span>
+        <button type="button" class="calc-preset-btn" data-type="dec" data-value="143.75">📋 س1 عشري (143.75)</button>
+        <button type="button" class="calc-preset-btn" data-type="bin" data-value="11011.101">📋 س2 ثنائي (11011.101)</button>
+        <button type="button" class="calc-preset-btn" data-type="oct" data-value="453">📋 س3 ثماني (453)</button>
+        <button type="button" class="calc-preset-btn" data-type="hex" data-value="1F.C">📋 س4 ست عشري (1F.C)</button>
+        <button type="button" class="calc-preset-btn" data-type="dec" data-value="-13">⚡ مكمل ثنائي (-13)</button>
+        <button type="button" class="calc-preset-btn" data-type="dec" data-value="-22">⚡ مكمل ثنائي (-22)</button>
+        <button type="button" class="calc-preset-btn" data-type="dec" data-value="0.625">🎯 كسر عشري (0.625)</button>
+      </div>
+
+      <!-- Bi-directional Inputs Grid -->
       <div class="calc-inputs-grid">
-        <div class="calc-input-group">
-          <label>الرقم العشري (Decimal):</label>
-          <input type="number" id="liveDecInput" placeholder="مثلاً: 22 أو -22 أو 123" value="22">
+        <!-- Decimal Group -->
+        <div class="calc-input-group" id="group-dec">
+          <div class="calc-input-header">
+            <label for="liveDecInput">النظام العشري (Decimal):</label>
+            <span class="calc-base-tag">Base 10</span>
+          </div>
+          <input type="text" id="liveDecInput" placeholder="مثلاً: 143.75 أو -13 أو 299" value="143.75" autocomplete="off">
+          <div class="calc-warning-msg" id="liveDecWarn"></div>
         </div>
-        <div class="calc-input-group">
-          <label>الثنائي الطبيعي (Positive Binary):</label>
-          <input type="text" id="liveBinOutput" readonly>
+
+        <!-- Binary Group -->
+        <div class="calc-input-group" id="group-bin">
+          <div class="calc-input-header">
+            <label for="liveBinInput">النظام الثنائي (Binary):</label>
+            <span class="calc-base-tag">Base 2 (0, 1)</span>
+          </div>
+          <input type="text" id="liveBinInput" placeholder="مثلاً: 10001111.11 أو 11011.101" autocomplete="off">
+          <div class="calc-warning-msg" id="liveBinWarn"></div>
         </div>
-        <div class="calc-input-group">
-          <label>الثماني (Octal):</label>
-          <input type="text" id="liveOctOutput" readonly>
+
+        <!-- Octal Group -->
+        <div class="calc-input-group" id="group-oct">
+          <div class="calc-input-header">
+            <label for="liveOctInput">النظام الثماني (Octal):</label>
+            <span class="calc-base-tag">Base 8 (0-7)</span>
+          </div>
+          <input type="text" id="liveOctInput" placeholder="مثلاً: 217.6 أو 453" autocomplete="off">
+          <div class="calc-warning-msg" id="liveOctWarn"></div>
         </div>
-        <div class="calc-input-group">
-          <label>الست عشري (Hexadecimal):</label>
-          <input type="text" id="liveHexOutput" readonly>
+
+        <!-- Hexadecimal Group -->
+        <div class="calc-input-group" id="group-hex">
+          <div class="calc-input-header">
+            <label for="liveHexInput">الست عشري (Hexadecimal):</label>
+            <span class="calc-base-tag">Base 16 (0-9, A-F)</span>
+          </div>
+          <input type="text" id="liveHexInput" placeholder="مثلاً: 8F.C أو 1F.C أو 12B" autocomplete="off">
+          <div class="calc-warning-msg" id="liveHexWarn"></div>
         </div>
-        <div class="calc-input-group">
-          <label>المكمل الأحادي 1's Comp (8-bit):</label>
-          <input type="text" id="liveC1Output" readonly>
+
+        <!-- 1's Complement Group -->
+        <div class="calc-input-group" id="group-c1">
+          <div class="calc-input-header">
+            <label for="liveC1Input">المكمل الأحادي 1's Comp (8-bit):</label>
+            <span class="calc-base-tag">Invert Bits</span>
+          </div>
+          <input type="text" id="liveC1Input" placeholder="مثلاً: 11110010" autocomplete="off">
+          <div class="calc-warning-msg" id="liveC1Warn"></div>
         </div>
-        <div class="calc-input-group">
-          <label>المكمل الثنائي 2's Comp (8-bit):</label>
-          <input type="text" id="liveC2Output" readonly>
+
+        <!-- 2's Complement Group -->
+        <div class="calc-input-group" id="group-c2">
+          <div class="calc-input-header">
+            <label for="liveC2Input">المكمل الثنائي 2's Comp (8-bit):</label>
+            <span class="calc-base-tag">Signed 8-bit</span>
+          </div>
+          <input type="text" id="liveC2Input" placeholder="مثلاً: 11110011" autocomplete="off">
+          <div class="calc-warning-msg" id="liveC2Warn"></div>
+        </div>
+      </div>
+
+      <!-- Step-by-Step Educational Explanation Card -->
+      <div class="calc-steps-card">
+        <div class="calc-steps-header">
+          <div class="calc-steps-title">
+            <span>📐 خطوات التحويل الرياضية بالتفصيل (Step-by-Step Solution)</span>
+          </div>
+          <button id="calcToggleStepsBtn" class="calc-toggle-btn">إخفاء الخطوات 🔼</button>
+        </div>
+        <div id="calcStepsContainer">
+          <div id="calcStepsList"></div>
         </div>
       </div>
     </section>
@@ -223,50 +297,7 @@
   <script src="extreme_questions.js"></script>
   <script src="ai_tutor.js"></script>
   <script src="flowchart_builder.js"></script>
+  <script src="number_converter.js"></script>
   <script src="app.js"></script>
-  <script>
-    // Live Number Converter script
-    const decInput = document.getElementById("liveDecInput");
-    const binOut = document.getElementById("liveBinOutput");
-    const octOut = document.getElementById("liveOctOutput");
-    const hexOut = document.getElementById("liveHexOutput");
-    const c1Out = document.getElementById("liveC1Output");
-    const c2Out = document.getElementById("liveC2Output");
-
-    function updateLiveConverter() {
-      const val = parseInt(decInput.value, 10);
-      if (isNaN(val)) {
-        binOut.value = "";
-        octOut.value = "";
-        hexOut.value = "";
-        c1Out.value = "";
-        c2Out.value = "";
-        return;
-      }
-
-      const absVal = Math.abs(val);
-      binOut.value = absVal.toString(2);
-      octOut.value = absVal.toString(8);
-      hexOut.value = absVal.toString(16).toUpperCase();
-
-      // 8-bit representations
-      const absBin8 = absVal.toString(2).padStart(8, '0');
-      // 1's comp of abs
-      let onesComp = "";
-      for (let char of absBin8) {
-        onesComp += char === '0' ? '1' : '0';
-      }
-      c1Out.value = onesComp;
-
-      // 2's comp = 1's comp + 1
-      const twosCompInt = (parseInt(onesComp, 2) + 1) & 0xFF;
-      c2Out.value = twosCompInt.toString(2).padStart(8, '0');
-    }
-
-    if (decInput) {
-      decInput.addEventListener("input", updateLiveConverter);
-      updateLiveConverter();
-    }
-  </script>
 </body>
 </html>

@@ -2485,3 +2485,191 @@ body.extreme-mode-active .mcq-option-btn:hover:not(:disabled) {
   color: var(--text-muted);
   line-height: 1.5;
 }
+
+/* ==========================================================================
+   Interactive Bi-Directional Number Converter & Step Breakdown
+   ========================================================================== */
+
+.calc-header-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.calc-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.calc-presets-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.4rem;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.calc-preset-label {
+  font-size: 0.84rem;
+  color: #fbbf24;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.4rem;
+}
+
+.calc-preset-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-family: 'Fira Code', monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.calc-preset-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.calc-input-group {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.calc-input-group.active-source input {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+}
+
+.calc-input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.calc-base-tag {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: #1e293b;
+  color: #94a3b8;
+  font-family: 'Fira Code', monospace;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.calc-input-group.active-source .calc-base-tag {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.calc-warning-msg {
+  font-size: 0.76rem;
+  color: #f87171;
+  min-height: 1.1rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Steps Breakdown Section */
+.calc-steps-card {
+  margin-top: 1.75rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid #334155;
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+}
+
+.calc-steps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.calc-steps-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calc-toggle-btn {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calc-toggle-btn:hover {
+  background: #334155;
+  color: white;
+}
+
+.calc-step-item {
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-sm);
+  padding: 1.1rem;
+  margin-bottom: 0.9rem;
+}
+
+.calc-step-item h4 {
+  font-size: 0.95rem;
+  color: #38bdf8;
+  margin-bottom: 0.5rem;
+}
+
+.calc-step-item pre {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.86rem;
+  color: #e2e8f0;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
