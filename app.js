@@ -1118,6 +1118,9 @@ document.addEventListener("DOMContentLoaded", () => {
   embersEngine.init();
   loadSavedState();
   initGlobalListeners();
+  if (typeof initAITutorSystem === "function") {
+    initAITutorSystem();
+  }
   updateExtremeModeTheme();
   renderQuestions();
 });
