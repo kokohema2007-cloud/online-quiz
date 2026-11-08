@@ -491,6 +491,15 @@ code, pre, .font-mono {
   transform: translateY(-2px);
 }
 
+.tf-btn:disabled {
+  cursor: not-allowed !important;
+}
+
+.tf-btn:disabled:not(.selected-correct):not(.selected-wrong):not(.show-correct) {
+  opacity: 0.45;
+  filter: grayscale(0.5);
+}
+
 .tf-btn.selected-correct {
   background: var(--success-bg) !important;
   border-color: var(--success) !important;
@@ -539,6 +548,15 @@ code, pre, .font-mono {
 .mcq-option-btn:hover:not(:disabled) {
   border-color: var(--primary-light);
   background: var(--bg-card-hover);
+}
+
+.mcq-option-btn:disabled {
+  cursor: not-allowed !important;
+}
+
+.mcq-option-btn:disabled:not(.selected-correct):not(.selected-wrong):not(.show-correct) {
+  opacity: 0.45;
+  filter: grayscale(0.5);
 }
 
 .mcq-option-btn.selected-correct {

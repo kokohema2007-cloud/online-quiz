@@ -337,13 +337,14 @@ function renderQuestionActionArea(q, answerInfo) {
 
     return `
       <div class="tf-actions">
-        <button class="tf-btn ${trueClass}" data-action="answer-tf" data-qid="${q.id}" data-val="true">
+        <button class="tf-btn ${trueClass}" data-action="answer-tf" data-qid="${q.id}" data-val="true" ${isAnswered ? 'disabled' : ''}>
           <span>✅ True (صحيح)</span>
         </button>
-        <button class="tf-btn ${falseClass}" data-action="answer-tf" data-qid="${q.id}" data-val="false">
+        <button class="tf-btn ${falseClass}" data-action="answer-tf" data-qid="${q.id}" data-val="false" ${isAnswered ? 'disabled' : ''}>
           <span>❌ False (خطأ)</span>
         </button>
       </div>
+      ${isAnswered ? '<div style="margin-top: 0.6rem; font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;"><span>🔒</span> تم تسجيل إجابتك وإقفال السؤال (لا يمكن تعديل الاختيار).</div>' : ''}
     `;
   }
 
@@ -365,7 +366,7 @@ function renderQuestionActionArea(q, answerInfo) {
             }
           }
           return `
-            <button class="mcq-option-btn ${optClass}" data-action="answer-mcq" data-qid="${q.id}" data-opt="${opt.id}">
+            <button class="mcq-option-btn ${optClass}" data-action="answer-mcq" data-qid="${q.id}" data-opt="${opt.id}" ${isAnswered ? 'disabled' : ''}>
               <span>${escapeHTML(opt.text)}</span>
               ${isAnswered && opt.id === q.correctAnswer ? '<span style="color: var(--success); font-weight: bold;">(الإجابة الصحيحة)</span>' : ''}
               ${isAnswered && userAnswer === opt.id && !answerInfo.isCorrect ? '<span style="color: var(--danger); font-weight: bold;">(إجابتك ❌)</span>' : ''}
@@ -373,6 +374,7 @@ function renderQuestionActionArea(q, answerInfo) {
           `;
         }).join("")}
       </div>
+      ${isAnswered ? '<div style="margin-top: 0.6rem; font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;"><span>🔒</span> تم تسجيل إجابتك وإقفال السؤال (لا يمكن تعديل الاختيار).</div>' : ''}
     `;
   }
 
@@ -393,7 +395,8 @@ function renderQuestionActionArea(q, answerInfo) {
                      id="input-${q.id}-${idx}" 
                      class="${inputStatus}" 
                      placeholder="المتوقع: ${isAnswered ? inp.expected : 'اكتب إجابتك هنا'}" 
-                     value="${val}">
+                     value="${val}"
+                     ${isAnswered ? 'disabled readonly' : ''}>
               ${isAnswered && !isFieldCorrect ? `
                 <small style="color: var(--danger); font-family: monospace; font-size: 0.85rem;">
                   الصحيح: <strong>${inp.expected}</strong>
@@ -404,8 +407,8 @@ function renderQuestionActionArea(q, answerInfo) {
         }).join("")}
       </div>
       <div class="action-row">
-        <button class="btn-primary" data-action="check-inputs" data-qid="${q.id}">
-          <span>🔍 تحقق من صحة إجاباتي</span>
+        <button class="btn-primary" data-action="check-inputs" data-qid="${q.id}" ${isAnswered ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+          <span>${isAnswered ? '🔒 تم إرسال الإجابة وقفل السؤال' : '🔍 تحقق من صحة إجاباتي'}</span>
         </button>
       </div>
     `;
@@ -601,6 +604,11 @@ function attachCardEventListeners() {
 
     const q = questionsData.find(item => item.id === qid);
     if (!q) return;
+
+    // Lock check: if question is already answered, prevent changing answer
+    if ((action === "answer-tf" || action === "answer-mcq" || action === "check-inputs") && state.answers[qid]) {
+      return;
+    }
 
     if (action === "answer-tf") {
       const chosenVal = btn.getAttribute("data-val") === "true";
