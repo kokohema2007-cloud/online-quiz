@@ -99,6 +99,10 @@
           <span>✍️ أسئلة مقالية (Essay)</span>
           <span class="tab-count">0</span>
         </button>
+        <button class="tab-btn extreme-tab-btn" data-category="extreme" id="extremeTabBtn">
+          <span>💀 أسئلة الدمار (Extreme) 🔥</span>
+          <span class="tab-count">50</span>
+        </button>
       </div>
     </div>
 
@@ -160,6 +164,25 @@
       </div>
     </section>
 
+    <!-- Extreme Damar Animated Modal Overlay -->
+    <div id="damarModal" class="damar-modal" style="display: none;">
+      <div class="damar-backdrop"></div>
+      <div class="damar-box">
+        <div class="damar-flames">🔥⚡💀⚡🔥</div>
+        <h1 class="damar-title">دماااااررررر!</h1>
+        <div class="damar-badge">⚠️ تحذير: منطقة الأسئلة الفتاكة والمصائد المميتة ⚠️</div>
+        <p class="damar-desc">
+          لقد دخلت رسمياً أصعب تحدٍ في المنصة! <strong>50 سؤالاً تعجيزياً</strong> تم تصميمها من أعتى ألغاز C++ ومصائد أنظمة العد وخرائط التدفق التي تسقط 99% من الطلاب في الامتحانات!
+        </p>
+        <div class="damar-warning">
+          جهّز تركيزك الأقصى، ورقة وقلم... ولا تثق في بديهتك الأولى! 🧠💥
+        </div>
+        <button id="damarCloseBtn" class="damar-btn">
+          💀 أنا مستعد للدمار! أطلق الأسئلة 🔥
+        </button>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="app-footer">
       <p>💡 تم تصميم وتطوير هذه المنصة التفاعلية لمطابقة أسئلة مراجعة وامتحان مادة مبادئ الحاسوب والبرمجة بلغة C++ بدقة 100%.</p>
@@ -170,6 +193,7 @@
   </div>
 
   <script src="questions.js"></script>
+  <script src="extreme_questions.js"></script>
   <script src="app.js"></script>
   <script>
     // Live Number Converter script

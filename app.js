@@ -81,6 +81,49 @@ class SoundFX {
       console.warn("Audio error", e);
     }
   }
+
+  playDamarSound() {
+    if (!state.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      // Deep cinematic bass boom
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(130, now);
+      osc.frequency.exponentialRampToValueAtTime(32, now + 0.9);
+
+      gain.gain.setValueAtTime(0.45, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.95);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.95);
+
+      // Warning siren pulse
+      const alertOsc = this.ctx.createOscillator();
+      const alertGain = this.ctx.createGain();
+      alertOsc.type = "square";
+      alertOsc.frequency.setValueAtTime(440, now + 0.1);
+      alertOsc.frequency.exponentialRampToValueAtTime(880, now + 0.4);
+
+      alertGain.gain.setValueAtTime(0.2, now + 0.1);
+      alertGain.gain.exponentialRampToValueAtTime(0.01, now + 0.55);
+
+      alertOsc.connect(alertGain);
+      alertGain.connect(this.ctx.destination);
+
+      alertOsc.start(now + 0.1);
+      alertOsc.stop(now + 0.55);
+    } catch (e) {
+      console.warn("Audio error", e);
+    }
+  }
 }
 
 const sfx = new SoundFX();
@@ -786,10 +829,39 @@ function initGlobalListeners() {
     btn.onclick = () => {
       tabButtons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      state.currentCategory = btn.getAttribute("data-category");
+      const cat = btn.getAttribute("data-category");
+      state.currentCategory = cat;
+
+      // 💀 If Extreme Mode is chosen -> Trigger the Epic DAMAR Animation!
+      if (cat === "extreme") {
+        showDamarAnimation();
+      }
+
       renderQuestions();
     };
   });
+
+  // Damar Modal Handlers
+  const damarModal = document.getElementById("damarModal");
+  const damarCloseBtn = document.getElementById("damarCloseBtn");
+  if (damarCloseBtn && damarModal) {
+    damarCloseBtn.onclick = () => {
+      damarModal.style.display = "none";
+    };
+    damarModal.onclick = (e) => {
+      if (e.target.classList.contains("damar-backdrop") || e.target.id === "damarModal") {
+        damarModal.style.display = "none";
+      }
+    };
+  }
+}
+
+function showDamarAnimation() {
+  const modal = document.getElementById("damarModal");
+  if (modal) {
+    modal.style.display = "flex";
+    sfx.playDamarSound();
+  }
 }
 
 // Intelligent C++ Code Correction Validator
