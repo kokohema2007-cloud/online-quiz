@@ -837,6 +837,7 @@ function initGlobalListeners() {
         showDamarAnimation();
       }
 
+      updateExtremeModeTheme();
       renderQuestions();
     };
   });
@@ -863,6 +864,121 @@ function showDamarAnimation() {
     sfx.playDamarSound();
   }
 }
+
+function updateExtremeModeTheme() {
+  const isExtreme = state.currentCategory === "extreme";
+  const banner = document.getElementById("extremeBanner");
+
+  if (isExtreme) {
+    document.body.classList.add("extreme-mode-active");
+    if (banner) banner.style.display = "block";
+    embersEngine.start();
+  } else {
+    document.body.classList.remove("extreme-mode-active");
+    if (banner) banner.style.display = "none";
+    embersEngine.stop();
+  }
+}
+
+// Embers Fire Particle Engine for Extreme Red Background
+class EmbersEngine {
+  constructor() {
+    this.canvas = null;
+    this.ctx = null;
+    this.particles = [];
+    this.running = false;
+    this.animId = null;
+    this.resizeHandler = this.resize.bind(this);
+  }
+
+  init() {
+    this.canvas = document.getElementById("extremeCanvas");
+    if (this.canvas) {
+      this.ctx = this.canvas.getContext("2d");
+    }
+  }
+
+  resize() {
+    if (!this.canvas) return;
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
+  start() {
+    if (!this.canvas) this.init();
+    if (!this.canvas || !this.ctx) return;
+    if (this.running) return;
+
+    this.running = true;
+    this.resize();
+    window.addEventListener("resize", this.resizeHandler);
+
+    this.particles = [];
+    for (let i = 0; i < 55; i++) {
+      this.particles.push(this.createParticle(true));
+    }
+    this.loop();
+  }
+
+  stop() {
+    this.running = false;
+    if (this.animId) {
+      cancelAnimationFrame(this.animId);
+      this.animId = null;
+    }
+    window.removeEventListener("resize", this.resizeHandler);
+    if (this.ctx && this.canvas) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+  }
+
+  createParticle(randomY = false) {
+    const w = this.canvas ? this.canvas.width : window.innerWidth;
+    const h = this.canvas ? this.canvas.height : window.innerHeight;
+    const colors = ["#ef4444", "#f97316", "#dc2626", "#fbbf24", "#ff4500"];
+    return {
+      x: Math.random() * w,
+      y: randomY ? Math.random() * h : h + Math.random() * 25,
+      radius: Math.random() * 2.8 + 1,
+      speedY: Math.random() * 1.8 + 0.7,
+      speedX: (Math.random() - 0.5) * 1.2,
+      opacity: Math.random() * 0.7 + 0.3,
+      fadeSpeed: Math.random() * 0.006 + 0.003,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    };
+  }
+
+  loop() {
+    if (!this.running || !this.ctx || !this.canvas) return;
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+    this.ctx.clearRect(0, 0, w, h);
+
+    for (let i = 0; i < this.particles.length; i++) {
+      const p = this.particles[i];
+      p.y -= p.speedY;
+      p.x += p.speedX;
+      p.opacity -= p.fadeSpeed;
+
+      if (p.opacity <= 0 || p.y < -15) {
+        this.particles[i] = this.createParticle(false);
+        continue;
+      }
+
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      this.ctx.fillStyle = p.color;
+      this.ctx.globalAlpha = Math.max(0, p.opacity);
+      this.ctx.shadowBlur = p.radius * 3.5;
+      this.ctx.shadowColor = p.color;
+      this.ctx.fill();
+    }
+
+    this.animId = requestAnimationFrame(this.loop.bind(this));
+  }
+}
+
+const embersEngine = new EmbersEngine();
 
 // Intelligent C++ Code Correction Validator
 function validateUserCodeFix(qid, rawCode) {
@@ -940,7 +1056,9 @@ function escapeHTML(str) {
 
 // Initial Boot
 document.addEventListener("DOMContentLoaded", () => {
+  embersEngine.init();
   loadSavedState();
   initGlobalListeners();
+  updateExtremeModeTheme();
   renderQuestions();
 });

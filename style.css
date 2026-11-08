@@ -1188,3 +1188,141 @@ code, pre, .font-mono {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ===================================================
+   EXTREME RED HELL THEME & BACKGROUND ANIMATIONS 💀🔥
+   =================================================== */
+
+/* Canvas & Vignette Layers */
+.extreme-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.extreme-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s ease;
+  box-shadow: inset 0 0 180px rgba(185, 28, 28, 0.7), inset 0 0 60px rgba(239, 68, 68, 0.4);
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+}
+
+/* When Extreme Mode is Active */
+body.extreme-mode-active {
+  background: radial-gradient(ellipse at 50% 10%, #580c0c 0%, #240404 45%, #080000 100%) fixed !important;
+  color: #fff1f2 !important;
+  transition: background 0.8s ease, color 0.8s ease;
+}
+
+body.extreme-mode-active .extreme-canvas,
+body.extreme-mode-active .extreme-vignette {
+  opacity: 1;
+}
+
+body.extreme-mode-active .app-header {
+  background: rgba(30, 4, 4, 0.94) !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 45px rgba(239, 68, 68, 0.4) !important;
+}
+
+body.extreme-mode-active .app-header::before {
+  background: linear-gradient(90deg, #f59e0b, #ef4444, #7f1d1d, #ef4444, #f59e0b) !important;
+  background-size: 200% 100% !important;
+  animation: flameFlow 2.5s linear infinite !important;
+}
+
+@keyframes flameFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+body.extreme-mode-active .question-card {
+  background: rgba(26, 3, 3, 0.92) !important;
+  border: 1.5px solid rgba(239, 68, 68, 0.6) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(220, 38, 38, 0.25) !important;
+  backdrop-filter: blur(10px);
+}
+
+body.extreme-mode-active .question-card:hover {
+  border-color: #f87171 !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(239, 68, 68, 0.45) !important;
+}
+
+body.extreme-mode-active .q-title {
+  color: #fef2f2 !important;
+}
+
+body.extreme-mode-active .q-badge {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+}
+
+body.extreme-mode-active .mcq-option-btn {
+  background: rgba(18, 2, 2, 0.85) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+  color: #fef2f2 !important;
+}
+
+body.extreme-mode-active .mcq-option-btn:hover:not(:disabled) {
+  border-color: #f87171 !important;
+  background: rgba(69, 10, 10, 0.6) !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* Fiery Warning Banner */
+.extreme-banner {
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.9) 0%, rgba(185, 28, 28, 0.85) 50%, rgba(234, 88, 12, 0.9) 100%);
+  border: 2px solid #f97316;
+  border-radius: var(--radius);
+  padding: 1.25rem 1.75rem;
+  box-shadow: 0 0 35px rgba(239, 68, 68, 0.5), 0 0 70px rgba(234, 88, 12, 0.25);
+  animation: bannerPulse 2s infinite ease-in-out;
+}
+
+@keyframes bannerPulse {
+  0% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 45px rgba(239, 68, 68, 0.75), 0 0 20px rgba(245, 158, 11, 0.6); }
+  100% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
+}
+
+.extreme-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: center;
+}
+
+.extreme-fire-icon {
+  font-size: 2rem;
+  animation: flameFlicker 1.2s infinite alternate ease-in-out;
+}
+
+.extreme-banner-text h2 {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(254, 240, 138, 0.8);
+  margin-bottom: 0.25rem;
+}
+
+.extreme-banner-text p {
+  font-size: 0.95rem;
+  color: #fef08a;
+  font-weight: 600;
+}
