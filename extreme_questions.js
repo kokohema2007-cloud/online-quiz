@@ -1,1229 +1,1270 @@
 // =========================================================================
 // 💀 EXTREME QUESTIONS BANK - FINAL BOSS LEVEL (أسئلة الدمار - ليفل الوحش)
-// مجموعة شاملة تضم كافة أنواع الأسئلة: صح أو خطأ، تصحيح أخطاء الكود،
-// حسابات أنظمة العد و IEEE-754، أسئلة مقالية وبراهين، وتتبع الأكواد المعقدة.
+// ⚠️ جميع الأسئلة هنا مأخوذة 100% من صميم منهج السلايدز وورقة الامتحان!
+// تركز على الفخاخ العميقة، التريكات الخادعة، الحسابات المعقدة، وأسرار C++
 // =========================================================================
 
 const extremeQuestionsData = [
-  // ==========================================
-  // 1. EXTREME TRUE / FALSE (صح أو خطأ - ليفل الوحش)
-  // ==========================================
+  // =========================================================================
+  // 1. EXTREME TRUE / FALSE (صح أو خطأ - فخاخ وتريكات من صميم المنهج) [10 أسئلة]
+  // =========================================================================
   {
     id: "ext_tf_1",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "sizeof Character Literal: C vs C++",
-    text: "In C++, sizeof('a') is strictly 1 byte, whereas in the C language, sizeof('a') is typically 4 bytes (sizeof(int)).",
-    textAr: "في لغة C++، ناتج sizeof('a') يساوي دائماً 1 بايت، بينما في لغة C الأصلية يساوي حجم int (عادة 4 بايت).",
+    title: "Integer Division in Temperature Formula",
+    text: "In C++, the expression (9 / 5) in the formula F = (C * (9 / 5)) + 32 evaluates to 1.8 because division automatically produces a floating-point result.",
+    textAr: "في لغة C++، ناتج التعبير (9 / 5) في معادلة التحويل F = (C * (9 / 5)) + 32 يساوي 1.8 لأن عملية القسمة تعطي دائماً ناتجاً كسرياً تلقائياً.",
     type: "boolean",
-    correctAnswer: true,
-    source: "C++ vs C Standard Type Difference [lex.ccon]",
-    explanation: "صحيح (True). في لغة C، الثوابت المحرفية (Character Literals) تُعامل كأرقام صحيحة من النوع int (لذلك sizeof('a') == 4). أما في C++، فقد تم تصحيح هذا السلوك وأصبح نوع الثابت المحرفي هو char بدقة (لذلك sizeof('a') == 1 بايت).",
-    details: "In C, 'a' has type int. In C++, 'a' has type char. Thus sizeof('a') is 1 in C++, but sizeof(int) in C."
+    correctAnswer: false,
+    source: "Slide 6 (Temperature Conversion) & C++ Arithmetic Rules",
+    explanation: "خطأ (False). في لغة C++، قسمة عدد صحيح على عدد صحيح (Integer / Integer) تؤدي إلى اقتطاع الجزء الكسري تماماً (Truncation) وإعطاء الناتج الصحيح 1 فقط وليس 1.8! لكي يعطي 1.8 يجب كتابة 9.0 / 5.0.",
+    details: "Integer division in C++ always truncates fractions toward zero. 9 / 5 == 1. To get 1.8, write 9.0 / 5.0 or 1.8."
   },
   {
     id: "ext_tf_2",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Floating-Point Division by Zero Crash",
-    text: "In IEEE-754 floating-point standard, dividing a non-zero float by zero (1.0f / 0.0f) crashes the program with a runtime exception.",
-    textAr: "وفقاً لمعيار IEEE-754، فإن قسمة رقم عشري غير صفري على صفر (1.0f / 0.0f) تؤدي لانهيار البرنامج بخطأ تشغيل (Runtime Crash).",
+    title: "Modulo Operator with Floating-Point Types",
+    text: "In C++, the modulo operator (%) can be used with floating-point variables, for example: double r = 7.5 % 2.0;",
+    textAr: "في لغة C++، يمكن استخدام معامل باقي القسمة (%) مع المتغيرات الكسرية مثل: double r = 7.5 % 2.0;",
     type: "boolean",
     correctAnswer: false,
-    source: "IEEE-754 Floating-Point Arithmetic Rules",
-    explanation: "خطأ (False). في الأعداد العشرية العائمة (Floating-point) وفق معيار IEEE-754، القسمة على صفر لا تسبب انهيار البرنامج إطلاقاً! بل تعيد قيمة خاصة قياسية هي المالانهاية الموجبة (+Infinity أو inf) بدون أي استثناء.",
-    details: "Integer division by zero causes a crash/SIGFPE, but floating-point 1.0f / 0.0f yields +inf peacefully."
+    source: "C++ Operators Standard Rules & Slide 7",
+    explanation: "خطأ (False). معامل باقي القسمة (%) في C++ مخصص للأعداد الصحيحة (integers) فقط! استخدامه مع float أو double يسبب خطأ تصريف (Compile Error). لحساب باقي قسمة الكسور يُستخدم دالة fmod().",
+    details: "The % operator requires integer operands. Floating-point types cause a compilation error."
   },
   {
     id: "ext_tf_3",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "INT_MIN % -1 Hardware Crash",
-    text: "Executing the expression INT_MIN % -1 causes a hardware Divide Error exception that crashes the program on x86 processors.",
-    textAr: "تنفيذ العملية INT_MIN % -1 يُحدث استثناء خطأ قسمة عتادي (Hardware Divide Error) يؤدي لتحطم البرنامج فوراً على معالجات x86.",
+    title: "4-bit Two's Complement Range & Overflow",
+    text: "In a 4-bit Two's Complement system, adding binary 0110 (+6) and 0011 (+3) produces the correct positive decimal value +9 without overflow.",
+    textAr: "في نظام المكمل الثنائي المكون من 4 بت، ناتج جمع 0110 (+6) مع 0011 (+3) يعطي القيمة الصحيحة +9 دون حدوث طفحان (Overflow).",
     type: "boolean",
-    correctAnswer: true,
-    source: "x86 IDIV Hardware Instruction Specification",
-    explanation: "صحيح (True). في معالجات x86، تُنفذ تعليمة idiv العتادية كلاً من القسمة وباقي القسمة معاً في نفس السجل. وبما أن قسمة INT_MIN (-2147483648) على -1 تُنتج +2147483648 وهي خارج مدى السجل، فإن المعالج يطلق استثناء طفحان القسمة (Division Overflow Exception) ويتحطم البرنامج فوراً!",
-    details: "On x86, idiv computes quotient and remainder together. Since quotient INT_MIN / -1 overflows, INT_MIN % -1 triggers a fatal CPU fault."
+    correctAnswer: false,
+    source: "Slide 2 - Question 10 (4-bit Two's Complement Overflow)",
+    explanation: "خطأ (False). أقصى رقم موجب يمكن تمثيله في 4 بت بنظام المكمل الثنائي هو +7 (المدى من -8 إلى +7). ناتج الجمع الثنائي هو 1001 والذي يمثل الرقم السالب -7! جمع موجبين أعطى سالباً، وحدث فيض حسابي (Signed Overflow).",
+    details: "4-bit signed 2's complement range is -8 to +7. (+6) + (+3) = +9 exceeds +7, causing signed overflow (result becomes 1001 = -7)."
   },
   {
     id: "ext_tf_4",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Const Reference Temporary Lifetime Extension",
-    text: "In C++, binding a temporary rvalue object to a const reference extends the lifetime of the temporary object to match the reference's lifetime.",
-    textAr: "في لغة C++، ربط كائن مؤقت (Temporary object) بمرجع ثابت (const reference) يؤدي لتمديد عمر الكائن المؤقت ليتطابق مع عمر المرجع.",
+    title: "Compiler Error Correction Capability",
+    text: "Modern C++ compilers have the built-in capability to automatically detect and correct all syntax errors in source code before compiling.",
+    textAr: "تمتلك مترجمات C++ الحديثة القدرة المدمجة على اكتشاف وتصحيح جميع الأخطاء النحوية (Syntax Errors) تلقائياً قبل التصريف.",
     type: "boolean",
-    correctAnswer: true,
-    source: "C++ Standard Temporary Object Lifetime [class.temporary]",
-    explanation: "صحيح (True). هذه قاعدة شهيرة في C++ تُسمى (Lifetime Extension). الكائن المؤقت الذي يُفترض أن يُدمر في نهاية السطر يمتد عمره ويظل حياً طالما أن المرجع الثابت const& المرتبط به لا يزال داخل النطاق (In Scope).",
-    details: "A temporary bound to a const reference is not destroyed at the end of the full expression, but when the reference itself goes out of scope."
+    correctAnswer: false,
+    source: "Slide 2 - Question 9 (A compiler can correct syntax errors automatically: False)",
+    explanation: "خطأ (False). المترجم (Compiler) يكتشف الأخطاء النحوية ويُبلغ عنها في رسائل الخطأ، لكنه لا يستطيع تصحيحها تلقائياً على الإطلاق، بل يجب على المبرمج تصحيحها يدوياً.",
+    details: "Compilers can only diagnose and report syntax errors; they cannot automatically correct them."
   },
   {
     id: "ext_tf_5",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Overflow in Subtracting Negative from Positive",
-    text: "In signed Two's Complement arithmetic, subtracting a negative number from a positive number can cause an Overflow condition.",
-    textAr: "في نظام المكمل الثنائي بإشارة، طرح عدد سالب من عدد موجب يمكن أن يُحدث فيضاً حسابياً (Overflow).",
+    title: "Postfix Increment Precedence in r = x + y++",
+    text: "In the C++ statement: r = x + y++; if x = 3 and y = 6, the variable r will be assigned 10 because y is incremented before the addition.",
+    textAr: "في جملة C++ التالية: r = x + y++; إذا كانت x = 3 و y = 6، فإن المتغير r سيأخذ القيمة 10 لأن y تزداد قبل الجمع.",
     type: "boolean",
-    correctAnswer: true,
-    source: "Two's Complement Subtraction Rules",
-    explanation: "صحيح (True). طرح عدد سالب يكافئ جبرياً إضافة عدد موجب: (Positive - Negative = Positive + Positive). وجمع عددين موجبين كبيرين يمكن أن يتجاوز الحد الأقصى للمدى الموجب، فيتحول الناتج لعدد سالب وهو تعريف الـ Overflow!",
-    details: "Positive - Negative == Positive + Positive. If the sum exceeds 2^(n-1) - 1, signed overflow occurs."
+    correctAnswer: false,
+    source: "Slide 7 - Question 5 (int main: r = x + y++)",
+    explanation: "خطأ (False). المعامل البعدي (Postfix y++) يستخدم القيمة الحالية لـ y (وهي 6) في عملية الجمع أولاً: 3 + 6 = 9، ثم بعد الانتهاء من السطر تزداد y لتصبح 7. لذلك r تأخذ القيمة 9 وليس 10!",
+    details: "Postfix increment returns the old value before incrementing. r = 3 + 6 = 9, and y becomes 7."
   },
   {
     id: "ext_tf_6",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "delete Pointer Nullification Myth",
-    text: "Executing 'delete ptr;' in C++ automatically resets the pointer 'ptr' to nullptr to prevent dangling pointers.",
-    textAr: "تنفيذ الأمر 'delete ptr;' في C++ يقوم تلقائياً بضبط المؤشر 'ptr' إلى nullptr لمنع المؤشرات المعلقة.",
+    title: "Accidental Semicolon After if Condition",
+    text: "In the code: if (x < 0); { cout << \"Negative\"; } the word 'Negative' will strictly only be printed if x is indeed less than 0.",
+    textAr: "في الكود: if (x < 0); { cout << \"Negative\"; } ستتم طباعة كلمة 'Negative' فقط وحصرياً إذا كانت x أقل من صفر بالفعل.",
     type: "boolean",
     correctAnswer: false,
-    source: "C++ Memory Management & Dangling Pointers",
-    explanation: "خطأ (False). أمر delete يقوم بتحرير مساحة الذاكرة في الـ Heap فقط، ولكنه يترك المؤشر ptr محتفظاً بنفس عنوان الذاكرة المحررة القديم (Dangling Pointer)! والمبرمج هو المسؤول حصراً عن كتابة ptr = nullptr; لتجنب الأخطاء الكارثية.",
-    details: "delete deallocates memory but never clears the pointer variable. It remains a dangling pointer unless explicitly set to nullptr."
+    source: "C++ Syntax Traps & Slide 8 (Check Positive/Negative)",
+    explanation: "خطأ (False). وجود الفاصلة المنقوطة (;) مباشرة بعد قوس الشرط ينهي جملة if بجسم فارغ (Empty Statement)، مما يجعل القوسين المعقوفين التاليين { cout << \"Negative\"; } كتلة برمجية مستقلة تُنفذ دائماً بغض النظر عن قيمة x!",
+    details: "A semicolon after if(...) terminates the conditional branch with a null statement; the following block executes unconditionally."
   },
   {
     id: "ext_tf_7",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "new Array Zero-Initialization Myth",
-    text: "In C++, executing 'int *arr = new int[100];' guarantees that all 100 elements are initialized to zero.",
-    textAr: "في لغة C++، كتابة 'int *arr = new int[100];' تضمن تهيئة جميع العناصر المائة بالصفر تلقائياً.",
+    title: "Floating-Point Expression in switch Statement",
+    text: "In C++, the switch statement can evaluate floating-point expressions directly, such as switch (gpa) where gpa is of type double.",
+    textAr: "في لغة C++، يمكن لجملة switch تقييم المتغيرات ذات الفاصلة العائمة مباشرة، مثل switch (gpa) حيث gpa من نوع double.",
     type: "boolean",
     correctAnswer: false,
-    source: "Default vs Value Initialization in C++ [dcl.init]",
-    explanation: "خطأ (False). كتابة new int[100] (بدون أقواس دائرية) تطبق التهيئة الافتراضية (Default Initialization)، مما يترك عناصر المصفوفة محتوية على قيم عشوائية غير محددة (Garbage values)! لتهيئتها بالصفر يجب كتابة: new int[100]() مع القوسين.",
-    details: "new int[100] leaves memory uninitialized (garbage). new int[100]() value-initializes all elements to 0."
+    source: "Slide 10 (Convert if/else to switch) & C++ Standard Rules",
+    explanation: "خطأ (False). جملة switch في C++ تشترط أن يكون التعبير من نوع صحيح (integral type مثل int أو char). يمنع المعيار تماماً استخدام double أو float في جملة switch ويعطي خطأ تصريف.",
+    details: "The switch condition must evaluate to an integral or enumeration type; floating-point types (float, double) are illegal."
   },
   {
     id: "ext_tf_8",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "inline Keyword Guarantee Myth",
-    text: "Declaring a function with the 'inline' keyword guarantees that the C++ compiler will substitute the function code at every call site.",
-    textAr: "الإعلان عن دالة باستخدام الكلمة المحجوزة 'inline' يضمن أن مترجم C++ سيقوم باستبدال كود الدالة في مكان كل استدعاء بدون استثناء.",
+    title: "Uniqueness of Zero in Two's Complement",
+    text: "Unlike Signed Magnitude and 1's Complement, the Two's Complement system has only one unique binary representation for the number zero.",
+    textAr: "على عكس نظام الإشارة والمقدار والمكمل الأحادي، يمتلك نظام المكمل الثنائي (Two's Complement) تمثيلاً ثنائياً وحيداً وموحداً للرقم صفر.",
+    type: "boolean",
+    correctAnswer: true,
+    source: "Slide 3 & Number Systems Curriculum",
+    explanation: "صحيح (True). في نظام الإشارة والمقدار والمكمل الأحادي يوجد صفران (+0 و -0) مما يسبب هدراً وتعقيداً في العتاد. أما في المكمل الثنائي فالصفر له تمثيل واحد فقط (00000000)، وهذا من أهم أسباب اعتماده في كافة المعالجات.",
+    details: "Two's complement eliminates the dual-zero problem (+0 and -0) found in signed magnitude and 1's complement."
+  },
+  {
+    id: "ext_tf_9",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Logic Error vs Syntax Error Detection",
+    text: "If a programmer accidentally writes 'area = width + height;' instead of 'area = width * height;', the compiler will detect this and report it as a syntax error.",
+    textAr: "إذا كتب المبرمج بالخطأ 'area = width + height;' بدلاً من 'area = width * height;'، سيكتشف المترجم ذلك ويبلغ عنه كخطأ نحوي (Syntax Error).",
     type: "boolean",
     correctAnswer: false,
-    source: "C++ inline Specifier Semantics [dcl.inline]",
-    explanation: "خطأ (False). الكلمة inline في لغة C++ هي مجرد اقتراح وتوجيه للمترجم وليست أمراً ملزماً! يحق للمترجم تماماً رفض تضمين الدالة (Inlining) إذا كانت معقدة أو تحتوي على تكرار ذاتي (Recursion). كما أن وظيفتها الأساسية المعيارية هي السماح بتعريف الدالة في ملفات رأسية متعددة دون خرق قاعدة التعريف الواحد (ODR).",
-    details: "The inline specifier is merely an optimization hint and linkage directive (ODR relaxation), not a mandatory command to the compiler."
+    source: "Slide 2 - Question 7 & Slide 7 Question 1",
+    explanation: "خطأ (False). هذا خطأ منطقي (Logic Error). الجملة صحيحة تماماً من حيث قواعد اللغة (Syntax)، ولذلك سيقوم المترجم بتصريف البرنامج بنجاح دون أي تنبيه، ولكن البرنامج سيعطي نواتج خاطئة أثناء التشغيل.",
+    details: "Logic errors violate problem requirements, not language grammar. Compilers cannot detect logic errors."
+  },
+  {
+    id: "ext_tf_10",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Variable Identifier Starting with Underscore",
+    text: "In C++, a variable name can legally begin with an underscore character (_), such as _counter.",
+    textAr: "في لغة C++، يجوز قانونياً أن يبدأ اسم المتغير برمز الشرطة السفلية (_)، مثل _counter.",
+    type: "boolean",
+    correctAnswer: true,
+    source: "Slide 5 - Question 7 (Variable naming rules in C++)",
+    explanation: "صحيح (True). قواعد تسمية المتغيرات في C++ تنص على أن الاسم يجب أن يبدأ بحرف هجائي (A-Z أو a-z) أو بشرطة سفلية (_). الشيء الممنوع هو أن يبدأ برقم.",
+    details: "Valid C++ identifiers can begin with a letter or an underscore (_); only numbers cannot be the first character."
   },
 
-  // ==========================================
-  // 2. EXTREME IDENTIFY & FIX CODE ERRORS (اكتشف وصحح الأخطاء - ليفل الوحش)
-  // ==========================================
+  // =========================================================================
+  // 2. EXTREME CODE ERROR FIXING (تصحيح الكود التفاعلي الذكي من المنهج) [6 أسئلة]
+  // =========================================================================
   {
     id: "ext_err_1",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Unsigned Counter Loop Underflow Bug",
-    text: "Identify and correct the fatal infinite loop bug in: for (unsigned int i = 10; i >= 0; i--) cout << i;",
-    textAr: "اكتب الكود المصحح لحلقة التكرار التالية التي تسبب حلقة لا نهائية بسبب طفحان unsigned: for (unsigned int i = 10; i >= 0; i--) cout << i;",
-    codeSnippet: `for (unsigned int i = 10; i >= 0; i--)
-    cout << i;`,
+    title: "Integer Division Bug in Temperature Conversion Formula",
+    text: "Identify and correct the integer truncation bug in the following temperature conversion statement: double F = C * (9 / 5) + 32;",
+    textAr: "اكتب السطر المصحح لمعادلة تحويل الحرارة لمنع حدوث خطأ اقتطاع القسمة الصحيحة في C++: double F = C * (9 / 5) + 32;",
+    codeSnippet: `double F = C * (9 / 5) + 32;`,
     type: "interactive_fix",
-    source: "Unsigned Loop Underflow Elimination",
-    hint: "المتغير بدون إشارة لا يمكن أن يكون سالباً أبداً، فما هو النوع الصحيح للمتغير؟",
+    source: "Slide 6 (Temperature Conversion Formula F = (C * (9/5)) + 32)",
+    hint: "كيف تجعل ناتج قسمة 9 على 5 يساوي 1.8 بدلاً من 1 في C++؟",
     identifiedErrors: [
-      "استخدام unsigned int كعداد للحلقة التنازلية مع شرط (i >= 0)، مما يسبب طفحاناً عكسياً (Underflow) عند 0 إلى 4294967295 ويجعل الحلقة لا نهائية."
+      "القسمة (9 / 5) بين عددين صحيحين تُنتج 1 فقط وتقتطع الكسر (0.8)، مما يجعل المعادلة تحسب دائماً C * 1 + 32 وتُعطي نتائج خاطئة تماماً."
     ],
-    correctCode: `for (int i = 10; i >= 0; i--) cout << i;`,
-    explanation: `الخطأ القاتل:
-المتغير unsigned int لا يقبل قيماً سالبة، فعندما يصل إلى 0 وينقص يصبح 4294967295، فيظل الشرط i >= 0 محققاً دائماً!
-التصحيح:
-تغيير نوع المتغير إلى signed int (أو ببساطة int).`
+    correctCode: `double F = C * (9.0 / 5.0) + 32;`,
+    explanation: `الخطأ المنهجي القاتل:
+في C++، التعبير (9 / 5) يقسم أعداداً صحيحة فيكون الناتج 1 فقط ويضيع الكسر 0.8!
+التصحيح الدقيق:
+تحويل أحد العددين أو كلاهما إلى عدد كسري:
+double F = C * (9.0 / 5.0) + 32;
+أو: double F = C * 1.8 + 32;`
   },
   {
     id: "ext_err_2",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "String Literal Mutation Access Violation Bug",
-    text: "Identify and correct the crash bug in: char *str = \"antigravity\"; str[0] = 'A';",
-    textAr: "اكتب الكود المصحح لمنع انهيار البرنامج عند تعديل النص: char *str = \"antigravity\"; str[0] = 'A';",
-    codeSnippet: `char *str = "antigravity";
-str[0] = 'A';`,
+    title: "Identify & Correct Errors in cout Statement (Exam Paper)",
+    text: "Identify and correct all errors in the following C++ statement from the exam: cout >> count >> '/n'",
+    textAr: "اكتب السطر المصحح بالكامل لجملة الطباعة الواردة في ورقة الامتحان: cout >> count >> '/n'",
+    codeSnippet: `cout >> count >> '/n'`,
     type: "interactive_fix",
-    source: "Read-Only Memory Protection Fix",
-    hint: "كيف تجعل السلسلة مصفوفة قابلة للتعديل في الـ Stack بدلاً من مؤشر لـ .rodata؟",
+    source: "Exam Paper - Question 4(a)",
+    hint: "معامل الإخراج هو << والسطر الجديد هو '\\n' أو endl مع فاصلة منقوطة في النهاية.",
     identifiedErrors: [
-      "تعريف السلسلة النصية كمؤشر char* يشير إلى نص حرفي مخزن في منطقة الذاكرة للقراءة فقط (.rodata)، مما يسبب انهيار البرنامج (Access Violation) عند محاولة تعديل المحرف الأول."
+      "استخدام معامل الإدخال والاستخراج >> بدلاً من معامل الإخراج والإدراج << مع cout.",
+      "استخدام الشرطة المائلة العادية '/n' بدلاً من الشرطة المائلة العكسية للصوت السطري '\\n'.",
+      "غياب الفاصلة المنقوطة (;) في نهاية الجملة."
     ],
-    correctCode: `char str[] = "antigravity"; str[0] = 'A';`,
-    explanation: `الخطأ:
-المؤشر char *str يؤشر إلى ذاكرة للقراءة فقط.
-التصحيح:
-تحويل المؤشر إلى مصفوفة محارف char str[]، حيث يتم نسخ النص إلى ذاكرة المكدس (Stack) المتاحة للقراءة والكتابة.`
+    correctCode: `cout << count << '\\n';`,
+    explanation: `الأخطاء الثلاثة وتصحيحها:
+1. استبدال >> بالمعامل الصحيح <<.
+2. تصحيح '/n' إلى '\\n' (أو endl).
+3. إضافة الفاصلة المنقوطة ; في نهاية السطر.`
   },
   {
     id: "ext_err_3",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Scalar delete on Array Allocation Bug",
-    text: "Identify and correct the undefined behavior bug in: int *ptr = new int[50]; delete ptr;",
-    textAr: "اكتب الكود المصحح لتحرير مصفوفة ديناميكية وتفادي السلوك غير المحدد: int *ptr = new int[50]; delete ptr;",
-    codeSnippet: `int *ptr = new int[50];
-delete ptr;`,
+    title: "Reserved Keyword Variable Declaration (Exam Paper)",
+    text: "Identify and correct the error in the following C++ variable declaration from the exam: int double = 44;",
+    textAr: "اكتب السطر المصحح للإعلان عن المتغير من ورقة الامتحان مع تجنب الكلمات المحجوزة: int double = 44;",
+    codeSnippet: `int double = 44;`,
     type: "interactive_fix",
-    source: "C++ Memory Mismatch Standard Rule [expr.delete]",
-    hint: "ما هو المعامل المخصص لتحرير المصفوفات المحجوزة بـ new[]؟",
+    source: "Exam Paper - Question 4(b)",
+    hint: "كلمة double هي كلمة محجوزة في C++، استبدلها بأي اسم متغير قانوني مثل num أو d.",
     identifiedErrors: [
-      "استخدام معامل الحذف الفردي 'delete ptr;' مع مصفوفة تم حجزها بـ 'new int[50];' بدلاً من استخدام معامل حذف المصفوفات 'delete[] ptr;'."
+      "استخدام الكلمة المحجوزة 'double' كاسم للمتغير، وقواعد C++ تحظر تماماً استخدام الكلمات المفتاحية كأسماء متغيرات."
     ],
-    correctCode: `int *ptr = new int[50]; delete[] ptr;`,
+    correctCode: `int num = 44;`,
     explanation: `الخطأ:
-حجز الذاكرة تم باستخدام new[]، وتحريرها بـ delete الفردية يُعتبر سلوكاً غير محدد (Undefined Behavior) يسبب تسريب ذاكرة أو انهيار البرنامج.
+الكلمة 'double' نوع بياني محجوز في لغة C++.
 التصحيح:
-استخدام delete[] ptr; المخصصة للمصفوفات.`
+تغيير اسم المتغير إلى أي اسم صالح (مثل int num = 44; أو int val = 44; أو تعريف double d = 44;).`
   },
   {
     id: "ext_err_4",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Bitwise AND vs Short-Circuit Logical AND Bug",
-    text: "Identify and correct the divide-by-zero crash in: int a = 10, b = 0; if (b != 0 & a / b > 2) cout << \"OK\";",
-    textAr: "اكتب الكود المصحح لمنع انهيار القسمة على صفر في جملة الشرط التالية: if (b != 0 & a / b > 2)",
-    codeSnippet: `int a = 10, b = 0;
-if (b != 0 & a / b > 2)
-    cout << "OK";`,
+    title: "Typo in iostream Header & Namespace Case Sensitivity",
+    text: "Identify and correct the syntax errors in: #include <iostrem> and Using namespace std;",
+    textAr: "اكتب السطرين مصححين تماماً لتضمين المكتبة وفضاء الأسماء: #include <iostrem> و Using namespace std;",
+    codeSnippet: `#include <iostrem>
+Using namespace std;`,
     type: "interactive_fix",
-    source: "Bitwise AND vs Short-Circuit Logical Operator",
-    hint: "أي معامل يضمن عدم تقييم الطرف الأيمن عند فشل الطرف الأيسر؟",
+    source: "Slide 9 - Calculator Code Errors",
+    hint: "اسم المكتبة هو iostream وحرف u في using يجب أن يكون صغيراً (lowercase).",
     identifiedErrors: [
-      "استخدام معامل البتات الفردي '&' بدلاً من معامل الربط المنطقي '&&'. المعامل '&' لا يطبق قصر الدائرة (No Short-Circuit) ويقيم كلاً من الطرفين، فيقسم على صفر وتتحطم الدالة."
+      "خطأ إملائي في اسم المكتبة <iostrem> بدلاً من <iostream>.",
+      "كتابة كلمة Using بحرف كبير 'U' ولغة C++ حساسة لحالة الأحرف (Case Sensitive)، فالصحيح هو using بحرف صغير."
     ],
-    correctCode: `if (b != 0 && a / b > 2) cout << "OK";`,
-    explanation: `الخطأ:
-المعامل & يقيم الطرفين دائماً، فيحسب a / b و b تساوي 0 مما يسبب خطأ قسمة على صفر عتادي!
-التصحيح:
-استخدام المعامل المنطقي && الذي يطبق قصر الدائرة ويتوقف فوراً إذا كان b == 0.`
+    correctCode: `#include <iostream> using namespace std;`,
+    explanation: `الأخطاء والتصحيح:
+1. تصحيح المكتبة إلى #include <iostream>.
+2. تصحيح Using إلى using بحرف صغير (lowercase).`
+  },
+  {
+    id: "ext_err_5",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Missing Division by Zero Guard in Calculator",
+    text: "Identify and correct the fatal division by zero bug in the calculator logic: else if(oper=='/') { result = x/y; cout<<\"the result =\"<< result; }",
+    textAr: "اكتب الكود المصحح لفرع القسمة في الآلة الحاسبة لحمايته من الانهيار عند إدخال y = 0:",
+    codeSnippet: `else if(oper=='/') {
+    result = x/y;
+    cout<<"the result ="<< result;
+}`,
+    type: "interactive_fix",
+    source: "Slide 9 - Simple Calculator Implementation",
+    hint: "أضف فحص إذا كانت y تساوي صفر اطبع خطأ error وإلا نفذ القسمة.",
+    identifiedErrors: [
+      "عدم التحقق من قيمة المقسوم عليه (y)، مما يؤدي إلى انهيار البرنامج فورياً (Runtime Crash) في حال إدخال المستخدم y = 0."
+    ],
+    correctCode: `else if(oper=='/') { if (y==0) cout<<"error"; else { result = x/y; cout<<"the result ="<< result; } }`,
+    explanation: `الخطأ والتصحيح (من سلايد 9):
+يجب فحص y قبل إجراء القسمة:
+if (y == 0) cout << "error";
+else { result = x / y; cout << "the result =" << result; }`
+  },
+  {
+    id: "ext_err_6",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Assignment vs Equality & Accidental Semicolon Bug",
+    text: "Identify and correct the logic and syntax bugs in: if (score = 100); cout << \"Perfect Score\";",
+    textAr: "اكتب جملة الشرط المصححة لمنع الإسناد الخاطئ والفاصلة المنقوطة العارضة: if (score = 100); cout << \"Perfect Score\";",
+    codeSnippet: `if (score = 100);
+    cout << "Perfect Score";`,
+    type: "interactive_fix",
+    source: "C++ Conditional Statements & Logic Error Principles",
+    hint: "استخدم معامل المقارنة == واحذف الفاصلة المنقوطة بعد القوس.",
+    identifiedErrors: [
+      "استخدام معامل الإسناد '=' بدلاً من معامل المقارنة '=='.",
+      "وضع فاصلة منقوطة ';' بعد شرط if مما يُبطل الشرط ويجعل الطباعة تنفذ دائماً."
+    ],
+    correctCode: `if (score == 100) cout << "Perfect Score";`,
+    explanation: `الخطأ والتصحيح:
+1. استبدال الإسناد = بالمقارنة ==.
+2. حذف الفاصلة المنقوطة التي تلي القوس مباشرة.`
   },
 
-  // ==========================================
-  // 3. EXTREME NUMBER SYSTEMS & IEEE-754 CALCULATIONS (حسابات أنظمة العد - ليفل الوحش)
-  // ==========================================
+  // =========================================================================
+  // 3. EXTREME NUMBER SYSTEMS & DIGITAL ARITHMETIC (حسابات أنظمة العد والمكملات) [6 أسئلة]
+  // =========================================================================
   {
     id: "ext_num_1",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "IEEE-754 Hexadecimal Pattern of -2.5f",
-    text: "Calculate the exact 32-bit Hexadecimal IEEE-754 single-precision bit pattern of the negative float -2.5f.",
-    textAr: "احسب النمط الست عشري الدقيق المكون من 32 بت وفق معيار IEEE-754 للرقم العشري السالب -2.5f (اكتبه بصيغة 0x... أو 8 خانات hex):",
+    title: "Double Dabble: Complete Conversion of Decimal 175.625",
+    text: "Convert decimal 175.625 to Binary, Octal, and Hexadecimal using the Double Dabble method (repeated division & multiplication by 2).",
+    textAr: "حوّل الرقم العشري 175.625 إلى الأنظمة: الثنائي، الثماني، والست عشري مع كتابة الأجزاء الكسرية بدقة:",
     type: "number_system",
-    source: "IEEE-754 Floating-Point Calculation Challenge",
+    source: "Exam Paper Table Style & Slide 3/4 Double Dabble Method",
     inputs: [
-      { label: "Hexadecimal Pattern (32-bit)", expected: "C0200000", hint: "Sign: 1, Exponent: 128 (0x80), Mantissa: .01 (0x200000)" }
+      { label: "Binary Equivalent", expected: "10101111.101", hint: "الجزء الصحيح 175 + الكسر 0.625" },
+      { label: "Octal Equivalent", expected: "257.5", hint: "تجميع ثلاثيات من اليمين واليسار" },
+      { label: "Hexadecimal Equivalent", expected: "AF.A", hint: "تجميع رباعيات: 175 ست عشرياً هو AF و 0.625*16 = 10 = A" }
     ],
-    stepByStep: `خطوات حساب نمط IEEE-754 للرقم -2.5f بالتفصيل:
-1) خانة الإشارة (Sign bit):
-   الرقم سالب -> Sign bit = 1.
+    stepByStep: `خطوات الحل المفصلة بطريقة Double Dabble:
+1) تحويل الجزء الصحيح (175) بالقسمة المتكررة على 2:
+   175 / 2 = 87 والباقي 1
+   87  / 2 = 43 والباقي 1
+   43  / 2 = 21 والباقي 1
+   21  / 2 = 10 والباقي 1
+   10  / 2 = 5  والباقي 0
+   5   / 2 = 2  والباقي 1
+   2   / 2 = 1  والباقي 0
+   1   / 2 = 0  والباقي 1
+   قراءة البواقي من الأسفل للأعلى: (10101111)_2.
 
-2) التحويل إلى ثنائي عادي:
-   2.5 = 2 + 0.5 = 10.1 ثنائياً.
+2) تحويل الكسر (0.625) بالضرب المتكرر في 2:
+   0.625 × 2 = 1.25 -> الجزء الصحيح 1
+   0.250 × 2 = 0.50 -> الجزء الصحيح 0
+   0.500 × 2 = 1.00 -> الجزء الصحيح 1 (توقف)
+   الكسر ثنائياً = .101.
+   الناتج الثنائي الكلي = 10101111.101.
 
-3) التنسيق العلمي المعياري (Normalized Scientific Notation):
-   10.1 = 1.01 × 2^1.
-   قيمة الأس الحقيقي (E) = 1.
+3) التحويل إلى ثماني (Octal) بتجميع 3 بت:
+   الصحيح: 010 101 111 = 2 5 7 -> 257
+   الكسر:   101 = 5 -> .5
+   الناتج الثماني = 257.5.
 
-4) حساب الأس المنحاز (Biased Exponent):
-   الانحياز في 32-bit هو 127:
-   Biased Exponent = 1 + 127 = 128.
-   128 ثنائياً في 8 بت = 10000000.
-
-5) استخراج الكسر (Mantissa / Fraction):
-   نحذف الواحد الضمني (Implicit 1) من 1.01:
-   المتبقي هو: 01.
-   نكمل 23 بت بإضافة أصفار: 01000000000000000000000.
-
-6) تجميع الـ 32 بت:
-   Sign (1 بت): 1
-   Exponent (8 بت): 10000000
-   Fraction (23 بت): 01000000000000000000000
-   السلسلة الكاملة:
-   1100 0000 0010 0000 0000 0000 0000 0000
-
-7) التحويل إلى Hexadecimal:
-   1100 = C
-   0000 = 0
-   0010 = 2
-   0000 = 0
-   0000 = 0
-   0000 = 0
-   0000 = 0
-   0000 = 0
-   الناتج النهائي = C0200000 (أو 0xC0200000).`
+4) التحويل إلى ست عشري (Hex) بتجميع 4 بت:
+   الصحيح: 1010 1111 = A F -> AF
+   الكسر:   1010 = A (10) -> .A
+   الناتج الست عشري = AF.A.`
   },
   {
     id: "ext_num_2",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Signed Fixed-Point Q4.4 of -6.75",
-    text: "Calculate the exact 8-bit Two's Complement representation of decimal -6.75 in Q4.4 format (4 integer bits, 4 fractional bits).",
-    textAr: "احسب التمثيل الثنائي الدقيق بالمكمل الثنائي (Two's Complement) في نظام الفاصلة الثابتة Q4.4 المكون من 8 بت للرقم السالب -6.75:",
+    title: "8-bit Two's Complement Subtraction: (-25)_10 - (18)_10",
+    text: "Calculate (-25)_10 - (18)_10 in 8-bit Two's Complement arithmetic, showing the decimal result and the exact 8-bit binary pattern.",
+    textAr: "احسب ناتج العملية الحسابية: (-25) - (18) بنظام المكمل الثنائي المكون من 8 بت مع توضيح خطوات الجمع الثنائي:",
     type: "number_system",
-    source: "Fixed-Point Two's Complement DSP Challenge",
+    source: "Exam Paper Question 2(b) & Slide 3 Two's Complement Arithmetic",
     inputs: [
-      { label: "8-bit Q4.4 Binary", expected: "10010100", hint: "احسب +6.75 ثم طبق مكمل ثنائي كامل" }
+      { label: "Decimal Result", expected: "-43", hint: "-25 - 18 = -43" },
+      { label: "8-bit Binary Result", expected: "11010101", hint: "جمع تمثيل -25 مع تمثيل -18 في 8 بت" }
     ],
-    stepByStep: `خطوات الحل لنظام Q4.4 (4 بت للصحيح، 4 بت للكسر):
-1) تمثيل القيمة الموجبة (+6.75):
-   - الجزء الصحيح (6) في 4 بت: 0110
-   - الجزء الكسري (0.75): 0.75 = 0.5 + 0.25 = 1100 في 4 بت
-   - القيمة الموجبة الكاملة: 0110.1100 (أو 01101100)
+    stepByStep: `خطوات الحل بالمكمل الثنائي (2's Complement):
+العملية المطلوبة: (-25) - (+18) = (-25) + (-18) = -43.
 
-2) إيجاد المكمل الأحادي (1's complement) بقلب جميع البتات:
-   01101100 -> 10010011
+1) إيجاد تمثيل (-25) في 8 بت:
+   - (+25) ثنائياً: 00011001 (16 + 8 + 1)
+   - المكمل الأحادي (قلب البتات): 11100110
+   - إضافة 1 لإيجاد المكمل الثنائي: 11100111 = (-25)
 
-3) إيجاد المكمل الثنائي (2's complement) بإضافة 1:
-     10010011
-   +        1
-   ----------
-     10010100
+2) إيجاد تمثيل (-18) في 8 بت:
+   - (+18) ثنائياً: 00010010 (16 + 2)
+   - المكمل الأحادي: 11101101
+   - إضافة 1: 11101110 = (-18)
 
-الناتج النهائي لـ -6.75 هو: 10010100.`
+3) إجراء عملية الجمع الثنائي:
+      1 1 1 0 0 1 1 1   (-25)
+    + 1 1 1 0 1 1 1 0   (-18)
+    ------------------
+    1 1 1 0 1 0 1 0 1
+   يتم إهمال بت الحمل الزائد التاسع (Discard End-around Carry):
+   الناتج النهائي في 8 بت = 11010101.
+
+4) التحقق من القيمة:
+   البت الأخير 1 (سالب). نأخذ المكمل الثنائي لمعرفة المقدار:
+   قلب البتات: 00101010
+   إضافة 1: 00101011 = 32 + 8 + 2 + 1 = 43.
+   إذاً القيمة هي -43 (صحيح 100%).`
   },
   {
     id: "ext_num_3",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Double Dabble: 255.0625 to Hexadecimal",
-    text: "Convert decimal 255.0625 to its exact Hexadecimal representation.",
-    textAr: "حوّل الرقم العشري 255.0625 إلى مكافئه الدقيق في النظام الست عشري (Hexadecimal):",
+    title: "Exam Paper Question 2(b): (-13)_10 - (6)_10",
+    text: "Solve Exam Question 2(b): Showing your steps in details to answer (-13)_10 - (6)_10 = (?)_10 using 8-bit Two's complement.",
+    textAr: "حل مسألة الامتحان نصاً: احسب (-13) - (6) بنظام المكمل الثنائي في 8 بت موضحاً الناتج العشري والثنائي:",
     type: "number_system",
-    source: "Advanced Fractional Base Conversion",
+    source: "Exam Paper - Question 2(b)",
     inputs: [
-      { label: "Hexadecimal Equivalent", expected: "FF.1", hint: "255 ست عشرياً + 0.0625 * 16" }
+      { label: "Decimal Result", expected: "-19", hint: "-13 - 6 = -19" },
+      { label: "8-bit Binary Result", expected: "11101101", hint: "تمثيل -19 في 8 بت" }
     ],
-    stepByStep: `خطوات التحويل الدقيقة:
-1) الجزء الصحيح (255):
-   255 / 16 = 15 والباقي 15 (F)
-   15  / 16 = 0  والباقي 15 (F)
-   الجزء الصحيح = FF ست عشرياً (15*16 + 15 = 255).
+    stepByStep: `خطوات حل مسألة الامتحان بالتفصيل:
+المعادلة: (-13) - (6) = (-13) + (-6) = -19.
 
-2) الجزء الكسري (0.0625) بالضرب في 16:
-   0.0625 × 16 = 1.0
-   الجزء الصحيح الناتج هو 1، والكسر المتبقي 0 (توقف فوري!).
-   الكسر ست عشرياً = .1
+1) تمثيل (-13) بالمكمل الثنائي (8 بت):
+   - (+13) = 00001101
+   - المكمل الأحادي = 11110010
+   - المكمل الثنائي (+1) = 11110011
 
-3) الناتج الست عشري الإجمالي: FF.1.`
+2) تمثيل (-6) بالمكمل الثنائي (8 بت):
+   - (+6) = 00000110
+   - المكمل الأحادي = 11111001
+   - المكمل الثنائي (+1) = 11111010
+
+3) الجمع الثنائي:
+      1 1 1 1 0 0 1 1   (-13)
+    + 1 1 1 1 1 0 1 0   (-6)
+    ------------------
+    1 1 1 1 0 1 1 0 1
+   نهمل الحمل التاسع، فيتبقى: 11101101.
+
+4) التحقق:
+   مكمل 11101101 هو: 00010010 + 1 = 00010011 = 16 + 2 + 1 = 19.
+   الناتج العشري = -19.`
   },
   {
     id: "ext_num_4",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "8-bit Two's Complement Arithmetic Overflow & Hex Result",
-    text: "Perform signed 8-bit Two's Complement addition of (+75)_10 and (+85)_10. Compute the 8-bit binary sum, its hexadecimal representation, its signed decimal value, and whether signed overflow occurred.",
-    textAr: "احسب ناتج جمع (+75) مع (+85) بنظام المكمل الثنائي (8-bit Two's Complement)، واكتب الناتج الثنائي، الست عشري، القيمة العشرية الناتجة، وهل حدث طفحان (Overflow)؟",
+    title: "4-bit Two's Complement Overflow Verification",
+    text: "Add binary 0101 (+5) and 0011 (+3) in 4-bit Two's complement. Write the 4-bit sum, its signed decimal interpretation, and whether signed overflow occurred.",
+    textAr: "اجمع 0101 (+5) مع 0011 (+3) بنظام المكمل الثنائي 4 بت، واكتب الناتج الثنائي، قيمته العشرية، وهل حدث طفحان؟",
     type: "number_system",
-    source: "ALU Overflow Detection & Signed Arithmetic",
+    source: "Slide 2 - Question 10 (Adding 0101 and 0011 in 4-bit two's complement causes overflow)",
     inputs: [
-      { label: "8-bit Binary Sum", expected: "10100000", hint: "01001011 + 01010101" },
-      { label: "Hexadecimal Pattern", expected: "A0", hint: "1010 0000 ست عشرياً" },
-      { label: "Signed Decimal Interpretation", expected: "-96", hint: "قيمة 10100000 في المكمل الثنائي (سالب)" },
-      { label: "Signed Overflow Occurred? (YES/NO)", expected: "YES", hint: "جمع عددين موجبين أعطى سالباً (V=1)" }
+      { label: "4-bit Binary Sum", expected: "1000", hint: "0101 + 0011" },
+      { label: "Signed Decimal Interpretation", expected: "-8", hint: "قيمة 1000 في المكمل الثنائي 4 بت" },
+      { label: "Overflow Occurred? (YES/NO)", expected: "YES", hint: "جمع موجبين أعطى سالباً" }
     ],
-    stepByStep: `خطوات الحل واكتشاف الطفحان (Overflow Detection):
-1) تمثيل العددين في 8-bit signed binary:
-   - (+75)_10:
-     75 = 64 + 8 + 2 + 1 -> (01001011)_2
-   - (+85)_10:
-     85 = 64 + 16 + 4 + 1 -> (01010101)_2
+    stepByStep: `خطوات التحليل واكتشاف الطفحان (من سلايد 2):
+1) الجمع الثنائي:
+     0 1 0 1   (+5)
+   + 0 0 1 1   (+3)
+   ---------
+     1 0 0 0
 
-2) الجمع الثنائي بت بالبت:
-      0 1 0 0 1 0 1 1  (+75)
-    + 0 1 0 1 0 1 0 1  (+85)
-    ------------------
-      1 0 1 0 0 0 0 0
+2) التفسير العشري ذو الإشارة (Signed 4-bit):
+   - البت الأثقل هو 1، فالرقم سالب.
+   - في المكمل الثنائي 4 بت، النمط 1000 يمثل القيمة الصغرى: -8.
 
-3) النمط الست عشري:
-   1010 0000 = A0 (أو 0xA0).
+3) اكتشاف الفيض الحسابي (Overflow):
+   - جمعنا عددين موجبين (+5 و +3) والمفترض رياضياً أن الناتج +8.
+   - لكن أقصى قيمة موجبة يسمح بها نظام 4 بت هي +7 فقط (من -8 إلى +7).
+   - ولأن خانة الإشارة تحولت إلى 1 (سالب)، فقد حدث طفحان عتادي (Overflow = YES).`
+  },
+  {
+    id: "ext_num_5",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Signed Representations Table for -45 (8-bit)",
+    text: "Calculate the negative representations of decimal 45 in 8-bit using Signed Magnitude, 1's Complement, and 2's Complement.",
+    textAr: "احسب التمثيلات السالبة للرقم 45 في 8 بت بالأنظمة الثلاثة: الإشارة والمقدار، المكمل الأحادي، والمكمل الثنائي:",
+    type: "number_system",
+    source: "Slide 3 - Table Exercise Style",
+    inputs: [
+      { label: "Signed Magnitude (sm)", expected: "10101101", hint: "بت الإشارة 1 + قيمة 45 في 7 بت" },
+      { label: "1's Complement (c1)", expected: "11010010", hint: "قلب بتات +45 بالكامل" },
+      { label: "2's Complement (c2)", expected: "11010011", hint: "المكمل الأحادي + 1" }
+    ],
+    stepByStep: `خطوات حساب الأنظمة الثلاثة لـ -45:
+1) تمثيل +45 في 8 بت:
+   45 = 32 + 8 + 4 + 1 -> 00101101.
 
-4) التفسير العشري ذو الإشارة (Signed 2's Complement):
-   - البت الأثقل (MSB) = 1، إذاً العدد سالب!
-   - لإيجاد قيمته المطلقة، نأخذ المكمل الثنائي لـ 10100000:
-     قلب البتات: 01011111
-     إضافة 1:    01100000 = 64 + 32 = 96
-   - القيمة العشرية الناتجة = -96!
+2) نظام الإشارة والمقدار (Signed Magnitude):
+   نضع بت الإشارة في أقصى اليسار = 1 (للسالب)، وباقي الـ 7 بت هي مقدار 45:
+   الناتج = 10101101.
 
-5) كشف الطفحان العتادي (Signed Overflow Flag V):
-   - جمعنا عددين موجبين (+75 و +85) وكان الناتج سالباً (-96)، وهذا مستحيل رياضياً!
-   - السبب: الناتج الصحيح (+160) أكبر من الحد الأقصى المسموح به في 8 بت (+127).
-   - الحمل المنقول إلى خانة الإشارة (Carry-in to MSB) = 1.
-   - الحمل المنقول خارج خانة الإشارة (Carry-out of MSB) = 0.
-   - قاعدة علم العتاد: V = Carry_in XOR Carry_out = 1 XOR 0 = 1 (حدث طفحان YES).`
+3) نظام المكمل الأحادي (1's Complement):
+   نقلب كل بت من بتات +45 (الصفر يصبح 1 والواحد يصبح 0):
+   00101101 -> 11010010.
+
+4) نظام المكمل الثنائي (2's Complement):
+   نضيف 1 إلى المكمل الأحادي:
+     11010010 + 1 = 11010011.`
+  },
+  {
+    id: "ext_num_6",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Hexadecimal Fraction Conversion: 2B.4 to Decimal, Binary, Octal",
+    text: "Convert the fractional Hexadecimal number 2B.4 to its exact Decimal, Binary, and Octal equivalents.",
+    textAr: "حوّل الرقم الست عشري الكسري 2B.4 إلى مكافئاته الدقيقة في الأنظمة: العشري، الثنائي، والثماني:",
+    type: "number_system",
+    source: "Exam Paper Table Row 4 Style (1F.C conversion)",
+    inputs: [
+      { label: "Decimal Equivalent", expected: "43.25", hint: "2*16 + 11 + 4/16" },
+      { label: "Binary Equivalent", expected: "101011.01", hint: "تحويل كل خانة إلى 4 بت" },
+      { label: "Octal Equivalent", expected: "53.2", hint: "تجميع ثلاثيات ثنائية" }
+    ],
+    stepByStep: `خطوات التحويل للرقم الست عشري 2B.4:
+1) التحويل إلى ثنائي (Binary) بفرد كل خانة إلى 4 بت:
+   2 = 0010
+   B = 1011
+   .4 = .0100
+   الناتج الثنائي = 00101011.0100 (بحذف الأصفار الزائدة: 101011.01).
+
+2) التحويل إلى عشري (Decimal):
+   الجزء الصحيح: 2 × 16^1 + 11 × 16^0 = 32 + 11 = 43.
+   الجزء الكسري: 4 × 16^(-1) = 4 / 16 = 0.25.
+   الناتج العشري = 43.25.
+
+3) التحويل إلى ثماني (Octal) بتجميع 3 بت:
+   الصحيح: 101 011 = 5 3 -> 53.
+   الكسر:   010 = 2 -> .2.
+   الناتج الثماني = 53.2.`
   },
 
-  // ==========================================
-  // 4. EXTREME ESSAY & ARCHITECTURAL PROOFS (أسئلة مقالية وبراهين معمارية - ليفل الوحش)
-  // ==========================================
+  // =========================================================================
+  // 4. EXTREME ESSAY & CONCEPTUAL QUESTIONS (أسئلة مقالية شاملة للمنهج) [4 أسئلة]
+  // =========================================================================
   {
     id: "ext_essay_1",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Mathematical Impossibility of Exact 0.1 in Binary",
-    text: "Explain mathematically why decimal 0.1 cannot be represented with finite bits in binary floating-point, and detail how repeated multiplication produces an infinite recurring expansion.",
-    textAr: "سؤال مقالي معمق: برهن رياضياً لماذا يستحيل تمثيل الكسر العشري البسيط 0.1 بعدد منتهٍ من البتات في النظام الثنائي ومعيار IEEE-754، موضحاً متسلسلة الضرب التكراري الناتجة.",
+    title: "Computer System Elements & System Buses (Exam Paper Q1)",
+    text: "Describe briefly the primary computer system elements (Hardware, Software, People, Data), detailing the CPU internal units (ALU, CU, Registers) and the role of the three system buses (Data bus, Address bus, Control bus).",
+    textAr: "سؤال مقالي شامل (ورقة الامتحان س1): اشرح باختصار عناصر نظام الحاسوب، مع تفصيل مكونات وحدة المعالجة المركزية CPU (ALU, CU, Registers) ووظيفة نواقل النظام الثلاثة (Data, Address, Control Buses).",
     type: "essay",
-    source: "Discrete Mathematics & Number Representation Limits",
-    questionDetails: "اشرح شرط قابلية التمثيل المنتهي في أي نظام عد، واكتب خطوات الضرب المتكرر التي تثبت الدورية.",
-    modelAnswerAr: `البرهان الرياضي لعدم إمكانية تمثيل 0.1 ثنائياً:
-1. النظرية الرياضية الأساسية للكسور المنتهية:
-   في أي نظام عد أساسه B، الكسر العادي (P / Q) يكون له تمثيل منتهٍ إذا وفقط إذا كانت جميع العوامل الأولية للمقام Q من ضمن العوامل الأولية للأساس B.
-   - في النظام العشري (Base 10): العوامل الأولية لـ 10 هي (2 و 5). الكسر 1/10 مقامه 10 عوامله 2 و 5، ولذلك يُكتب منتهياً: 0.1.
-   - في النظام الثنائي (Base 2): العامل الأولي الوحيد هو 2 فقط. وحيث إن مقام الكسر (1/10) يحتوي على العامل 5، فإنه يستحيل تمثيله بعدد منتهٍ من قوى 2!
+    source: "Exam Paper - Question 1 & Slide 2, 5, 7",
+    questionDetails: "اذكر العناصر الأربعة، ثم فصل وحدات الـ CPU الثلاث، ووظيفة كل ناقل من النواقل الثلاثة.",
+    modelAnswerAr: `عناصر نظام الحاسوب ونواقل النظام بالتفصيل:
 
-2. إثبات الدورية بالضرب المتكرر في 2:
-   0.1 × 2 = 0.2 -> الجزء الصحيح 0
-   0.2 × 2 = 0.4 -> الجزء الصحيح 0
-   0.4 × 2 = 0.8 -> الجزء الصحيح 0
-   0.8 × 2 = 1.6 -> الجزء الصحيح 1
-   0.6 × 2 = 1.2 -> الجزء الصحيح 1
-   0.2 × 2 = 0.4 -> الجزء الصحيح 0 (عدنا لنفس الخطوة الثانية!)
-   ينتج الكسر الدوري اللا نهائي: 0.00011001100110011..._2
+1. عناصر نظام الحاسوب الأساسية (Computer System Elements):
+   - العتاد (Hardware): المكونات المادية الملموسة (وحدة المعالجة، الذاكرة، وحدات الإدخال والإخراج).
+   - البرمجيات (Software): البرامج والتعليمات التي تدير الحاسوب، وتنقسم إلى برمجيات النظام (System Software كالأنظمة والمترجمات) وبرمجيات تطبيقية (Application Software).
+   - المستخدمون (People / Users): العنصر البشري الذي يصمم البرامج ويشغلها ويستفيد منها.
+   - البيانات (Data): الحقائق الأولية غير المعالجة التي تُدخل للحاسوب لتتحول إلى معلومات (Information).
 
-3. النتيجة في الحواسب:
-   معيار IEEE-754 يقتطع السلسلة بعد 23 بت (في float) أو 53 بت (في double)، مما يؤدي لخطأ تقريب متأصل (Rounding Error)، ولذلك التعبير (0.1 + 0.2 == 0.3) يعيد false في لغات البرمجة!`,
-    modelAnswer: `A fraction P/Q has a finite representation in base B if and only if all prime factors of Q divide B. For base 2, the only prime factor is 2. The fraction 1/10 has denominator factors 2 and 5. Since 5 does not divide 2, 0.1 produces an infinite repeating binary expansion (0.000110011...). Rounding at bit 23/53 creates inherent representation error.`,
+2. مكونات وحدة المعالجة المركزية (CPU Components):
+   - وحدة الحساب والمنطق (ALU - Arithmetic Logic Unit): المسؤولة عن تنفيذ العمليات الحسابية (+, -, *, /) والعمليات المنطقية والمقارنات (<, >, ==).
+   - وحدة التحكم (CU - Control Unit): المسؤولة عن إدارة وتنسيق عمل كافة وحدات الحاسوب وجلب التعليمات وفك تشفيرها وتوجيه تدفق البيانات.
+   - السجلات (Registers): مساحات تخزين صغيرة جداً وفائقة السرعة داخل المعالج للاحتفاظ بالبيانات والتعليمات قيد التنفيذ اللحظي.
+
+3. نواقل النظام الثلاثة (System Buses):
+   - ناقل البيانات (Data Bus): ثنائي الاتجاه (Bidirectional)، يُستخدم لنقل البيانات الفعلية بين المعالج والذاكرة ووحدات الإدخال/الإخراج.
+   - ناقل العناوين (Address Bus): أحادي الاتجاه (Unidirectional) يخرج من المعالج، لتحديد عنوان موقع الذاكرة أو المنفذ المراد القراءة منه أو الكتابة إليه.
+   - ناقل التحكم (Control Bus): يُستخدم لنقل إشارات التحكم والتنسيق والتوقيت (مثل إشارة Read أو Write) عبر مكونات النظام.`,
+    modelAnswer: `1. System Elements: Hardware, Software (System & Application), Peopleware, Data. 2. CPU: ALU (arithmetic & logical ops), Control Unit (supervises & decodes), Registers (ultra-fast internal storage). 3. System Buses: Data Bus (carries data, bidirectional), Address Bus (carries memory addresses, unidirectional), Control Bus (carries timing and control signals).`,
     rubricChecklist: [
-      "ذكر شرط العوامل الأولية لمقام الكسر وعلاقته بأساس النظام الثنائي (الرقم 5 لا يقسم 2).",
-      "كتابة خطوات الضرب التكراري وإثبات تكرار النمط 0011 الدوري.",
-      "توضيح اقتطاع المعالج للبتات في معيار IEEE-754 وحدوث خطأ التقريب Rounding Error.",
-      "الربط مع فشل مقارنة (0.1 + 0.2 == 0.3) في الحواسب."
+      "ذكر العناصر الأساسية الأربعة لنظام الحاسوب (Hardware, Software, People, Data).",
+      "شرح دور ALU و CU و Registers داخل المعالج بدقة.",
+      "توضيح دور ناقل البيانات (Data Bus) وأنه ثنائي الاتجاه.",
+      "توضيح دور ناقل العناوين (Address Bus) وناقل التحكم (Control Bus)."
     ]
   },
   {
     id: "ext_essay_2",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "MESI Cache Coherency Protocol & False Sharing",
-    text: "Explain the four states of the MESI cache coherency protocol and detail how False Sharing severely degrades multi-core CPU throughput, explaining the solution using memory padding.",
-    textAr: "سؤال مقالي معمارية حاسب: اشرح الحالات الأربع لبروتوكول تماسك الكاش MESI، وكيف تتسبب ظاهرة 'المشاركة الكاذبة' (False Sharing) في انهيار كفاءة المعالجات متعددة الأنوية، موضحاً الحل الهندسي باستخدام الـ Padding.",
+    title: "Why Two's Complement Dominates & Overflow Conditions",
+    text: "Explain why computer systems universally prefer Two's Complement over Signed Magnitude and 1's Complement, and detail the hardware conditions under which signed overflow occurs during addition.",
+    textAr: "سؤال مقالي نظري: علل تفضيل الحواسب لنظام المكمل الثنائي (Two's Complement) على نظامي الإشارة والمقدار والمكمل الأحادي، واشرح الشروط الرياضية والعتادية لحدوث الفيض الحسابي (Signed Overflow).",
     type: "essay",
-    source: "Advanced Multi-Core Cache Architecture & High-Performance Computing",
-    questionDetails: "اشرح الحالات: Modified, Exclusive, Shared, Invalid وكيف يؤدي سطر الكاش المشترك لـ Cache Invalidation ping-pong.",
-    modelAnswerAr: `بروتوكول MESI وظاهرة المشاركة الكاذبة:
+    source: "Slide 2 (Q10 Overflow) & Slide 3 (Signed Representations)",
+    questionDetails: "وضح مشكلة الصفر المزدوج، تعقيد عتاد الطرح، وشروط الـ Overflow في الإشارات المتشابهة.",
+    modelAnswerAr: `أسباب تفضيل المكمل الثنائي وشروط حدوث الفيض الحسابي:
 
-1. الحالات الأربع لسطر الكاش في بروتوكول MESI:
-   - Modified (M): السطر تم تعديله بواسطة هذه النواة فقط، والبيانات في الـ RAM أصبحت قديمة (Dirty)، ويجب كتابتها للـ RAM قبل إخلاء السطر.
-   - Exclusive (E): السطر موجود في كاش هذه النواة فقط ومطابق تماماً للبيانات في الـ RAM (Clean).
-   - Shared (S): السطر موجود في كاش هذه النواة ونواة أخرى أو أكثر ومطابق للذاكرة (للقراءة فقط).
-   - Invalid (I): السطر غير صالح ولا يحتوي على بيانات موثوقة ويجب إعادة سحبه من الذاكرة أو الكاشات الأخرى.
+1. أسباب تفضيل المكمل الثنائي (Two's Complement):
+   - القضاء على مشكلة الصفر المزدوج: في نظام الإشارة والمقدار والمكمل الأحادي يوجد تمثيلان للصفر (+0 و -0)، مما يهدر شفرة ثنائية ويتطلب دارات مقارنة خاصة. في المكمل الثنائي يوجد صفر واحد فقط (00000000).
+   - توحيد دارات الجمع والطرح: يمكن تنفيذ عملية الطرح كعملية جمع عادية: A - B = A + (Two's complement of B). هذا يتيح استخدام دارة الجامع (Adder) نفسها للطرح دون الحاجة لتصميم دارة طارح منفصلة، مما يقلل تكلفة وحجم المعالج.
+   - اتساع المدى للأعداد السالبة: يتيح تمثيل رقم سالب إضافي في المدى: من -2^(n-1) إلى +2^(n-1) - 1.
 
-2. آلية حدوث المشاركة الكاذبة (False Sharing):
-   - في المعالجات الحديثة، أصغر وحدة نقل للبيانات هي سطر الكاش (Cache Line بحجم 64 بايت).
-   - إذا كان الخيط Thread 1 على النواة Core 1 يعدل المتغير varA، والخيط Thread 2 على النواة Core 2 يعدل المتغير varB.
-   - وكان المتغيران متجاورين في الذاكرة بحيث يقعان معاً داخل نفس الـ 64 بايت!
-   - في كل مرة يكتب فيها Core 1 على varA، يرسل بروتوكول MESI إشارة إبطال (Invalidate) لسطر الكاش بالكامل في Core 2 فتتحول حالته إلى Invalid!
-   - وعندما يحاول Core 2 تعديل varB، يكتشف أن السطر Invalid، فيطلب السطر مجدداً عبر الـ Bus، ويبطل سطر Core 1 بدوره!
-   - ينتج عن ذلك صراع مستمر (Cache Line Bouncing / Ping-Pong) يعطل خطوط أنابيب المعالج ويهدر زمن الـ Bus بالكامل.
-
-3. الحل الهندسي (Memory Alignment & Padding):
-   - فصل المتغيرين بحشو فارغ (Padding) أو استخدام مواصفة المحاذاة في C++: alignas(64).
-   - هذا يضمن أن كل متغير يقع في سطر كاش مستقل ومنفصل بحجم 64 بايت، فتعدل الأنوية في هدوء واستقلالية تامة دون أي إبطال متبادل.`,
-    modelAnswer: `MESI States: Modified (dirty, exclusive), Exclusive (clean, exclusive), Shared (clean, multiple cores), Invalid (stale). False Sharing occurs when two threads on different cores modify independent variables located on the exact same 64-byte cache line. Each write triggers an Invalid state on the other core's cache, forcing continuous cache line reloading across the interconnect (cache ping-pong). Solution: Align variables to 64-byte boundaries using alignas(64) or structure padding.`,
+2. شروط حدوث الفيض الحسابي (Signed Overflow):
+   - يحدث الفيض الحسابي عندما يتجاوز ناتج العملية الحسابية المدى الأقصى المسموح به لعدد البتات المتاح.
+   - شرط الحدوث في الإشارات:
+     1) عند جمع عددين موجبين وينتج عدد سالب (تغير بت الإشارة إلى 1).
+     2) عند جمع عددين سالبين وينتج عدد موجب (تغير بت الإشارة إلى 0).
+   - لا يمكن حدوث Overflow أبداً عند جمع عدد موجب مع عدد سالب.
+   - القاعدة العتادية: يحدث Overflow عندما يختلف الحمل المنقول إلى خانة الإشارة (Carry into MSB) عن الحمل الخارج من خانة الإشارة (Carry out of MSB):
+     Overflow = Carry_in XOR Carry_out = 1.`,
+    modelAnswer: `Two's complement is preferred because: 1) It has a unique representation for zero (no +0 and -0). 2) Subtraction uses standard addition hardware: A - B = A + (~B + 1). Overflow occurs when adding two positive numbers yields a negative, or adding two negative numbers yields a positive. Hardware detects this via Carry_in XOR Carry_out into the sign bit.`,
     rubricChecklist: [
-      "شرح الحالات الأربع: Modified, Exclusive, Shared, Invalid بدقة.",
-      "توضيح أن وحدة النقل والإبطال العتادية هي سطر الكاش (Cache Line 64 Bytes).",
-      "شرح صراع الإبطال المتبادل (Invalidation Ping-Pong) بين النواتين.",
-      "ذكر الحل المعماري باستخدام المحاذاة alignas(64) أو الـ Padding."
+      "شرح التخلص من الصفر المزدوج (+0 و -0) كفائدة أساسية للمكمل الثنائي.",
+      "توضيح إمكانية استخدام نفس دارة الجمع لإجراء الطرح: A - B = A + (-B).",
+      "شرح شرطي حدوث الـ Overflow (موجب + موجب = سالب، أو سالب + سالب = موجب).",
+      "ذكر قاعدة اختلاف الحمل المنقول إلى خانة الإشارة عن الخارج منها (Carry-in != Carry-out)."
     ]
   },
   {
     id: "ext_essay_3",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Memory Alignment, Structure Padding & Hardware Split Cycles",
-    text: "Explain how 64-bit CPU data bus architecture enforces memory alignment, why struct { char a; double b; int c; } occupies 24 bytes instead of 13, and the hardware cost of unaligned memory access.",
-    textAr: "سؤال مقالي معماري: اشرح كيف تفرض معمارية الحواسب الحديثة 64-bit محاذاة الذاكرة (Memory Alignment)، ولماذا يشغل الهيكل struct { char a; double b; int c; } مساحة 24 بايت بدلاً من 13 بايت، موضحاً التكلفة العتادية للوصول غير المحاذي (Unaligned Access).",
+    title: "Compilers, Translators & The Three Types of Errors",
+    text: "Define the Compiler and contrast it with Interpreters and Assemblers. Then, explain in detail the three types of programming errors (Syntax, Logic, Runtime), stating when each is detected and how they are handled.",
+    textAr: "سؤال مقالي مقارن: عرّف المترجم (Compiler) وقارنه بالمفسر (Interpreter) ومجمع لغة التجميع (Assembler)، ثم قارن بالتفصيل بين أنواع الأخطاء البرمجية الثلاثة (Syntax, Logic, Runtime) موضحاً وقت اكتشاف كل منها.",
     type: "essay",
-    source: "Computer Architecture, Bus Protocols & Data Alignment",
-    questionDetails: "اشرح قاعدة Natural Alignment، واحسب الـ Padding لكل حقل، واشرح ما يفعله المعالج عند قراءة متغير غير محاذٍ.",
-    modelAnswerAr: `محاذاة الذاكرة وحشو الهياكل (Struct Padding & Alignment):
+    source: "Slide 2 (Q7, Q9, Q14) & Slide 4 (What is a Compiler) & Slide 7 (Syntax Error)",
+    questionDetails: "عرف المترجم، وقارن بين أنواع الأخطاء من حيث وقت الاكتشاف والأثر وإمكانية تصحيحها.",
+    modelAnswerAr: `المترجمات وأنواع الأخطاء البرمجية بالتفصيل:
 
-1. مفهوم المحاذاة الطبيعية (Natural Alignment):
-   - في معمارية الحواسب، خطوط نقل البيانات (Data Bus) بعرض 64 بت (8 بايت) تقرأ البيانات من عناوين تكون مضاعفات لـ 8 بايت (0x0, 0x8, 0x10...).
-   - قاعدة المحاذاة: أي نوع بياني بحجم N بايت يجب أن يقع في عنوان ذاكرة يقبل القسمة على N (العنوان % N == 0).
-   - المتغير char (1 بايت) يحاذى عند مضاعفات 1.
-   - المتغير int (4 بايت) يحاذى عند مضاعفات 4.
-   - المتغير double (8 بايت) يحاذى عند مضاعفات 8.
+1. المترجم (Compiler) والمترجمات الأخرى:
+   - المترجم (Compiler): برنامج نظام يترجم الكود المصدري المكتوب بلغة عالية المستوى (مثل C++) بالكامل إلى كود الهدف (Object Code) الذي يحتوي على تعليمات قابلة للقراءة للآلة (Machine Code).
+   - المجمع (Assembler): يترجم برامج لغة التجميع (Assembly Language) المكتوبة بالحروف والرموز إلى لغة الآلة الثنائية (0 و 1).
+   - المفسر (Interpreter): يترجم وينفذ الكود البرمجي سطراً بسطر في الوقت الحقيقي دون إنشاء ملف تنفيذي مستقل.
 
-2. تحليل حجم الهيكل { char a; double b; int c; }:
-   - الإزاحة 0: الحقل 'a' بحجم 1 بايت (العنوان 0).
-   - الحقل التالي 'b' بحجم 8 بايت، فيجب أن يبدأ عند عنوان من مضاعفات 8! لذلك يضيف المترجم (Compiler) حشواً فارغاً (Padding) مقداره 7 بايت (العناوين 1 إلى 7 مهدرة).
-   - الإزاحة 8: الحقل 'b' يشغل 8 بايت (العناوين 8 إلى 15).
-   - الإزاحة 16: الحقل 'c' بحجم 4 بايت يشغل (العناوين 16 إلى 19).
-   - الحجم الإجمالي حتى الآن = 20 بايت.
-   - قاعدة الحجم الكلي للهيكل: يجب أن يكون مضاعفاً لأكبر محاذاة في الهيكل (alignof(double) = 8). لذلك يضاف حشو أخير مقداره 4 بايت في نهاية الهيكل (العناوين 20 إلى 23).
-   - الحجم النهائي في الذاكرة = 24 بايت (مع أن البيانات الفعلية 13 بايت فقط!).
-
-3. الحل الهندسي لتقليل الهدر (Field Reordering):
-   - إعادة ترتيب الحقول تنازلياً حسب الحجم: { double b; int c; char a; }
-   - double b: 8 بايت (0-7).
-   - int c: 4 بايت (8-11).
-   - char a: 1 بايت (12).
-   - حشو أخير 3 بايت (13-15) ليصبح المجموع 16 بايت فقط! (وفرنا 33% من الذاكرة).
-
-4. التكلفة العتادية للوصول غير المحاذي (Unaligned Access):
-   - إذا سُمح لمتغير double (8 بايت) أن يبدأ عند عنوان فردي (مثلاً 0x5)، فإنه يمتد عبر كلمتي ذاكرة (Memory Words)!
-   - المعالج يضطر لتنفيذ دورتي ناقل ذاكرة (Two Memory Bus Cycles) بدلاً من دورة واحدة، ثم يقوم بوحدة العتاد بعمل Shift و Mask لدمج الجزأين في السجل.
-   - في بعض معماريات RISC و ARM الصارمة، الوصول غير المحاذي يولد فوراً استثناء عتادياً قاتلاً (Hardware Fault / Alignment Exception / SIGBUS) يؤدي لإيقاف البرنامج.`,
-    modelAnswer: `Memory alignment ensures data addresses are multiples of data size (address % sizeof(T) == 0) matching CPU word fetch lines. In {char a; double b; int c;}: 'a' takes 1 byte + 7 bytes padding so 'b' (8 bytes) aligns at offset 8. 'c' takes 4 bytes (offsets 16-19) + 4 bytes tail padding to make total size a multiple of alignof(double)=8 -> 24 bytes total. Unaligned access spans two cache lines/bus words, triggering two memory read cycles plus bitwise shifts, degrading performance or causing hardware alignment traps (SIGBUS) on RISC systems.`,
+2. أنواع الأخطاء البرمجية الثلاثة (Types of Errors):
+   - الأخطاء النحوية (Syntax Errors):
+     * السبب: مخالفة قواعد لغة البرمجة (مثل نسيان الفاصلة المنقوطة، كتابة cout >>، استخدام كلمة محجوزة).
+     * وقت الاكتشاف: يتم اكتشافها بواسطة المترجم وقت التصريف (Compile-Time).
+     * الأثر: يمنع المترجم من إكمال التصريف ولن يتم بناء البرنامج أو تشغيله نهائياً حتى يتم تصحيحها يدوياً.
+   - الأخطاء المنطقية (Logic Errors):
+     * السبب: خطأ في صياغة المعادلة أو منطق الخوارزمية (مثل كتابة area = w + h بدلاً من w * h).
+     * وقت الاكتشاف: وقت التشغيل من قِبل المستخدم عند مراجعة النواتج. المترجم لا يكتشفها لأن الكود سليم لغوياً.
+     * الأثر: البرنامج يُصرف ويعمل دون انهيار ولكنه يعطي نتائج غير صحيحة.
+   - أخطاء وقت التشغيل (Runtime Errors):
+     * السبب: عمليات مستحيلة عتادياً أثناء تنفيذ البرنامج (مثل القسمة على صفر y = 0، أو نفاذ الذاكرة).
+     * وقت الاكتشاف: أثناء عمل البرنامج الفعلي (Run-Time).
+     * الأثر: توقف مفاجئ لانهيار البرنامج (Crash).`,
+    modelAnswer: `Compiler translates preprocessed high-level source code into machine-readable object code. Syntax errors violate language grammar, detected at compile-time, and prevent compilation. Logic errors occur when the program compiles and runs but gives incorrect outputs due to algorithmic flaws; compilers cannot detect them. Runtime errors occur during execution (e.g. divide by zero) and crash the program.`,
     rubricChecklist: [
-      "شرح مفهوم Natural Alignment (العنوان يقبل القسمة على حجم المتغير).",
-      "تفصيل حساب الـ Padding في الهيكل الأول (7 بايت بعد char و 4 بايت بعد int) ليصل المجموع إلى 24 بايت.",
-      "ذكر تقنية إعادة ترتيب الحقول لتقليص الحجم إلى 16 بايت.",
-      "شرح التكلفة العتادية للوصول غير المحاذي (دورتي ناقل ذاكرة أو استثناء عتادي SIGBUS)."
+      "تعريف المترجم (Compiler) كبرنامج يترجم الكود المصدري لكود هدف قابل للتنفيذ.",
+      "شرح الأخطاء النحوية Syntax Errors وتأكيد اكتشافها وقت الـ Compile ومنعها لإنشاء البرنامج.",
+      "شرح الأخطاء المنطقية Logic Errors وتأكيد أن المترجم لا يستطيع اكتشافها.",
+      "شرح أخطاء التشغيل Runtime Errors (كالقسمة على صفر) وسبب انهيار البرنامج بها."
     ]
   },
   {
     id: "ext_essay_4",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "C++ Virtual Method Table (vtable), vptr & Dynamic Dispatch Internals",
-    text: "Detail the compiler and runtime mechanics of C++ virtual functions, explaining vtable storage, object vptr layout, indirect CPU calling sequence, and why dynamic dispatch is disabled during object construction and destruction.",
-    textAr: "سؤال مقالي C++ معمق: اشرح بالتفصيل الآلية الداخلية التي ينفذ بها المترجم والمعالج الدوال الافتراضية (Virtual Functions) وتعدد الأشكال الديناميكي (Dynamic Polymorphism) عبر جدول الدوال الافتراضية (vtable) والمؤشر الافتراضي (vptr)، معللاً لماذا يتعطل الاستدعاء المتعدد داخل البواني (Constructors) والمهدمات (Destructors).",
+    title: "Algorithm Properties & Flowchart to Sum Squares from 1 to 50",
+    text: "List the essential properties of an algorithm, state the standard flowchart symbols, and detail the complete pseudocode and flowchart logic to find the sum of squares of integers from 1 to 50 (Exam Question 3).",
+    textAr: "سؤال مقالي خوارزميات (ورقة الامتحان س3): اذكر خصائص الخوارزمية، والأشكال القياسية لخرائط التدفق، واشرح الكود الزائف ومنطق خريطة التدفق لحساب مجموع مربعات الأعداد من 1 إلى 50.",
     type: "essay",
-    source: "C++ ABI (Itanium/MSVC) & Dynamic Dispatch Internals",
-    questionDetails: "اشرح بنية vtable ومكانها في الذاكرة، وبنية vptr في الكائن، وكيفية ترجمة الاستدعاء لتعليمات تجميع غير مباشرة، وخطر الاستدعاء في الباني.",
-    modelAnswerAr: `الآلية الداخلية للدوال الافتراضية والربط الديناميكي في C++:
+    source: "Exam Paper - Question 3 & Slide 2, 5, 8 (Flowcharts & Problem Solving)",
+    questionDetails: "اذكر أشكال خريطة التدفق، وحدد خطوات الخوارزمية والكود الزائف والمتغيرات الابتدائية.",
+    modelAnswerAr: `خصائص الخوارزميات وخريطة تدفق مجموع المربعات:
 
-1. جدول الدوال الافتراضية (vtable - Virtual Method Table):
-   - لكل فئة (Class) تحتوي على دالة افتراضية واحدة على الأقل، ينشئ المترجم جدولاً ثابتاً (Static Array of Function Pointers) أثناء وقت التصريف.
-   - يحتوي الجدول على عناوين الدوال الافتراضية بالترتيب.
-   - يتم تخزين الـ vtable في قسم البيانات المخصصة للقراءة فقط (.rodata / Text segment) في الذاكرة، ويوجد جدول واحد فقط لكل فئة تشترك فيه جميع كائنات تلك الفئة.
+1. خصائص الخوارزمية (Algorithm Properties):
+   - النهاية (Finiteness): يجب أن تتوقف الخوارزمية بعد عدد محدود من الخطوات ولا تستمر للأبد.
+   - الوضوح والدقة (Definiteness): كل خطوة يجب أن تكون محددة ولا تقبل التأويل.
+   - المدخلات (Input): صفر أو أكثر من المدخلات المحددة.
+   - المخرجات (Output): مخرج واحد على الأقل يمثل حل المشكلة.
+   - الفعالية (Effectiveness): العمليات بسيطة وممكنة التنفيذ يدوياً أو عبر الحاسوب.
 
-2. المؤشر الافتراضي (vptr - Virtual Pointer):
-   - في كل كائن ينتمي لفئة فيها دوال افتراضية، يزرع المترجم حقلاً خفياً غير مرئي يسمى vptr (عادة في أول 8 بايت من الكائن في معمارية 64-bit).
-   - هذا المؤشر يشير إلى الـ vtable الخاصة بالفئة التي ينتمي إليها الكائن الفعلي في الـ Run-time.
-   - يتولى الباني (Constructor) تهيئة قيمة الـ vptr ليشير للجدول الصحيح.
+2. الأشكال القياسية لخرائط التدفق (Flowchart Symbols):
+   - الشكل البيضاوي (Oval): البداية والنهاية (Start / Stop - Terminator).
+   - المستطيل (Rectangle): المعالجة والعمليات الحسابية (Process).
+   - متوازي الأضلاع (Parallelogram): الإدخال والإخراج (Input / Output).
+   - المعين (Diamond): اتخاذ القرار والشرط (Decision - Yes/No).
+   - الأسهم (Flowlines): تحديد اتجاه سير العمليات.
 
-3. تسلسل الاستدعاء العتادي (Assembly Indirect Call Sequence):
-   - عند تنفيذ السطر: ptr->speak();
-   - لا ينفذ المعالج قفزاً مباشراً (call address)، بل ينفذ استدعاء غير مباشر:
-     1) قراءة مؤشر الكائن في السجل (mov rax, [ptr]).
-     2) فك إرجاع الـ vptr من أول الكائن (mov rdx, [rax]).
-     3) جلب عنوان الدالة speak من الفهرس المخصص لها في الـ vtable (مثلاً الإزاحة 0: mov rcx, [rdx + 0]).
-     4) القفز غير المباشر وتنفيذ الدالة (call rcx).
-   - هذا يسبب تكلفة إضافية طفيفة (Pointer Dereference و Branch Misprediction محتمل).
-
-4. تعطل الربط الديناميكي داخل الباني والمُهدم (Constructor / Destructor Traps):
-   - عند إنشاء كائن مشتق Derived من فئة قاعدة Base:
-     يتم تنفيذ باني Base أولاً! وأثناء تنفيذ باني Base، يكون الـ vptr يشير إلى vtable الخاصة بـ Base فقط!
-   - السبب الجوهري: حقول الفئة المشتقة Derived لم تُبنَ بعد في الذاكرة. إذا سُمح باستدعاء الدالة المتعددة لـ Derived، فإنها قد تقرأ حقولاً غير مهيأة تسبب انهيار البرنامج.
-   - لذلك، يضمن معيار C++ أنه داخل الباني والمُهدم، يتم استدعاء دالة الفئة الحالية فقط بشكل مبكر وتتعطل آلية التعددية الحقيقية (No Dynamic Dispatch to Derived).`,
-    modelAnswer: `For each class with virtual functions, the compiler generates a static vtable (array of function pointers stored in .rodata). Each object contains an implicit hidden pointer (vptr, 8 bytes on 64-bit) pointing to its class vtable. Dynamic dispatch ptr->foo() resolves via indirect call: load object -> dereference vptr -> index vtable -> indirect call (call [vptr + offset]). In constructors/destructors, vptr points strictly to the currently executing class vtable because derived members are uninitialized/already destroyed; polymorphic calls to derived overrides are prohibited to prevent undefined behavior.`,
+3. حل مسألة الامتحان (مجموع مربعات الأعداد من 1 إلى 50):
+   - الكود الزائف (Pseudocode):
+     1) Start
+     2) Set sum = 0, i = 1
+     3) While i <= 50 Do:
+        a) sum = sum + (i * i)
+        b) i = i + 1
+     4) End While
+     5) Output sum
+     6) End
+   - تسلسل خريطة التدفق (Flowchart Flow):
+     [Start (Oval)] ->
+     [sum = 0, i = 1 (Rectangle)] ->
+     < i <= 50 ? (Diamond) >
+       - إذا كان نعم (Yes): [sum = sum + i*i, i = i + 1 (Rectangle)] -> عودة إلى فحص الشرط.
+       - إذا كان لا (No): [Print sum (Parallelogram)] -> [Stop (Oval)].`,
+    modelAnswer: `Algorithm properties: Finiteness, Definiteness, Input, Output, Effectiveness. Standard symbols: Oval (Terminal), Rectangle (Process), Parallelogram (I/O), Diamond (Decision). Sum of squares 1 to 50: Initialize sum = 0, i = 1. Loop while i <= 50: sum = sum + i*i, i = i + 1. Print sum, then Stop.`,
     rubricChecklist: [
-      "شرح جدول الـ vtable وتخزينه في منطقة القراءة فقط (.rodata) كجدول مؤشرات دوال.",
-      "شرح المؤشر الافتراضي vptr وحجمه (8 بايت في 64-bit) وتخزينه داخل بنية كل كائن.",
-      "توضيح خطوات الاستدعاء غير المباشر على مستوى المعالج (Dereference vptr -> Index vtable -> Indirect Call).",
-      "تعليل سلوك الدوال الافتراضية داخل الباني والمهدم وحماية الكائن من استخدام حقول غير مهيأة."
+      "ذكر خصائص الخوارزمية (Finiteness, Definiteness, Inputs, Outputs, Effectiveness).",
+      "تحديد الأشكال الهندسية القياسية لخريطة التدفق (Oval, Rectangle, Parallelogram, Diamond).",
+      "كتابة الكود الزائف أو خطوات الحل المنطقية لمسألة الامتحان بدقة.",
+      "توضيح تهيئة المتغيرات (sum = 0, i = 1) وشرط التكرار (i <= 50) وزيادة العداد (i = i + 1)."
     ]
   },
 
-  // ==========================================
-  // 5. EXTREME CODE TRACING & ARCHITECTURAL LOGIC (تتبع الأكواد العميقة ليفل الوحش)
-  // ==========================================
+  // =========================================================================
+  // 5. EXTREME CODE TRACING & LOGICAL MCQs (تتبع الأكواد وتريكات C++ من المنهج) [24 سؤالاً]
+  // =========================================================================
   {
     id: "ext_1",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Unsigned Underflow Infinite Loop Trap",
-    text: "What will happen when the following C++ loop executes?",
-    textAr: "ماذا سيحدث عند تنفيذ حلقة C++ التالية؟ (احذر الفخ القاتل!)",
-    codeSnippet: `for (unsigned int i = 5; i >= 0; i--) {
-    cout << i << " ";
-}`,
+    title: "Chained Increment & Postfix Evaluation (Slide 7 Exam Variant)",
+    text: "What is the exact output of the following C++ code?",
+    textAr: "ما هو الناتج الدقيق للكود التالي في C++؟ (تتبع دقيق للمعاملات البعدية)",
+    codeSnippet: `int x = 3, y = 6;
+int r = x + y++;
+cout << x << "\\t" << y << "\\t" << r;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) Prints: 5 4 3 2 1 0 and terminates." },
-      { id: "b", text: "b) Infinite loop: underflows to 4294967295 when i reaches -1." },
-      { id: "c", text: "c) Compile Error: unsigned int cannot be compared with 0." },
-      { id: "d", text: "d) Prints: 5 4 3 2 1 and terminates." }
+      { id: "a", text: "a) 3 \\t 7 \\t 9" },
+      { id: "b", text: "b) 3 \\t 6 \\t 9" },
+      { id: "c", text: "c) 3 \\t 7 \\t 10" },
+      { id: "d", text: "d) 4 \\t 7 \\t 10" }
     ],
-    correctAnswer: "b",
-    source: "C++ Standard Unsigned Wrap-around [basic.fundamental]",
-    explanation: `الخيار (b) هو الصحيح: حلقة لا نهائية (Infinite Loop)!
-المصيدة القاتلة:
-المتغير i هو unsigned int (بدون إشارة)، مما يعني أنه لا يمكن أن يكون سالباً أبداً رياضياً وبرمجياً!
-عندما يصل i إلى 0 ويتم إنقاصه (i--)، يحدث طفحان عكسي (Underflow / Wrap-around) وفقاً لقواعد C++ ليتحول 0 - 1 إلى أكبر قيمة موجبة ممكنة في 32-bit وهي (4,294,967,295)!
-وبالتالي الشرط (i >= 0) يظل صحيحاً دائماً وأبداً، ولن تتوقف الحلقة إطلاقاً!`,
-    details: "Unsigned integers modulo 2^N can never be negative; (unsigned)0 - 1 == UINT_MAX."
+    correctAnswer: "a",
+    source: "Slide 7 - Main function code output question",
+    explanation: `الخيار (a) هو الصحيح: 3 \\t 7 \\t 9.
+خطوات التتبع:
+1. x = 3, y = 6.
+2. في السطر r = x + y++; المعامل هو Postfix (بعدي)، فيتم استخدام قيمة y الأصلية (6) في الجمع:
+   r = 3 + 6 = 9.
+3. بعد حساب العملية، تزداد قيمة y بمقدار 1 فتصبح y = 7.
+4. قيمة x لم تتغير (x = 3).
+5. جملة الطباعة تُخرج: 3 ثم علامة جدولة ثم 7 ثم علامة جدولة ثم 9.`,
+    details: "In r = x + y++, y's original value 6 is added to x (3), so r=9. Afterwards y increments to 7."
   },
   {
     id: "ext_2",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Pointer to Entire Array vs First Element",
-    text: "What will be printed by this tricky pointer arithmetic?",
-    textAr: "ما هو الناتج المطبوع من عملية المؤشرات المعقدة التالية؟",
-    codeSnippet: `int a[5] = {10, 20, 30, 40, 50};
-int *p = (int*)(&a + 1);
-cout << *(p - 1);`,
+    title: "Prefix Increment Evaluation Before Assignment",
+    text: "What will be printed by the following code snippet?",
+    textAr: "ماذا سيطبع مقطع الكود التالي في C++؟",
+    codeSnippet: `int a = 5;
+int b = ++a * 2;
+cout << a << " " << b;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 10" },
-      { id: "b", text: "b) 50" },
-      { id: "c", text: "c) Undefined garbage value" },
-      { id: "d", text: "d) Compilation Error" }
+      { id: "a", text: "a) 5 10" },
+      { id: "b", text: "b) 6 12" },
+      { id: "c", text: "c) 5 12" },
+      { id: "d", text: "d) 6 10" }
     ],
     correctAnswer: "b",
-    source: "Pointer Types & Array Decay Nuances",
-    explanation: `الخيار (b) هو الصحيح: 50!
-السر الهندسي العميق:
-1) التعبير a يشير لمؤشر إلى أول عنصر int* (بقفزة قدرها 4 بايت).
-2) أما التعبير &a فهو مؤشر إلى المصفوفة بالكامل من النوع int(*)[5]!
-3) عند كتابة (&a + 1)، فإن المعالج يقفز بمقدار حجم المصفوفة كاملة (5 × 4 = 20 بايت)، فيشير إلى العنوان الموجود مباشرة بعد نهاية المصفوفة a.
-4) عند تحويله إلى (int*) ثم إنقاصه بمقدار 1 (p - 1)، فإنه يرجع خطوة واحدة للوراء بحجم int (4 بايت)، فيشير بالضبط إلى العنصر الأخير وهو 50!`,
-    details: "&a has type int(*)[5]. Adding 1 advances by sizeof(a) = 20 bytes. (p - 1) steps back by sizeof(int) = 4 bytes."
+    source: "C++ Increment Operators & Precedence Rules",
+    explanation: `الخيار (b) هو الصحيح: 6 12.
+خطوات التتبع:
+1. المعامل ++a هو قبلي (Prefix): يتم تزويد a أولاً لتصبح a = 6.
+2. ثم يُضرب الناتج الجديد في 2: 6 * 2 = 12، فيتم إسناد 12 إلى b.
+3. الطباعة: a = 6 و b = 12.`,
+    details: "Prefix ++a increments 'a' to 6 first; then 6 * 2 = 12 is stored in 'b'."
   },
   {
     id: "ext_3",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Bitwise Shift vs Addition Precedence",
-    text: "What will be printed by: cout << (1 << 2 + 3); ?",
-    textAr: "ما هو الناتج المطبوع من المعادلة التالية: cout << (1 << 2 + 3); ؟",
+    title: "Short-Circuit Logical AND Traps",
+    text: "What is the output of the following C++ program?",
+    textAr: "ما هو ناتج تنفيذ البرنامج التالي؟ (احذر قصر الدائرة المنطقي Short-Circuit)",
+    codeSnippet: `int a = 0, b = 5;
+if (a != 0 && ++b > 5) {
+    cout << "Yes ";
+} else {
+    cout << "No ";
+}
+cout << b;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 7" },
-      { id: "b", text: "b) 32" },
-      { id: "c", text: "c) 11" },
-      { id: "d", text: "d) 8" }
+      { id: "a", text: "a) No 5" },
+      { id: "b", text: "b) No 6" },
+      { id: "c", text: "c) Yes 6" },
+      { id: "d", text: "d) Compile Error" }
     ],
-    correctAnswer: "b",
-    source: "C++ Operator Precedence Table Trap",
-    explanation: `الخيار (b) هو الصحيح: 32 وليس 7!
+    correctAnswer: "a",
+    source: "C++ Short-Circuit Evaluation & Logical Operators",
+    explanation: `الخيار (a) هو الصحيح: No 5.
 المصيدة:
-معظم المبرمجين يظنون أن العملية تُحسب: (1 << 2) + 3 = 4 + 3 = 7.
-لكن في جدول أسبقية العمليات في C++:
-معامل الجمع (+) له أسبقية أعلى من معامل الإزاحة الثنائية (<<)!
-لذلك يُنفذ أولاً: 2 + 3 = 5.
-ثم تُنفذ الإزاحة: 1 << 5 = 2^5 = 32!`,
-    details: "Addition (+) has higher precedence than bitwise left shift (<<). Expression evaluates as 1 << (2 + 3)."
+في المعامل المنطقي &&، إذا كان الطرف الأيسر كاذباً (a != 0 يعطي false لأن a = 0)، فإن المعالج يطبق خاصية قصر الدائرة (Short-Circuit) ويتوقف فوراً عن تقييم الطرف الأيمن!
+لذلك التعبير ++b لا يتم تنفيذه نهائياً وتظل قيمة b كما هي 5!
+يدخل البرنامج إلى فرع else ويطبع: No 5.`,
+    details: "Logical AND short-circuits: when the left operand is false, the right operand (++b) is never evaluated."
   },
   {
     id: "ext_4",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Mixed Signed/Unsigned Comparison Trap",
-    text: "What will be printed by the following comparison?",
-    textAr: "ماذا سيطبع هذا الشرط الخادع؟",
-    codeSnippet: `int a = -1;
-unsigned int b = 1;
-if (a < b) {
-    cout << "Less";
-} else {
-    cout << "Greater";
+    title: "Short-Circuit Logical OR Traps",
+    text: "What will be printed by the following code snippet?",
+    textAr: "ماذا سيطبع مقطع الكود التالي في C++؟",
+    codeSnippet: `int x = 10, y = 20;
+if (x == 10 || ++y > 20) {
+    cout << y;
 }`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) Less" },
-      { id: "b", text: "b) Greater" },
-      { id: "c", text: "c) Compile Error" },
-      { id: "d", text: "d) Undefined Behavior" }
+      { id: "a", text: "a) 20" },
+      { id: "b", text: "b) 21" },
+      { id: "c", text: "c) 10" },
+      { id: "d", text: "d) Nothing is printed" }
     ],
-    correctAnswer: "b",
-    source: "Usual Arithmetic Conversions [expr.arith.conv]",
-    explanation: `الخيار (b) هو الصحيح: Greater!
-المصيدة الصادمة:
-عند إجراء أي مقارنة بين عدد بإشارة (signed int) وعدد بدون إشارة (unsigned int) بنفس الحجم، تنص قواعد C++ الصارمة على ترقية العدد السالب إلى unsigned int أولاً!
-الرقم -1 عند تحويله إلى unsigned في 32-bit يصبح 4,294,967,295 (جميع البتات آحاد 0xFFFFFFFF).
-و 4,294,967,295 ليست أقل من 1، فيدخل في else ويطبع "Greater"!`,
-    details: "When comparing signed int with unsigned int, signed int is implicitly converted to unsigned int."
+    correctAnswer: "a",
+    source: "C++ Short-Circuit Evaluation in || Operator",
+    explanation: `الخيار (a) هو الصحيح: 20.
+في المعامل المنطقي ||، إذا كان الطرف الأيسر صحيحاً (x == 10 يعطي true)، فإن المعالج يتأكد أن النتيجة الإجمالية true دون الحاجة للنظر للطرف الأيمن!
+لذلك لا يتم تنفيذ ++y، وتظل y تساوي 20.`,
+    details: "Logical OR short-circuits when the left operand is true; ++y is skipped, leaving y = 20."
   },
   {
     id: "ext_5",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "String Literal Mutation Undefined Behavior",
-    text: "What happens at runtime when executing: char *s = \"hello\"; s[0] = 'H';",
-    textAr: "ماذا يحدث عند تشغيل الكود التالي: char *s = \"hello\"; s[0] = 'H'; ؟",
+    title: "Integer Truncation Trap in Celsius to Fahrenheit",
+    text: "What will be the output of this code snippet when converting C = 100 degrees?",
+    textAr: "ما هو ناتج الكود التالي لتحويل درجة الحرارة C = 100؟",
+    codeSnippet: `int c = 100;
+double f = c * (9 / 5) + 32;
+cout << f;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) Modifies s to \"Hello\" successfully." },
-      { id: "b", text: "b) Runtime Crash (Segmentation Fault / Access Violation)." },
-      { id: "c", text: "c) Ignored silently without change." },
-      { id: "d", text: "d) Compile-time syntax error." }
+      { id: "a", text: "a) 132" },
+      { id: "b", text: "b) 212" },
+      { id: "c", text: "c) 180" },
+      { id: "d", text: "d) 212.0" }
     ],
-    correctAnswer: "b",
-    source: "Memory Segments & .rodata Section Protection",
-    explanation: `الخيار (b) هو الصحيح: انهيار البرنامج فوراً (Crash / Segfault)!
-السبب المعماري:
-السلاسل النصية الحرفية (String Literals) مثل "hello" تُخزن بواسطة المترجم ونظام التشغيل في قسم الذاكرة المخصص للقراءة فقط (.rodata / Read-Only Data Segment).
-المؤشر s يؤشر إلى عنوان في هذه المنطقة، وعند محاولة الكتابة وتعديل s[0] يتدخل نظام التشغيل ويطلق استثناء حماية الذاكرة (Memory Access Violation) ويوقف البرنامج فوراً!`,
-    details: "String literals are stored in read-only memory. Modifying them causes undefined behavior (OS page fault crash)."
+    correctAnswer: "a",
+    source: "Slide 6 (Temperature Conversion Formula F=(C*(9/5))+32)",
+    explanation: `الخيار (a) هو الصحيح: 132.
+الفخ المنهجي:
+(9 / 5) هي قسمة أعداد صحيحة ناتجها 1 فقط (يتم حذف 0.8)!
+المعادلة المنفذة تصبح:
+f = 100 * 1 + 32 = 132 (بدلاً من 212 لو كانت القسمة كسرية 1.8)!`,
+    details: "Due to integer division, (9 / 5) evaluates to 1. f = 100 * 1 + 32 = 132."
   },
   {
     id: "ext_6",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Signed 8-bit Overflow Wrap-Around",
-    text: "What will be printed by this code on an architecture with 8-bit signed char?",
-    textAr: "ما هو الناتج المطبوع من الكود التالي؟",
-    codeSnippet: `char c = 127;
-c++;
-cout << (int)c;`,
+    title: "Semicolon Immediately After if Condition",
+    text: "What will be printed when the following code is executed?",
+    textAr: "ماذا ستكون نتيجة تنفيذ مقطع الكود التالي في C++؟",
+    codeSnippet: `int x = 5;
+if (x > 10);
+x += 2;
+cout << x;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 128" },
-      { id: "b", text: "b) -128" },
-      { id: "c", text: "c) 0" },
-      { id: "d", text: "d) -1" }
+      { id: "a", text: "a) 7" },
+      { id: "b", text: "b) 5" },
+      { id: "c", text: "c) 12" },
+      { id: "d", text: "d) Compile error" }
     ],
-    correctAnswer: "b",
-    source: "Two's Complement 8-bit Overflow Mechanics",
-    explanation: `الخيار (b) هو الصحيح: -128!
-الشرح:
-المدى الأقصى لـ signed char (8 بت) هو من -128 إلى +127.
-تمثيل +127 ثنائياً هو: 01111111.
-عند إضافة 1 (c++):
-01111111 + 1 = 10000000.
-في نظام المكمل الثنائي (Two's complement)، الشفرة 10000000 تمثل بدقة الرقم -128!`,
-    details: "In signed 8-bit two's complement: 01111111 (+127) + 1 = 10000000 (-128)."
+    correctAnswer: "a",
+    source: "C++ Common Logic & Syntax Traps",
+    explanation: `الخيار (a) هو الصحيح: 7.
+الفخ:
+الفاصلة المنقوطة بعد if (x > 10); تنهي جملة الشرط مباشرة. السطر التالي x += 2; ليس تابعاً للشرط بل هو سطر مستقل ينفذ دائماً!
+لذلك تزداد x بمقدار 2 لتصبح 7.`,
+    details: "The semicolon creates an empty statement for the if condition. x += 2 executes unconditionally, printing 7."
   },
   {
     id: "ext_7",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Ternary Operator Common Type Promotion",
-    text: "What is the data type and exact output of the expression: (true ? 1 : 2.5)?",
-    textAr: "ما هو نوع البيانات والناتج الدقيق للتعبير: (true ? 1 : 2.5)؟",
+    title: "Assignment Operator Inside if Condition",
+    text: "What will be printed by the following code snippet?",
+    textAr: "ماذا سيطبع مقطع الكود التالي؟ (انتبه للفرق بين = و ==)",
+    codeSnippet: `int score = 0;
+if (score = 5) {
+    cout << "Pass ";
+} else {
+    cout << "Fail ";
+}
+cout << score;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) int with value 1" },
-      { id: "b", text: "b) double with value 1.0" },
-      { id: "c", text: "c) Compile Error: mismatched branch types" },
-      { id: "d", text: "d) float with value 1.0f" }
+      { id: "a", text: "a) Pass 5" },
+      { id: "b", text: "b) Fail 0" },
+      { id: "c", text: "c) Fail 5" },
+      { id: "d", text: "d) Pass 0" }
     ],
-    correctAnswer: "b",
-    source: "Conditional Operator Common Type [expr.cond]",
-    explanation: `الخيار (b) هو الصحيح: double بقيمة 1.0!
-المصيدة:
-المعامل الشرطي (Ternary Operator) يجب أن يكون لكلا فرعيه نوع بيانات مشترك وموحد (Common Type) يتم تحديده وقت الترجمة (Compile-time).
-نظراً لأن الطرف الثاني 2.5 هو double، يتم ترقية الطرف الأول (الرقم الصحيح 1) تلقائياً إلى double (1.0) حتى لو كان الشرط صحيحاً دائماً!`,
-    details: "The conditional operator determines a single common type for both operands at compile-time (int promotes to double)."
+    correctAnswer: "a",
+    source: "C++ Assignment vs Relational Equality",
+    explanation: `الخيار (a) هو الصحيح: Pass 5.
+الفخ:
+تم استخدام معامل الإسناد (=) بدلاً من المقارنة (==).
+التعبير (score = 5) يضع 5 في المتغير score، وقيمة التعبير تصبح 5.
+في C++، أي رقم غير الصفر يُعتبر True (صحيح)، فيدخل البرنامج فرع if ويطبع 'Pass '، ثم يطبع قيمة score التي أصبحت 5!`,
+    details: "score = 5 assigns 5 to score and evaluates to 5 (truthy). The if-branch executes, printing 'Pass 5'."
   },
   {
     id: "ext_8",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Bitwise XOR Swap Trap on Same Memory",
-    text: "What happens if you execute XOR swap on the same memory location: *a ^= *a; *a ^= *a; *a ^= *a;?",
-    textAr: "ماذا يحدث عند تنفيذ خوارزمية التبديل بـ XOR الشهيرة على نفس عنوان المتغير في الذاكرة؟",
+    title: "Zero Assignment Inside if Condition",
+    text: "What will be printed by this C++ code snippet?",
+    textAr: "ماذا سيطبع الكود التالي في C++؟",
+    codeSnippet: `int val = 10;
+if (val = 0) {
+    cout << "A";
+} else {
+    cout << "B";
+}`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) The variable retains its original value." },
-      { id: "b", text: "b) The variable becomes 0." },
-      { id: "c", text: "c) Syntax Error." },
-      { id: "d", text: "d) Undefined Behavior." }
+      { id: "a", text: "a) B" },
+      { id: "b", text: "b) A" },
+      { id: "c", text: "c) AB" },
+      { id: "d", text: "d) Compile error" }
     ],
-    correctAnswer: "b",
-    source: "XOR Swap Algorithm Edge Case Trap",
-    explanation: `الخيار (b) هو الصحيح: يصبح المتغير صفراً (0)!
-المصيدة:
-السطر الأول: *a ^= *a يقوم بتنفيذ عملية XOR بين الرقم ونفسه، وناتج x ^ x هو دائماً 0!
-يتم تخزين 0 في مكان الذاكرة، ثم أي عمليات XOR لاحقة مع 0 تظل 0.
-لذلك دوال التبديل بـ XOR تفشل وتدمر البيانات إذا كان المؤشران يشيران إلى نفس العنصر (Self-swap)!`,
-    details: "x ^ x == 0. When both operands point to the same memory address, the first step zeros the variable permanently."
+    correctAnswer: "a",
+    source: "C++ Boolean Interpretation of Zero",
+    explanation: `الخيار (a) هو الصحيح: B.
+التعبير (val = 0) يسند القيمة 0 إلى val. قيمة التعبير 0 تعامل في C++ كـ false منطقياً، فيتجه التنفيذ مباشرة إلى فرع else ويطبع 'B'.`,
+    details: "val = 0 assigns 0 to val and evaluates to 0 (false), triggering the else block."
   },
   {
     id: "ext_9",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Relational Operator Chaining Trap",
-    text: "What will be printed by the chained comparison: cout << (5 < 4 < 3); ?",
-    textAr: "ما هو الناتج المطبوع من المقارنة المتسلسلة: cout << (5 < 4 < 3); ؟",
+    title: "Switch Statement Fall-Through Trap (Missing break)",
+    text: "What is the exact output of this switch statement?",
+    textAr: "ما هو الناتج الدقيق لجملة switch التالية عند غياب كلمة break؟",
+    codeSnippet: `int n = 2;
+switch (n) {
+    case 1: cout << "1";
+    case 2: cout << "2";
+    case 3: cout << "3"; break;
+    default: cout << "D";
+}`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 0 (False)" },
-      { id: "b", text: "b) 1 (True)" },
-      { id: "c", text: "c) Compile Error" },
-      { id: "d", text: "d) 3" }
+      { id: "a", text: "a) 23" },
+      { id: "b", text: "b) 2" },
+      { id: "c", text: "c) 23D" },
+      { id: "d", text: "d) 123D" }
     ],
-    correctAnswer: "b",
-    source: "Relational Operator Associativity",
-    explanation: `الخيار (b) هو الصحيح: 1 (True)!
-المصيدة الرياضية:
-في الرياضيات 5 < 4 < 3 تعني (5 < 4 و 4 < 3) وهي خطأ.
-أما في C++، المعامل < يترابط من اليسار إلى اليمين:
-1) يُحسب أولاً: 5 < 4 وهو False (يعيد 0).
-2) تصبح المعادلة: 0 < 3.
-3) وبما أن الصفر أصغر من 3، فالناتج هو True (يعيد 1)!`,
-    details: "Evaluates as (5 < 4) < 3 -> 0 < 3 -> 1 (true)."
+    correctAnswer: "a",
+    source: "Slide 10 - Switch statement mechanics and fall-through",
+    explanation: `الخيار (a) هو الصحيح: 23.
+المطابقة تحدث عند case 2 فيطبع '2'.
+ولكن لا توجد كلمة break بعد case 2! فتتدفق عملية التنفيذ (Fall-Through) إلى الحالة التالية case 3 ويطبع '3'.
+في نهاية case 3 توجد break، فيتوقف ويخرج من الـ switch. الناتج الإجمالي هو: 23.`,
+    details: "Without a break statement after case 2, execution falls through into case 3, printing '23'."
   },
   {
     id: "ext_10",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "auto Keyword Type Deduction Stripping const",
-    text: "What will be printed by this code snippet?",
-    textAr: "ما هو الناتج المطبوع من استنتاج النوع بـ auto التالي؟",
-    codeSnippet: `const int x = 10;
-auto y = x;
-y++;
-cout << y;`,
+    title: "Grouped Switch Cases from Slide 10",
+    text: "What will be printed when x = 3 in this code adapted directly from slide 10?",
+    textAr: "ماذا سيطبع الكود التالي عند إدخال x = 3 (مأخوذ مباشرة من سلايد 10)؟",
+    codeSnippet: `int x = 3;
+switch (x) {
+    case 2:
+        cout << "x=2";
+        break;
+    case 3:
+    case 5:
+        cout << "x=3 or 5";
+        x++;
+        break;
+    case 4:
+        cout << "x=4";
+        break;
+    default:
+        cout << "Else.";
+}
+cout << " " << x;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) Compile Error: cannot increment read-only variable y." },
-      { id: "b", text: "b) 11" },
-      { id: "c", text: "c) 10" },
-      { id: "d", text: "d) Undefined" }
+      { id: "a", text: "a) x=3 or 5 4" },
+      { id: "b", text: "b) x=3 or 5 3" },
+      { id: "c", text: "c) x=3 or 5 x=4 4" },
+      { id: "d", text: "d) Else. 3" }
     ],
-    correctAnswer: "b",
-    source: "Modern C++ Auto Type Deduction Rules",
-    explanation: `الخيار (b) هو الصحيح: 11 (ويعمل بدون أي خطأ تجميع)!
-المصيدة:
-قواعد auto في C++ تنص على أنها عند إنشاء نسخة جديدة بالقيمة (By-value deduction)، تقوم بحذف الكلمة المفتاحية const العلوية (Top-level const)!
-لذلك نوع y هو int عادي وليس const int، وبالتالي يمكن تعديله وزيادته ليصبح 11!`,
-    details: "By-value auto deduction strips top-level const and reference qualifiers."
+    correctAnswer: "a",
+    source: "Slide 10 - Convert if/else to switch statement",
+    explanation: `الخيار (a) هو الصحيح: x=3 or 5 4.
+القيمة x = 3 تطابق الحالة case 3 التي تتدفق فوراً إلى كود case 5 المشترك، فيطبع 'x=3 or 5'.
+ثم ينفذ x++ فتصبح قيمة x تساوي 4.
+ثم يقابل break فيخرج من الـ switch، ويطبع المسافة وقيمة x الجديدة (4).`,
+    details: "Case 3 falls into case 5, prints 'x=3 or 5', increments x to 4, and breaks. Prints 'x=3 or 5 4'."
   },
   {
     id: "ext_11",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Array Parameter Decay Inside Function",
-    text: "On a 64-bit architecture, what is printed by: void f(int arr[100]) { cout << sizeof(arr); }?",
-    textAr: "على نظام 64-bit، ما هو الناتج المطبوع من دالة تستقبل مصفوفة محددة الحجم بـ 100 عنصر؟",
+    title: "Floating-Point Case Expression in switch",
+    text: "What will happen when attempting to compile this C++ code?",
+    textAr: "ماذا سيحدث عند محاولة تصريف هذا الكود في C++؟",
+    codeSnippet: `double gpa = 3.5;
+switch (gpa) {
+    case 3.5: cout << "A"; break;
+    default: cout << "B";
+}`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 400 (100 * 4 bytes)" },
-      { id: "b", text: "b) 8" },
-      { id: "c", text: "c) 100" },
-      { id: "d", text: "d) 4" }
+      { id: "a", text: "a) Compile Error: switch condition must be an integral type" },
+      { id: "b", text: "b) Prints: A" },
+      { id: "c", text: "c) Prints: B" },
+      { id: "d", text: "d) Runtime Crash" }
     ],
-    correctAnswer: "b",
-    source: "Array-to-Pointer Decay [dcl.fct]",
-    explanation: `الخيار (b) هو الصحيح: 8 بايت!
-المصيدة الكلاسيكية:
-في لغة C++، لا يمكن لدالة أن تستقبل مصفوفة بالقيمة على الإطلاق.
-أي وسيط مصفوفة مثل int arr[100] أو int arr[] يتحول تلقائياً بواسطة المترجم إلى مؤشر عادي: int* arr (وهذا ما يُسمى Array Decay).
-وحيث إن حجم المؤشر في معمارية 64-bit هو 8 بايت، فإن sizeof(arr) تعيد 8 بايت وليس 400 بايت!`,
-    details: "Array parameter declarations decay into pointer parameters; sizeof(arr) evaluates to sizeof(int*) = 8 bytes on 64-bit."
+    correctAnswer: "a",
+    source: "Slide 10 & C++ Syntax Rules for switch",
+    explanation: `الخيار (a) هو الصحيح: خطأ تصريف (Compile Error).
+معيار C++ يشترط بشكل حاسم أن يكون المتغير الذي يفحصه switch من نوع صحيح (int أو char). يمنع استخدام double أو float.`,
+    details: "C++ requires the switch condition and case labels to be integral types. Using floating-point values causes a compile error."
   },
   {
     id: "ext_12",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Bitwise NOT on unsigned char Promotion",
-    text: "What will be printed by: unsigned char c = 0; cout << (int)(~c); on a 32-bit int architecture?",
-    textAr: "ما هو الناتج المطبوع من التعبير: unsigned char c = 0; cout << (int)(~c); ؟",
+    title: "Modulo Operator with Negative Dividend in C++",
+    text: "What is the exact result of the expression (-14 % 4) in standard C++?",
+    textAr: "ما هو الناتج الدقيق للتعبير (-14 % 4) في لغة C++ القياسية؟",
+    codeSnippet: `int r = -14 % 4;
+cout << r;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 255" },
-      { id: "b", text: "b) -1" },
-      { id: "c", text: "c) 0" },
-      { id: "d", text: "d) 65535" }
+      { id: "a", text: "a) -2" },
+      { id: "b", text: "b) 2" },
+      { id: "c", text: "c) -3" },
+      { id: "d", text: "d) Compile error" }
     ],
-    correctAnswer: "b",
-    source: "Integer Promotion Rules [conv.prom]",
-    explanation: `الخيار (b) هو الصحيح: -1 وليس 255!
-المصيدة الفتاكة:
-قبل تطبيق أي معامل بتات (Bitwise operator مثل ~)، تفرض لغة C++ ترقية الأنواع الصغيرة (Integer Promotion) إلى نوع int قياسي (32-bit signed)!
-1) المتغير c (قيمة 0) تتم ترقيته إلى signed int ذي 32 صفراً: (0x00000000).
-2) معامل النفي ~c يقلب الـ 32 بت لتصبح كلها آحاد: (0xFFFFFFFF).
-3) وفي نظام Two's complement، القيمة 0xFFFFFFFF تمثل بدقة الرقم -1!`,
-    details: "unsigned char is promoted to signed int before applying ~. ~0 in 32-bit signed int equals -1."
+    correctAnswer: "a",
+    source: "C++ Operator Standards & Arithmetic Remainder",
+    explanation: `الخيار (a) هو الصحيح: -2.
+في لغة C++، إشارة ناتج باقي القسمة (%) تتبع دائماً إشارة المقسوم (الطرف الأيسر). بما أن المقسوم سالب (-14)، فإن الباقي يكون سالباً: -14 = (-3 * 4) + (-2)، فالناتج هو -2.`,
+    details: "In standard C++, the sign of the remainder from % matches the sign of the dividend (numerator): -14 % 4 == -2."
   },
   {
     id: "ext_13",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Pointer Negative Subscript Arithmetic",
-    text: "What is printed by: int a[] = {10, 20, 30, 40}; int *p = a + 3; cout << p[-2];?",
-    textAr: "ما هو الناتج المطبوع من استخدام فهرس سالب مع مؤشر: int *p = a + 3; cout << p[-2]; ؟",
+    title: "Character Arithmetic with ASCII Codes",
+    text: "What will be printed by the following code snippet?",
+    textAr: "ماذا سيطبع مقطع الكود التالي في C++؟ (التعامل مع رموز ASCII للحروف)",
+    codeSnippet: `char ch = 'A';
+ch = ch + 3;
+cout << ch;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 20" },
-      { id: "b", text: "b) 30" },
-      { id: "c", text: "c) 10" },
-      { id: "d", text: "d) Compile Error: negative subscript is illegal" }
+      { id: "a", text: "a) D" },
+      { id: "b", text: "b) 68" },
+      { id: "c", text: "c) A3" },
+      { id: "d", text: "d) Compile error" }
     ],
     correctAnswer: "a",
-    source: "Pointer Offset Syntax & Negative Indices",
-    explanation: `الخيار (a) هو الصحيح: 20!
-المفهوم:
-في C++، التعبير p[-2] يُترجم بدقة إلى: *(p - 2).
-المؤشر p يشير إلى العنصر في الفهرس 3 (قيمة 40).
-عند طرح 2 (p - 2)، يرجع المؤشر خطوتين للوراء ليشير إلى الفهرس 1 (العنصر 20)!`,
-    details: "p[-2] is strictly equivalent to *(p - 2). From index 3, moving back 2 positions lands at index 1 (value 20)."
+    source: "C++ char Data Type & ASCII Encoding",
+    explanation: `الخيار (a) هو الصحيح: D.
+المحارف في C++ تُخزن كأرقام ASCII صحيحة. رمز 'A' هو 65.
+65 + 3 = 68.
+الرقم 68 في جدول ASCII يقابل الحرف 'D'. وبما أن المتغير من نوع char، فإن cout تطبعه كحرف: 'D'.`,
+    details: "'A' has ASCII value 65. 65 + 3 = 68, which corresponds to character 'D'."
   },
   {
     id: "ext_14",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Static Local Variable Persistence Across Calls",
-    text: "What will be printed when calling this function three consecutive times?",
-    textAr: "ماذا سيطبع هذا البرنامج عند استدعاء الدالة ثلاث مرات متتالية؟",
-    codeSnippet: `void counter() {
-    static int count = 10;
-    cout << count++ << " ";
-}
-int main() {
-    counter(); counter(); counter();
-}`,
+    title: "Boolean Variable Integer Promotion",
+    text: "What is the output of the following C++ code?",
+    textAr: "ما هو ناتج الكود التالي في C++؟",
+    codeSnippet: `bool flag = 25;
+cout << flag + 5;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 10 10 10" },
-      { id: "b", text: "b) 10 11 12" },
-      { id: "c", text: "c) 11 12 13" },
-      { id: "d", text: "d) 10 12 14" }
+      { id: "a", text: "a) 6" },
+      { id: "b", text: "b) 30" },
+      { id: "c", text: "c) 1" },
+      { id: "d", text: "d) true5" }
     ],
-    correctAnswer: "b",
-    source: "Static Storage Duration Mechanics",
-    explanation: `الخيار (b) هو الصحيح: 10 11 12!
-المفهوم:
-المتغير المعرف بـ static داخل دالة يتم تهيئته لمرة واحدة فقط طوال فترة تشغيل البرنامج (في أول استدعاء)، ويحتفظ بقيمته في الذاكرة الثابتة (Data Segment) بين الاستدعاءات المختلفة.`,
-    details: "Static local variables maintain their value across function invocations and are initialized only once."
+    correctAnswer: "a",
+    source: "Slide 2 - Question 12 & C++ bool conversion rules",
+    explanation: `الخيار (a) هو الصحيح: 6.
+عند إسناد أي رقم غير الصفر (مثل 25) لمتغير من نوع bool، فإنه يتحول إلى true والتي تقابل رقمياً 1 فقط!
+لذلك flag قيمتها 1.
+وعند إجراء عملية الجمع: 1 + 5 = 6.`,
+    details: "Assigning any non-zero value to a bool converts it to true (1). flag + 5 = 1 + 5 = 6."
   },
   {
     id: "ext_15",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Branchless Absolute Value Formula",
-    text: "What does the formula: (x ^ (x >> 31)) - (x >> 31) calculate for any 32-bit signed integer x?",
-    textAr: "ماذا تحسب المعادلة البرمجية الفتاكة: (x ^ (x >> 31)) - (x >> 31) لأي رقم صحيح x بدون أي تفرع (Branchless)؟",
+    title: "For Loop Boundary Off-by-One Calculation",
+    text: "What is the final value of sum printed by this loop?",
+    textAr: "ما هي القيمة النهائية المطبوعة للمتغير sum في الحلقة التالية؟",
+    codeSnippet: `int sum = 0;
+for (int i = 1; i < 5; i++) {
+    sum += i;
+}
+cout << sum;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) Always returns 0" },
-      { id: "b", text: "b) Computes abs(x) (Absolute Value)" },
-      { id: "c", text: "c) Multiplies x by 31" },
-      { id: "d", text: "d) Reverses all bits of x" }
+      { id: "a", text: "a) 10" },
+      { id: "b", text: "b) 15" },
+      { id: "c", text: "c) 6" },
+      { id: "d", text: "d) 4" }
     ],
-    correctAnswer: "b",
-    source: "Hacker's Delight Bit Twiddling Hacks",
-    explanation: `الخيار (b) هو الصحيح: القيمة المطلقة abs(x) بدقة فائقة وبدون أي أمر if!
-الشرح العبقري:
-1) إذا كان x موجباً: x >> 31 ينتج 0. فتكون المعادلة: (x ^ 0) - 0 = x (يبقى كما هو).
-2) إذا كان x سالباً: x >> 31 ينتج -1 (جميع البتات آحاد 1111...1111).
-فتكون المعادلة: (x ^ -1) - (-1) = (~x) + 1، وهذا هو تعريف المكمل الثنائي لتحويل الرقم السالب إلى موجب تماماً!`,
-    details: "If positive, mask=0 -> (x^0)-0=x. If negative, mask=-1 -> (x^-1)-(-1) = ~x + 1 = -x. Computes abs(x) with zero CPU branch penalties."
+    correctAnswer: "a",
+    source: "Loop Logic & Trace Table Fundamentals",
+    explanation: `الخيار (a) هو الصحيح: 10.
+الشرط هو i < 5 (أصغر تماماً من 5)، لذلك قيم i داخل الحلقة هي: 1, 2, 3, 4 فقط (الرقم 5 مستبعد!).
+مجموع القيم: 1 + 2 + 3 + 4 = 10.`,
+    details: "The loop condition i < 5 terminates when i = 5. sum = 1 + 2 + 3 + 4 = 10."
   },
   {
     id: "ext_16",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "IEEE-754 Single-Precision Representation of +1.0f",
-    text: "What is the exact 32-bit Hexadecimal representation of floating-point number +1.0f under IEEE-754?",
-    textAr: "ما هو التمثيل الست عشري الدقيق للرقم العشري +1.0f وفقاً لمعيار IEEE-754 في 32 بت؟",
+    title: "do-while Loop Execution Guarantee",
+    text: "What is the output of the following do-while loop?",
+    textAr: "ما هو ناتج حلقة do-while التالية بالرغم من أن الشرط كاذب من البداية؟",
+    codeSnippet: `int k = 10;
+do {
+    k++;
+} while (k < 5);
+cout << k;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 0x00000001" },
-      { id: "b", text: "b) 0x3F800000" },
-      { id: "c", text: "c) 0x40000000" },
-      { id: "d", text: "d) 0x7F800000" }
+      { id: "a", text: "a) 11" },
+      { id: "b", text: "b) 10" },
+      { id: "c", text: "c) Infinite loop" },
+      { id: "d", text: "d) 5" }
     ],
-    correctAnswer: "b",
-    source: "IEEE-754 Floating-Point Standard Bit Layout",
-    explanation: `الخيار (b) هو الصحيح: 0x3F800000!
-التفكيك المعماري للرقم +1.0:
-1) بت الإشارة: 0 (موجب).
-2) الأس المنحاز: 0 + 127 = 127 = 01111111 ثنائياً.
-3) الكسر: 23 صفراً بعد حذف الـ 1 الضمني.
-تجميع البتات: 0011 1111 1000 0000 ... = 0x3F800000.`,
-    details: "Sign: 0, Exponent: 127 (01111111), Fraction: 0. Hex = 0x3F800000."
+    correctAnswer: "a",
+    source: "C++ Repetition Structures (do-while guarantee)",
+    explanation: `الخيار (a) هو الصحيح: 11.
+حلقة do-while تتميز بأن جسم الحلقة يُنفذ مرة واحدة على الأقل قبل فحص الشرط!
+تزداد k لتصبح 11، ثم يفحص الشرط (11 < 5) فيكون كاذباً ويتوقف. فتُطبع القيمة 11.`,
+    details: "A do-while loop always executes its body at least once. k increments from 10 to 11 before checking the condition."
   },
   {
     id: "ext_17",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "IEEE-754 NaN Self-Equality Property",
-    text: "In IEEE-754 floating-point standard, what is the result of the expression: (NAN == NAN)?",
-    textAr: "في معيار IEEE-754، ما هو ناتج مقارنة القيمة الخاصة (NAN == NAN)؟",
+    title: "Flowchart Decision for Negative Value (Slide 8)",
+    text: "In the flowchart to determine if a number is negative or positive (Slide 8), what decision outcome is followed if user inputs -0.5?",
+    textAr: "في خريطة التدفق لتحديد ما إذا كان الرقم سالباً أم موجباً (سلايد 8)، أي مسار يتم اتباعه إذا أدخل المستخدم -0.5؟",
+    codeSnippet: `// Flowchart decision:
+Is Number >= 0 ?`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) true" },
-      { id: "b", text: "b) false" },
-      { id: "c", text: "c) Undefined compilation error" },
-      { id: "d", text: "d) Throws FloatingPointException" }
+      { id: "a", text: "a) 'No' branch -> Prints: Negative" },
+      { id: "b", text: "b) 'Yes' branch -> Prints: Positive" },
+      { id: "c", text: "c) Error branch: decimals not supported" },
+      { id: "d", text: "d) Loop terminates without output" }
     ],
-    correctAnswer: "b",
-    source: "IEEE-754 Section 5.11 Comparison Specifications",
-    explanation: `الخيار (b) هو الصحيح: false دائماً!
-القيمة NaN (Not a Number) هي القيمة الوحيدة في معمارية الحواسب التي لا تساوي نفسها أبداً رياضياً وبرمجياً (NaN == NaN يعيد false دائماً).`,
-    details: "By IEEE-754 definition, any comparison involving NaN (except !=) returns false. NaN != NaN returns true."
+    correctAnswer: "a",
+    source: "Slide 8 - Algorithm and Flowchart: Print if number is negative or positive",
+    explanation: `الخيار (a) هو الصحيح: مسار 'No' يطبع Negative.
+الرقم -0.5 أصغر من الصفر، لذلك ناتج فحص الشرط (Is Number >= 0) هو No، فيتجه المسار لطباعة Negative.`,
+    details: "-0.5 is less than 0; the decision condition >= 0 evaluates to false (No), branching to Negative."
   },
   {
     id: "ext_18",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Cache Line Spatial Locality & Matrix Traversal",
-    text: "Why is iterating through a 2D matrix in C++ row-by-row (matrix[i][j]) up to 20x faster than column-by-column (matrix[j][i])?",
-    textAr: "لماذا يكون مسح المصفوفة ثنائية الأبعاد في C++ صفاً بصف (matrix[i][j]) أسرع بـ 20 ضعفاً من مسحها عموداً بعمود (matrix[j][i])؟",
+    title: "Chained cin Extraction Stream Order (Slide 9)",
+    text: "In the calculator program (Slide 9): cin >> x >> y >> oper; if the input is: 12.5 4.0 *, what are the stored values?",
+    textAr: "في برنامج الآلة الحاسبة (سلايد 9): cin >> x >> y >> oper; إذا أدخل المستخدم: 12.5 4.0 *، ما هي القيم المخزنة؟",
     type: "mcq",
     options: [
-      { id: "a", text: "a) Row-major layout enables spatial locality, filling 64-byte CPU cache lines sequentially." },
-      { id: "b", text: "b) The compiler optimizes row loops automatically." },
-      { id: "c", text: "c) Columns consume more memory than rows." },
-      { id: "d", text: "d) Rows are stored in CPU registers." }
+      { id: "a", text: "a) x = 12.5, y = 4.0, oper = '*'" },
+      { id: "b", text: "b) x = 12, y = 5, oper = '4'" },
+      { id: "c", text: "c) x = '*', y = 12.5, oper = 4.0" },
+      { id: "d", text: "d) Input failure runtime error" }
     ],
     correctAnswer: "a",
-    source: "Hardware Spatial Locality & CPU Cache Lines",
-    explanation: `الخيار (a) هو الصحيح!
-في C++ المصفوفات تُخزن في الذاكرة بنظام Row-Major (عناصر الصف الواحد متجاورة).
-مسح الصفوف يسحب سطور الكاش (64 بايت) بالتتابع ويحقق 100% Cache Hits، بينما مسح الأعمدة يقفز بمسافات هائلة ويحدث Cache Miss في كل وصول.`,
-    details: "C++ stores 2D arrays in contiguous row-major order. Sequential access leverages 64-byte L1 cache lines."
+    source: "Slide 9 - Simple Calculator Implementation (cin >> x >> y >> oper)",
+    explanation: `الخيار (a) هو الصحيح: x = 12.5, y = 4.0, oper = '*'.
+معامل الاستخراج >> يتجاهل المسافات البيضاء تلقائياً ويقرأ البيانات بالترتيب: الرقم الأول في x، والثاني في y، ورمز العملية في oper.`,
+    details: "Chained cin extractions skip whitespace and parse inputs sequentially: x=12.5, y=4.0, oper='*'."
   },
   {
     id: "ext_19",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Branch Predictor Penalty in Unsorted vs Sorted Arrays",
-    text: "Why does summing array elements greater than 128 (if arr[i] > 128) run 3x-5x faster on a sorted array than an unsorted array?",
-    textAr: "لماذا تعمل حلقة شرطية (if arr[i] > 128) أسرع بـ 3 إلى 5 أضعاف على مصفوفة مرتبة مقارنة بنفس المصفوفة غير المرتبة؟",
+    title: "Semicolon Immediately After for Loop Header",
+    text: "What will be printed by the following C++ code snippet?",
+    textAr: "ماذا سيطبع مقطع الكود التالي في C++؟ (احذر الفاصلة المنقوطة بعد قوس الـ for)",
+    codeSnippet: `int count = 0;
+for (int i = 0; i < 5; i++);
+count++;
+cout << count;`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) The CPU branch predictor achieves near 100% accuracy on sorted data, avoiding pipeline branch stalls." },
-      { id: "b", text: "b) Sorting shrinks the data size in memory." },
-      { id: "c", text: "c) Unsorted arrays cause memory fragmentation." },
-      { id: "d", text: "d) Sorted arrays bypass the ALU." }
+      { id: "a", text: "a) 1" },
+      { id: "b", text: "b) 5" },
+      { id: "c", text: "c) 6" },
+      { id: "d", text: "d) 0" }
     ],
     correctAnswer: "a",
-    source: "Stack Overflow #1 All-time Question (CPU Branch Prediction)",
-    explanation: `الخيار (a) هو الصحيح!
-وحدة متنبئ التفرع (Branch Predictor) تتوقع نتائج الشروط مسبقاً في الـ Pipeline.
-في المصفوفة المرتبة تأتي كل الـ Falses معاً ثم كل الـ Trues معاً فتكون الدقة 99%، بينما في غير المرتبة يفشل التنبؤ (Branch Misprediction) ويفرغ المعالج الـ Pipeline بالكامل.`,
-    details: "Branch misprediction flushes the entire instruction pipeline, wasting 15-20 CPU cycles per miss."
+    source: "C++ Repetition Structures & Syntax Traps",
+    explanation: `الخيار (a) هو الصحيح: 1.
+الفاصلة المنقوطة بعد رأس حلقة for تجعل الحلقة تدور 5 مرات بجسم فارغ تماماً دون تنفيذ أي شيء!
+وعند انتهاء الحلقة، يُنفذ السطر المستقل count++ مرة واحدة فقط، فتطبع القيمة 1.`,
+    details: "The semicolon creates a null body loop repeating 5 times. count++ runs only once after loop completion, printing 1."
   },
   {
     id: "ext_20",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Struct Memory Alignment & Padding Trap",
-    text: "On a 64-bit compiler, what is sizeof(struct S { char a; int b; char c; })?",
-    textAr: "على مترجم 64-bit، ما هو الحجم الفعلي للـ struct التالي في الذاكرة؟",
-    codeSnippet: `struct S {
-    char a;
-    int b;
-    char c;
-};
-cout << sizeof(S);`,
+    title: "Dangling Else Association Trap",
+    text: "What is printed by the following nested if-else structure?",
+    textAr: "ماذا سيطبع الهيكل الشرطي المتداخل التالي؟ (فخ الـ Dangling Else)",
+    codeSnippet: `int a = 1, b = 2;
+if (a == 0)
+    if (b == 2)
+        cout << "X";
+else
+    cout << "Y";`,
     type: "mcq",
     options: [
-      { id: "a", text: "a) 6 bytes (1 + 4 + 1)" },
-      { id: "b", text: "b) 12 bytes" },
-      { id: "c", text: "c) 8 bytes" },
-      { id: "d", text: "d) 16 bytes" }
+      { id: "a", text: "a) Nothing is printed" },
+      { id: "b", text: "b) Y" },
+      { id: "c", text: "c) X" },
+      { id: "d", text: "d) XY" }
     ],
-    correctAnswer: "b",
-    source: "Data Structure Alignment & Hardware Padding Rules",
-    explanation: `الخيار (b) هو الصحيح: 12 بايت وليس 6 بايت!
-بسبب محاذاة العناوين (Data Alignment) بمضاعفات الـ 4 بايت:
-char a (1 بايت) + 3 بايت حشو (Padding).
-int b (4 بايت).
-char c (1 بايت) + 3 بايت حشو نهائي (Tail Padding).
-الإجمالي = 12 بايت!`,
-    details: "Alignment requires variables to sit on memory addresses multiples of their size. Padding expands size from 6 to 12 bytes."
+    correctAnswer: "a",
+    source: "C++ Dangling Else Standard Binding Rules",
+    explanation: `الخيار (a) هو الصحيح: لا يتم طباعة أي شيء (Nothing is printed).
+قاعدة C++ الصارمة: ترتبط جملة else دائماً بأقرب if سابقة لها غير مكتملة، وهي if (b == 2) بالرغم من المسافات البادئة المخادعة!
+وحيث إن الشرط الخارجي الأول if (a == 0) كاذب (false)، فإن الكتلة بالكامل يتم تخطيها ولا يطبع شيء!`,
+    details: "In C++, an 'else' binds to the nearest unmatched 'if' (if b==2). Since the outer if (a==0) is false, nothing executes."
   },
   {
     id: "ext_21",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Nested Multiplicative Loop Exact Complexity",
-    text: "What is the exact tight asymptotic time complexity of the following nested loop?",
-    textAr: "ما هو التعقيد الزمني المقارب الدقيق للحلقة المتداخلة التالية؟",
-    codeSnippet: `int sum = 0;
-for (int i = 1; i <= n; i *= 2) {
-    for (int j = 1; j <= i; j++) {
-        sum++;
-    }
-}`,
+    title: "Final Loop Counter Value in Sum of Squares (Exam Q3)",
+    text: "In the flowchart loop to sum squares from 1 to 50: sum = 0, i = 1; while (i <= 50) { sum += i*i; i++; } what is the value of 'i' immediately after the loop terminates?",
+    textAr: "في خوارزمية مجموع المربعات من 1 إلى 50 (س3 في الامتحان)، ما هي قيمة العداد i فور انتهاء وتوقف الحلقة مباشرة؟",
     type: "mcq",
     options: [
-      { id: "a", text: "a) O(n log n)" },
-      { id: "b", text: "b) O(n)" },
-      { id: "c", text: "c) O(n^2)" },
-      { id: "d", text: "d) O(log^2 n)" }
+      { id: "a", text: "a) 51" },
+      { id: "b", text: "b) 50" },
+      { id: "c", text: "c) 49" },
+      { id: "d", text: "d) 500" }
     ],
-    correctAnswer: "b",
-    source: "Geometric Series Loop Analysis Trap",
-    explanation: `الخيار (b) هو الصحيح: O(n) خطي وليس O(n log n)!
-عدد التكرارات: 1 + 2 + 4 + 8 + ... + n = 2n - 1.
-وحيث إن (2n - 1) دالة خطية بحتة، فالتعقيد هو O(n).`,
-    details: "Sum: 1 + 2 + 4 + ... + 2^k where 2^k <= n is bounded by 2n - 1 = O(n)."
+    correctAnswer: "a",
+    source: "Exam Paper - Question 3 (Flowchart sum of squares from 1 to 50)",
+    explanation: `الخيار (a) هو الصحيح: 51.
+الحلقة تستمر طالما i <= 50. في الدورة الأخيرة عندما تكون i = 50، ينفذ السطر i++ فتصبح i = 51.
+عند فحص الشرط مجدداً: 51 <= 50 يكون false فتتوقف الحلقة وتكون قيمة i هي 51!`,
+    details: "When i reaches 50, it is incremented to 51. The condition 51 <= 50 fails, exiting the loop with i = 51."
   },
   {
     id: "ext_22",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Floyd's Cycle Detection Space Complexity",
-    text: "Why is Floyd's Cycle-Finding Algorithm (Tortoise and Hare) superior to hash-table based cycle detection in linked lists?",
-    textAr: "لماذا تتفوق خوارزمية السلحفاة والأرنب (Floyd's Algorithm) على جداول الهاش في كشف الحلقات المغلقة؟",
+    title: "Memory Hierarchy Speed Sequence (Slide 5)",
+    text: "Which sequence correctly arranges memory types from fastest to slowest access speed according to slide 5?",
+    textAr: "أي تسلسل يرتب أنواع الذاكرة من الأسرع إلى الأبطأ في سرعة الوصول وفقاً لسلايد 5؟",
     type: "mcq",
     options: [
-      { id: "a", text: "a) It requires only O(1) auxiliary space versus O(n) space for hash tables." },
-      { id: "b", text: "b) It runs in O(log n) time." },
-      { id: "c", text: "c) It can only work on doubly linked lists." },
-      { id: "d", text: "d) It sorts the list while detecting cycles." }
+      { id: "a", text: "a) Cache memory > Primary memory (RAM) > Secondary memory (Hard disk)" },
+      { id: "b", text: "b) Primary memory (RAM) > Cache memory > Secondary memory (Hard disk)" },
+      { id: "c", text: "c) Secondary memory (Hard disk) > Primary memory (RAM) > Cache memory" },
+      { id: "d", text: "d) RAM > Hard disk > Cache memory" }
     ],
     correctAnswer: "a",
-    source: "Competitive Programming Classic Algorithms",
-    explanation: `الخيار (a) هو الصحيح: تحتاج فقط مساحة ذاكرة إضافية O(1) ثابتة بدلاً من O(n)!
-تستخدم مؤشرين فقط (Slow يتحرك خطوة، و Fast يتحرك خطوتين)، وتلتقي في أي حلقة مغلقة بزمن O(n) وبدون أي مصفوفات أو جداول هاش إضافية.`,
-    details: "Floyd's algorithm runs in O(n) time and O(1) auxiliary space."
+    source: "Slide 5 - Primary memory vs Secondary memory vs Cache memory speed",
+    explanation: `الخيار (a) هو الصحيح: Cache > RAM > Hard disk.
+نص سلايد 5:
+- ذاكرة الكاش (Cache memory) هي الأسرع على الإطلاق.
+- الذاكرة الأساسية (Primary memory like RAM) أسرع من القرص الصلب ولكنها أصغر.
+- الذاكرة الثانوية (Secondary memory like Hard disk) هي الأبطأ وأكبرها سعة.`,
+    details: "Cache memory is fastest, followed by primary RAM, while secondary storage (hard disk) is the slowest."
   },
   {
     id: "ext_23",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Extended Master Theorem Recurrence Case",
-    text: "What is the time complexity of the recurrence relation: T(n) = 2T(n/2) + n log n?",
-    textAr: "ما هو التعقيد الزمني لمعادلة التكرار: T(n) = 2T(n/2) + n log n؟",
+    title: "System Bus for Transmitting Control Signals (Slide 7)",
+    text: "Which bus in the computer system is specifically responsible for transmitting control signals between components?",
+    textAr: "أي ناقل في نظام الحاسوب مسؤول تحديداً عن نقل إشارات التحكم والتنسيق بين المكونات؟ (سلايد 7)",
     type: "mcq",
     options: [
-      { id: "a", text: "a) O(n log n)" },
-      { id: "b", text: "b) O(n log^2 n)" },
-      { id: "c", text: "c) O(n^2)" },
-      { id: "d", text: "d) O(n)" }
+      { id: "a", text: "a) Control bus" },
+      { id: "b", text: "b) Data bus" },
+      { id: "c", text: "c) Address bus" },
+      { id: "d", text: "d) None of previous" }
     ],
-    correctAnswer: "b",
-    source: "Extended Master Theorem Case 2b",
-    explanation: `الخيار (b) هو الصحيح: O(n log^2 n)!
-وفق الحالة الممتدة من نظرية الماستر (Case 2 Extended Master Theorem):
-حيث إن a=2, b=2, n^(log_b a) = n، ودالة العمل f(n) = n log^1 n، فإن الناتج يرفع قوة اللوغاريتم بمقدار 1: Θ(n log^2 n).`,
-    details: "By Extended Master Theorem Case 2: when f(n) = Theta(n^(log_b a) * log^k n), T(n) = Theta(n^(log_b a) * log^(k+1) n)."
+    correctAnswer: "a",
+    source: "Slide 7 - Which of the following is used to transmit control signal in computer?",
+    explanation: `الخيار (a) هو الصحيح: Control bus (ناقل التحكم).
+سلايد 7 نصاً: يُستخدم ناقل التحكم (Control bus) لنقل إشارات التحكم والتوقيت (مثل إشارات القراءة والكتابة) بين مكونات الحاسوب. ناقل البيانات ينقل البيانات، وناقل العناوين يحدد مواقع الذاكرة.`,
+    details: "Slide 7 specifies that the Control bus is used to transmit control signals in computer systems."
   },
   {
     id: "ext_24",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "QuickSort Inherent Instability Cause",
-    text: "Why is standard QuickSort classified as an UNSTABLE sorting algorithm?",
-    textAr: "لماذا تُصنف خوارزمية الترتيب السريع (QuickSort) بأنها غير مستقرة (Unstable)؟",
+    title: "Valid Variable Identifier Rules in C++",
+    text: "Which of the following is a legal C++ variable identifier according to language grammar?",
+    textAr: "أي من المعرفات التالية يُعتبر اسم متغير صالح وقانوني في لغة C++ وفقاً للمنهج؟",
     type: "mcq",
     options: [
-      { id: "a", text: "a) Long-distance swaps across the pivot can reorder identical elements." },
-      { id: "b", text: "b) It has worst-case O(n^2) complexity." },
-      { id: "c", text: "c) It uses recursion." },
-      { id: "d", text: "d) It cannot sort strings." }
+      { id: "a", text: "a) _totalScore" },
+      { id: "b", text: "b) 2ndNumber" },
+      { id: "c", text: "c) total-score" },
+      { id: "d", text: "d) double" }
     ],
     correctAnswer: "a",
-    source: "Sorting Stability Definitions",
-    explanation: `الخيار (a) هو الصحيح!
-في QuickSort، عمليات التبديل تتم عبر مسافات بعيدة عبر المحور (Pivot Partitioning)، مما قد يقفز بعنصر فوق عنصر مساوٍ له ويغير ترتيبهما النسبي الأصلي في المصفوفة.`,
-    details: "Partitioning swaps non-adjacent elements over the pivot, disrupting relative order of equal keys."
-  },
-  {
-    id: "ext_25",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Turing's Halting Problem Impossibility",
-    text: "What fundamental mathematical truth was proven by Alan Turing regarding the Halting Problem (1936)?",
-    textAr: "ما هي الحقيقة الرياضية الكبرى التي أثبتها آلان تورينج في معضلة التوقف (Halting Problem)؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) It is impossible for any general algorithm to determine whether every arbitrary program halts." },
-      { id: "b", text: "b) All C++ programs halt within finite memory." },
-      { id: "c", text: "c) Infinite loops can be detected 100% by modern compilers." },
-      { id: "d", text: "d) Recursion is faster than iteration." }
-    ],
-    correctAnswer: "a",
-    source: "Theoretical Computer Science & Computability Theory",
-    explanation: `الخيار (a) هو الصحيح!
-أثبت تورينج بالبرهان الرياضي أنه يستحيل وجود خوارزمية حاسوبية عامة يمكنها فحص أي كود عشوائي وتحديد ما إذا كان سيتوقف حتماً أم سيدخل في حلقة لا نهائية (Undecidable Problem).`,
-    details: "The Halting Problem is undecidable; no universal algorithm can solve it for all program-input pairs."
-  },
-  {
-    id: "ext_26",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Two's Complement Fraction Overflow Edge",
-    text: "In 8-bit two's complement, what is the binary result of (-128) / (-1)?",
-    textAr: "في نظام 8-bit Two's complement، ما هي النتيجة الحسابية لقسمة: (-128) / (-1)؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) +128" },
-      { id: "b", text: "b) Hardware Overflow Exception (Integer Overflow Crash)" },
-      { id: "c", text: "c) -128" },
-      { id: "d", text: "d) 0" }
-    ],
-    correctAnswer: "b",
-    source: "x86 IDIV Hardware Division Overflow Trap",
-    explanation: `الخيار (b) هو الصحيح: خطأ فيض عتادي مميت يوقف البرنامج (Divide Error)!
-في معالجات x86 و C++، قسمة أصغر رقم سالب INT_MIN على -1 تُنتج رياضياً +128، وهو خارج المدى الموجب الأقصى (+127)، فيطلق المعالج استثناء عتادياً فتاكاً (Divide Error) ويتحطم البرنامج فوراً!`,
-    details: "INT_MIN / -1 overflows positive signed range, triggering an x86 integer division exception crash."
-  },
-  {
-    id: "ext_27",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Dutch National Flag Algorithm Passes",
-    text: "How many passes over the array does Dijkstra's Dutch National Flag algorithm take to sort an array containing only values 0, 1, and 2?",
-    textAr: "كم عدد مرات المرور (Passes) التي تحتاجها خوارزمية علم هولندا (Dijkstra) لترتيب مصفوفة تحتوي فقط على القيم 0 و 1 و 2؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Exactly 1 pass (Single linear pass O(n))" },
-      { id: "b", text: "b) 2 passes" },
-      { id: "c", text: "c) 3 passes" },
-      { id: "d", text: "d) O(log n) passes" }
-    ],
-    correctAnswer: "a",
-    source: "Dijkstra's Three-Way Partitioning",
-    explanation: `الخيار (a) هو الصحيح: مرور واحد فقط (Single Pass O(n))!
-تستخدم 3 مؤشرات وتفرز المصفوفة في مسح واحد مستمر دون أي مصفوفات مساعدة O(1) space.`,
-    details: "Dijkstra's Dutch National Flag algorithm partitions 3 distinct keys in exactly one pass using 3 pointers."
-  },
-  {
-    id: "ext_28",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Sign-Magnitude Multiplication Sign Rule",
-    text: "In Sign-Magnitude arithmetic hardware, how is the sign of the product determined when multiplying two numbers?",
-    textAr: "في دوائر العتاد الرقمي بنظام الإشارة والمقدار، كيف تُحسب إشارة ناتج الضرب؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Sign_A XOR Sign_B" },
-      { id: "b", text: "b) Sign_A AND Sign_B" },
-      { id: "c", text: "c) Sign_A OR Sign_B" },
-      { id: "d", text: "d) Two's complement addition" }
-    ],
-    correctAnswer: "a",
-    source: "Computer Arithmetic Hardware Design",
-    explanation: `الخيار (a) هو الصحيح: Sign_A XOR Sign_B!
-بوابة XOR تعيد 0 إذا تماثلت الإشارات (موجب × موجب = موجب، وسالب × سالب = موجب)، وتعيد 1 إذا اختلفت الإشارات، في دورة ساعة واحدة.`,
-    details: "XOR gate directly mirrors the mathematical multiplication sign rule: same signs -> 0, different signs -> 1."
-  },
-  {
-    id: "ext_29",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Virtual Table (vtable) Pointer Overhead",
-    text: "In C++, what does adding the keyword 'virtual' to a class method add to each instance of that class in memory?",
-    textAr: "في C++، ما الذي يضيفه وجود دالة وهمية 'virtual' داخل الكلاس إلى كل كائن من هذا الكلاس في الذاكرة؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) A virtual table pointer (vptr) of size 8 bytes on 64-bit systems." },
-      { id: "b", text: "b) Nothing (purely compile-time)." },
-      { id: "c", text: "c) Copies the whole function code into the object." },
-      { id: "d", text: "d) 4 bytes regardless of architecture." }
-    ],
-    correctAnswer: "a",
-    source: "C++ Object Model & Dynamic Polymorphism",
-    explanation: `الخيار (a) هو الصحيح: مؤشر خفي vptr بحجم 8 بايت!
-يُنشئ المترجم جدول دوال وهمية (vtable)، ويضع داخل كل كائن مؤشراً خفياً (vptr) بحجم 8 بايت في معمارية 64-bit.`,
-    details: "Classes with virtual functions contain an implicit vptr pointing to the class's vtable."
-  },
-  {
-    id: "ext_30",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Order of Evaluation in Function Arguments C++17",
-    text: "In modern C++17, what is the order of evaluation of arguments in a function call f(a(), b(), c())?",
-    textAr: "في معيار C++17، ما هو ترتيب تقييم وسائط استدعاء الدالة f(a(), b(), c())؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Left-to-right strictly." },
-      { id: "b", text: "b) Unspecified order, but no interleaving of subexpressions." },
-      { id: "c", text: "c) Right-to-left strictly." },
-      { id: "d", text: "d) Simultaneous parallel execution." }
-    ],
-    correctAnswer: "b",
-    source: "C++17 Order of Evaluation [expr.call]",
-    explanation: `الخيار (b) هو الصحيح: ترتيب غير محدد (Unspecified)، ولكن بدون تداخل!
-معيار C++ لا يفرض ما إذا كان المترجم سيبدأ بـ a() أو b() أو c()، ولكنه يضمن في C++17 أن كل استدعاء يكتمل كلياً قبل بدء التالي دون تداخل.`,
-    details: "Function arguments have unspecified evaluation order; code depending on a specific argument evaluation order is non-portable."
+    source: "Slide 5 - Variable naming rules in programming languages",
+    explanation: `الخيار (a) هو الصحيح: _totalScore.
+قواعد التسمية:
+1. _totalScore: قانوني وصحيح، يبدأ بشرطة سفلية.
+2. 2ndNumber: غير قانوني لأنه يبدأ برقم (سلايد 5).
+3. total-score: غير قانوني لاحتوائه على علامة الطرح (-).
+4. double: غير قانوني لأنه كلمة محجوزة (ورقة الامتحان).`,
+    details: "_totalScore is valid. Identifiers cannot start with a number (2ndNumber), contain hyphens (total-score), or use keywords (double)."
   }
 ];
 

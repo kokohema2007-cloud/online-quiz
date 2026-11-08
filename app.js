@@ -992,7 +992,7 @@ function validateUserCodeFix(qid, rawCode) {
     const noExtract = !/>>/.test(code);
     const hasInsert = /<</.test(code);
     const hasCount = /\bcount\b/.test(code);
-    const hasNewline = /('\\n'|"\n"|\bendl\b|\bstd::endl\b)/.test(code);
+    const hasNewline = /('\\n'|"\\n"|\bendl\b|\bstd::endl\b)/.test(code);
     const noWrongSlash = !/('\/n'|"\/n")/.test(code);
     const hasSemi = /;\s*$/.test(code);
     return hasCout && noExtract && hasInsert && hasCount && hasNewline && noWrongSlash && hasSemi;
@@ -1036,43 +1036,62 @@ function validateUserCodeFix(qid, rawCode) {
   }
 
   // ==========================================
-  // EXTREME ERROR FIXING VALIDATORS (ليفل الوحش)
+  // EXTREME ERROR FIXING VALIDATORS (ليفل الوحش - من المنهج)
   // ==========================================
   if (qid === "ext_err_1") {
-    // Original: for (unsigned int i = 10; i >= 0; i--) cout << i;
-    // Requirements: Replace unsigned int with signed type (int, long, short)
-    const hasFor = /\bfor\b/.test(code);
-    const noUnsigned = !/\bunsigned\b/.test(code);
-    const hasSignedType = /\b(?:int|long|short|int32_t|int64_t)\s+i\b/.test(code);
-    const hasBound = /i\s*(?:>=\s*0|>\s*-\s*1|!=\s*-\s*1)/.test(code);
-    const hasDec = /(?:i\s*--|--\s*i|i\s*-=\s*1)/.test(code);
-    return hasFor && noUnsigned && hasSignedType && hasBound && hasDec;
+    // Temperature formula: double F = C * (9 / 5) + 32;
+    // Requirements: must avoid integer truncation 9/5 by using floating point (9.0, 5.0, or 1.8)
+    const hasFloatDiv = /(?:9\.0?|5\.0?|1\.8|\(double\)\s*9|\(float\)\s*9|9\.f|5\.f)/.test(code);
+    const noRawIntDiv = !/(?:\(\s*9\s*\/\s*5\s*\)|9\s*\/\s*5)(?!\.|\d)/.test(code);
+    const hasFormulaVars = /\bF\b/.test(code) && /\bC\b/.test(code) && /32/.test(code);
+    return hasFloatDiv && noRawIntDiv && hasFormulaVars;
   }
 
   if (qid === "ext_err_2") {
-    // Original: char *str = "antigravity"; str[0] = 'A';
-    // Requirements: Change to writable array (char str[]) or std::string
-    const isArray = /\bchar\s+str\s*\[\s*\d*\s*\]\s*=/.test(code);
-    const isString = /\b(?:std::)?string\s+str\s*=/.test(code);
-    const notLiteralPtr = !/\bchar\s*\*\s*str\s*=\s*"/.test(code);
-    return (isArray || isString) && notLiteralPtr;
+    // Exam Question 4(a): cout >> count >> '/n'
+    const hasCout = /\bcout\b/.test(code);
+    const noExtract = !/>>/.test(code);
+    const hasInsert = /<</.test(code);
+    const hasCount = /\bcount\b/.test(code);
+    const hasNewline = /('\\n'|"\\n"|\bendl\b|\bstd::endl\b)/.test(code);
+    const noWrongSlash = !/('\/n'|"\/n")/.test(code);
+    const hasSemi = /;\s*$/.test(code);
+    return hasCout && noExtract && hasInsert && hasCount && hasNewline && noWrongSlash && hasSemi;
   }
 
   if (qid === "ext_err_3") {
-    // Original: int *ptr = new int[50]; delete ptr;
-    // Requirements: delete[] ptr;
-    const hasDeleteArray = /\bdelete\s*\[\s*\]\s*ptr\b/.test(code);
-    const noBareDelete = !/\bdelete\s+ptr\b/.test(code.replace(/delete\s*\[\s*\]\s*ptr/g, ""));
-    return hasDeleteArray && noBareDelete;
+    // Exam Question 4(b): int double = 44;
+    const hasReservedIdentifier = /\b(?:int|double|float|long|short|auto)\s+double\s*=/i.test(code);
+    const match = code.match(/\b(int|double|float|long|auto)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*44(?:\.0*)?\s*;/);
+    if (!match || hasReservedIdentifier) return false;
+    const varName = match[2];
+    const reservedKeywords = ["double", "int", "float", "char", "bool", "void", "return", "if", "else", "switch", "case", "while", "for", "do"];
+    return !reservedKeywords.includes(varName);
   }
 
   if (qid === "ext_err_4") {
-    // Original: if (b != 0 & a / b > 2)
-    // Requirements: Use logical short-circuit && instead of bitwise &
-    const hasShortCircuit = /&&/.test(code);
-    const noSingleAnd = !/(?:!=|==|[a-zA-Z0-9_])\s*&\s*(?:!=|==|[a-zA-Z0-9_])/.test(code);
-    const hasCheck = /\bb\s*!=\s*0\b|\bb\s*>\s*0\b|\bb\b/.test(code);
-    return hasShortCircuit && noSingleAnd && hasCheck;
+    // Slide 9: #include <iostrem> \n Using namespace std;
+    const norm = code.replace(/\r?\n/g, " ");
+    const hasInclude = /#include\s*<\s*iostream\s*>/.test(norm);
+    const hasNamespace = /\busing\s+namespace\s+std\s*;/.test(norm);
+    const noCapitalUsing = !/\bUsing\s+namespace\b/.test(norm);
+    return hasInclude && hasNamespace && noCapitalUsing;
+  }
+
+  if (qid === "ext_err_5") {
+    // Slide 9 Calculator: Division by zero protection
+    const hasZeroCheck = /(?:y\s*==\s*0|y\s*!=\s*0|y\s*<=\s*0)/.test(code);
+    const hasDiv = /x\s*\/\s*y/.test(code);
+    const hasError = /error/i.test(code);
+    return hasZeroCheck && hasDiv && hasError;
+  }
+
+  if (qid === "ext_err_6") {
+    // if (score = 100); cout << "Perfect Score";
+    const hasIf = /\bif\s*\(\s*score\s*==\s*100\s*\)/.test(code);
+    const noSemiAfterParen = !/\bif\s*\([^)]*\)\s*;/.test(code);
+    const hasCout = /\bcout\b/.test(code) && /Perfect Score/.test(code);
+    return hasIf && noSemiAfterParen && hasCout;
   }
 
   return false;
