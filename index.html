@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة مراجعة حاسب و C++ التفاعلية | Computer Science & C++ Revision</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header & Dashboard -->
+    <header class="app-header">
+      <div class="top-bar">
+        <div class="logo-area">
+          <div class="logo-icon">💻</div>
+          <div class="logo-text">
+            <h1>منصة المراجعة التفاعلية لمادة الحاسب و C++</h1>
+            <p>Computer Science & C++ Programming Comprehensive Interactive Exam Practice</p>
+          </div>
+        </div>
+        <div class="header-controls">
+          <button id="soundToggleBtn" class="btn-icon" title="تشغيل / كتم المؤثرات الصوتية">🔊</button>
+          <button id="themeToggleBtn" class="btn-icon" title="تبديل المظهر">☀️</button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">الأسئلة المجابة</div>
+          <div class="stat-value" id="statTotal">0 / 0</div>
+        </div>
+        <div class="stat-card correct">
+          <div class="stat-label">الإجابات الصحيحة</div>
+          <div class="stat-value" id="statCorrect">0</div>
+        </div>
+        <div class="stat-card wrong">
+          <div class="stat-label">الإجابات الخاطئة</div>
+          <div class="stat-value" id="statWrong">0</div>
+        </div>
+        <div class="stat-card score">
+          <div class="stat-label">نسبة الإتقان</div>
+          <div class="stat-value" id="statScorePct">0%</div>
+        </div>
+        <div class="stat-card streak">
+          <div class="stat-label">سلسلة الإجابات 🔥</div>
+          <div class="stat-value" id="statStreak">0</div>
+        </div>
+      </div>
+
+      <!-- Overall Progress -->
+      <div class="progress-container">
+        <div class="progress-header">
+          <span id="progressText">مستوى الإنجاز: 0 من 0 (0%)</span>
+          <span>التقييم المستمر</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Categories Filter Tabs -->
+    <div class="tabs-scroll-wrapper">
+      <div class="category-tabs">
+        <button class="tab-btn active" data-category="all">
+          <span>🌐 جميع الأسئلة</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="true_false">
+          <span>🔘 صح أو خطأ (T/F)</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="mcq">
+          <span>📝 اختيار من متعدد (MCQ)</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="code_trace">
+          <span>💻 تتبع كود C++ والناتج</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="errors">
+          <span>🛠️ تصحيح أخطاء الكود</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="numbers">
+          <span>🔢 أنظمة العد و 2's Comp</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="flowcharts">
+          <span>📊 الخوارزميات وخرائط التدفق</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="theory">
+          <span>📖 المفاهيم النظرية والنظام</span>
+          <span class="tab-count">0</span>
+        </button>
+        <button class="tab-btn" data-category="essay">
+          <span>✍️ أسئلة مقالية (Essay)</span>
+          <span class="tab-count">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Actions & Search Bar -->
+    <div class="actions-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchQuestionsInput" placeholder="ابحث في نصوص الأسئلة أو المفاهيم البرمجية...">
+      </div>
+      <div class="action-buttons">
+        <button id="mistakesOnlyBtn" class="btn-secondary">
+          <span>🎯 مراجعة الأخطاء فقط</span>
+        </button>
+        <button id="resetAllBtn" class="btn-secondary" title="إعادة تعيين كافة الإجابات والبدء من الصفر">
+          <span>🔄 تصفير النتيجة</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Questions Container -->
+    <main id="questionsList" class="questions-list"></main>
+
+    <!-- Interactive Live Number Converter Tool / Bonus Utility -->
+    <section class="question-card" style="margin-top: 2.5rem; border: 2px dashed var(--primary-light);">
+      <div class="q-meta">
+        <span class="q-badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">🛠️ أداة تدريب إضافية</span>
+        <span class="q-source">محاكي أنظمة العد التفاعلي</span>
+      </div>
+      <h3 class="q-title">محاكي تحويل الأرقام الفوري وحساب المكمل الثنائي (Live Converter & 2's Complement)</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem;">
+        جرّب إدخال أي رقم صحيح عشري لمشاهدة تحويله التلقائي إلى ثنائي (Binary)، وثماني (Octal)، وست عشري (Hexadecimal)، بالإضافة لحساب المكمل الأحادي (1's Complement) والمكمل الثنائي (2's Complement) في نظام 8-bit:
+      </p>
+
+      <div class="calc-inputs-grid">
+        <div class="calc-input-group">
+          <label>الرقم العشري (Decimal):</label>
+          <input type="number" id="liveDecInput" placeholder="مثلاً: 22 أو -22 أو 123" value="22">
+        </div>
+        <div class="calc-input-group">
+          <label>الثنائي الطبيعي (Positive Binary):</label>
+          <input type="text" id="liveBinOutput" readonly>
+        </div>
+        <div class="calc-input-group">
+          <label>الثماني (Octal):</label>
+          <input type="text" id="liveOctOutput" readonly>
+        </div>
+        <div class="calc-input-group">
+          <label>الست عشري (Hexadecimal):</label>
+          <input type="text" id="liveHexOutput" readonly>
+        </div>
+        <div class="calc-input-group">
+          <label>المكمل الأحادي 1's Comp (8-bit):</label>
+          <input type="text" id="liveC1Output" readonly>
+        </div>
+        <div class="calc-input-group">
+          <label>المكمل الثنائي 2's Comp (8-bit):</label>
+          <input type="text" id="liveC2Output" readonly>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>💡 تم تصميم وتطوير هذه المنصة التفاعلية لمطابقة أسئلة مراجعة وامتحان مادة مبادئ الحاسوب والبرمجة بلغة C++ بدقة 100%.</p>
+      <p style="font-size: 0.8rem; margin-top: 0.4rem; color: var(--text-muted);">
+        يدعم التحقق الفوري، المؤثرات الصوتية، تتبع الأكواد، وحفظ التقدم تلقائياً.
+      </p>
+    </footer>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Live Number Converter script
+    const decInput = document.getElementById("liveDecInput");
+    const binOut = document.getElementById("liveBinOutput");
+    const octOut = document.getElementById("liveOctOutput");
+    const hexOut = document.getElementById("liveHexOutput");
+    const c1Out = document.getElementById("liveC1Output");
+    const c2Out = document.getElementById("liveC2Output");
+
+    function updateLiveConverter() {
+      const val = parseInt(decInput.value, 10);
+      if (isNaN(val)) {
+        binOut.value = "";
+        octOut.value = "";
+        hexOut.value = "";
+        c1Out.value = "";
+        c2Out.value = "";
+        return;
+      }
+
+      const absVal = Math.abs(val);
+      binOut.value = absVal.toString(2);
+      octOut.value = absVal.toString(8);
+      hexOut.value = absVal.toString(16).toUpperCase();
+
+      // 8-bit representations
+      const absBin8 = absVal.toString(2).padStart(8, '0');
+      // 1's comp of abs
+      let onesComp = "";
+      for (let char of absBin8) {
+        onesComp += char === '0' ? '1' : '0';
+      }
+      c1Out.value = onesComp;
+
+      // 2's comp = 1's comp + 1
+      const twosCompInt = (parseInt(onesComp, 2) + 1) & 0xFF;
+      c2Out.value = twosCompInt.toString(2).padStart(8, '0');
+    }
+
+    if (decInput) {
+      decInput.addEventListener("input", updateLiveConverter);
+      updateLiveConverter();
+    }
+  </script>
+</body>
+</html>
