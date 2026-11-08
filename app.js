@@ -1035,6 +1035,46 @@ function validateUserCodeFix(qid, rawCode) {
     return hasIf && noSemiAfterParen;
   }
 
+  // ==========================================
+  // EXTREME ERROR FIXING VALIDATORS (ليفل الوحش)
+  // ==========================================
+  if (qid === "ext_err_1") {
+    // Original: for (unsigned int i = 10; i >= 0; i--) cout << i;
+    // Requirements: Replace unsigned int with signed type (int, long, short)
+    const hasFor = /\bfor\b/.test(code);
+    const noUnsigned = !/\bunsigned\b/.test(code);
+    const hasSignedType = /\b(?:int|long|short|int32_t|int64_t)\s+i\b/.test(code);
+    const hasBound = /i\s*(?:>=\s*0|>\s*-\s*1|!=\s*-\s*1)/.test(code);
+    const hasDec = /(?:i\s*--|--\s*i|i\s*-=\s*1)/.test(code);
+    return hasFor && noUnsigned && hasSignedType && hasBound && hasDec;
+  }
+
+  if (qid === "ext_err_2") {
+    // Original: char *str = "antigravity"; str[0] = 'A';
+    // Requirements: Change to writable array (char str[]) or std::string
+    const isArray = /\bchar\s+str\s*\[\s*\d*\s*\]\s*=/.test(code);
+    const isString = /\b(?:std::)?string\s+str\s*=/.test(code);
+    const notLiteralPtr = !/\bchar\s*\*\s*str\s*=\s*"/.test(code);
+    return (isArray || isString) && notLiteralPtr;
+  }
+
+  if (qid === "ext_err_3") {
+    // Original: int *ptr = new int[50]; delete ptr;
+    // Requirements: delete[] ptr;
+    const hasDeleteArray = /\bdelete\s*\[\s*\]\s*ptr\b/.test(code);
+    const noBareDelete = !/\bdelete\s+ptr\b/.test(code.replace(/delete\s*\[\s*\]\s*ptr/g, ""));
+    return hasDeleteArray && noBareDelete;
+  }
+
+  if (qid === "ext_err_4") {
+    // Original: if (b != 0 & a / b > 2)
+    // Requirements: Use logical short-circuit && instead of bitwise &
+    const hasShortCircuit = /&&/.test(code);
+    const noSingleAnd = !/(?:!=|==|[a-zA-Z0-9_])\s*&\s*(?:!=|==|[a-zA-Z0-9_])/.test(code);
+    const hasCheck = /\bb\s*!=\s*0\b|\bb\s*>\s*0\b|\bb\b/.test(code);
+    return hasShortCircuit && noSingleAnd && hasCheck;
+  }
+
   return false;
 }
 

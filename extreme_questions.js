@@ -1,11 +1,530 @@
 // =========================================================================
 // 💀 EXTREME QUESTIONS BANK - FINAL BOSS LEVEL (أسئلة الدمار - ليفل الوحش)
-// 50 سؤالاً تعجيزياً وفخاخاً برمجية ومعمارية عميقة للـ 1% الأوائل
+// مجموعة شاملة تضم كافة أنواع الأسئلة: صح أو خطأ، تصحيح أخطاء الكود،
+// حسابات أنظمة العد و IEEE-754، أسئلة مقالية وبراهين، وتتبع الأكواد المعقدة.
 // =========================================================================
 
 const extremeQuestionsData = [
   // ==========================================
-  // PART 1: THE DARK CORNERS OF C++ (ألغام C++ العميقة)
+  // 1. EXTREME TRUE / FALSE (صح أو خطأ - ليفل الوحش)
+  // ==========================================
+  {
+    id: "ext_tf_1",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "sizeof Character Literal: C vs C++",
+    text: "In C++, sizeof('a') is strictly 1 byte, whereas in the C language, sizeof('a') is typically 4 bytes (sizeof(int)).",
+    textAr: "في لغة C++، ناتج sizeof('a') يساوي دائماً 1 بايت، بينما في لغة C الأصلية يساوي حجم int (عادة 4 بايت).",
+    type: "boolean",
+    correctAnswer: true,
+    source: "C++ vs C Standard Type Difference [lex.ccon]",
+    explanation: "صحيح (True). في لغة C، الثوابت المحرفية (Character Literals) تُعامل كأرقام صحيحة من النوع int (لذلك sizeof('a') == 4). أما في C++، فقد تم تصحيح هذا السلوك وأصبح نوع الثابت المحرفي هو char بدقة (لذلك sizeof('a') == 1 بايت).",
+    details: "In C, 'a' has type int. In C++, 'a' has type char. Thus sizeof('a') is 1 in C++, but sizeof(int) in C."
+  },
+  {
+    id: "ext_tf_2",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Floating-Point Division by Zero Crash",
+    text: "In IEEE-754 floating-point standard, dividing a non-zero float by zero (1.0f / 0.0f) crashes the program with a runtime exception.",
+    textAr: "وفقاً لمعيار IEEE-754، فإن قسمة رقم عشري غير صفري على صفر (1.0f / 0.0f) تؤدي لانهيار البرنامج بخطأ تشغيل (Runtime Crash).",
+    type: "boolean",
+    correctAnswer: false,
+    source: "IEEE-754 Floating-Point Arithmetic Rules",
+    explanation: "خطأ (False). في الأعداد العشرية العائمة (Floating-point) وفق معيار IEEE-754، القسمة على صفر لا تسبب انهيار البرنامج إطلاقاً! بل تعيد قيمة خاصة قياسية هي المالانهاية الموجبة (+Infinity أو inf) بدون أي استثناء.",
+    details: "Integer division by zero causes a crash/SIGFPE, but floating-point 1.0f / 0.0f yields +inf peacefully."
+  },
+  {
+    id: "ext_tf_3",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "INT_MIN % -1 Hardware Crash",
+    text: "Executing the expression INT_MIN % -1 causes a hardware Divide Error exception that crashes the program on x86 processors.",
+    textAr: "تنفيذ العملية INT_MIN % -1 يُحدث استثناء خطأ قسمة عتادي (Hardware Divide Error) يؤدي لتحطم البرنامج فوراً على معالجات x86.",
+    type: "boolean",
+    correctAnswer: true,
+    source: "x86 IDIV Hardware Instruction Specification",
+    explanation: "صحيح (True). في معالجات x86، تُنفذ تعليمة idiv العتادية كلاً من القسمة وباقي القسمة معاً في نفس السجل. وبما أن قسمة INT_MIN (-2147483648) على -1 تُنتج +2147483648 وهي خارج مدى السجل، فإن المعالج يطلق استثناء طفحان القسمة (Division Overflow Exception) ويتحطم البرنامج فوراً!",
+    details: "On x86, idiv computes quotient and remainder together. Since quotient INT_MIN / -1 overflows, INT_MIN % -1 triggers a fatal CPU fault."
+  },
+  {
+    id: "ext_tf_4",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Const Reference Temporary Lifetime Extension",
+    text: "In C++, binding a temporary rvalue object to a const reference extends the lifetime of the temporary object to match the reference's lifetime.",
+    textAr: "في لغة C++، ربط كائن مؤقت (Temporary object) بمرجع ثابت (const reference) يؤدي لتمديد عمر الكائن المؤقت ليتطابق مع عمر المرجع.",
+    type: "boolean",
+    correctAnswer: true,
+    source: "C++ Standard Temporary Object Lifetime [class.temporary]",
+    explanation: "صحيح (True). هذه قاعدة شهيرة في C++ تُسمى (Lifetime Extension). الكائن المؤقت الذي يُفترض أن يُدمر في نهاية السطر يمتد عمره ويظل حياً طالما أن المرجع الثابت const& المرتبط به لا يزال داخل النطاق (In Scope).",
+    details: "A temporary bound to a const reference is not destroyed at the end of the full expression, but when the reference itself goes out of scope."
+  },
+  {
+    id: "ext_tf_5",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Overflow in Subtracting Negative from Positive",
+    text: "In signed Two's Complement arithmetic, subtracting a negative number from a positive number can cause an Overflow condition.",
+    textAr: "في نظام المكمل الثنائي بإشارة، طرح عدد سالب من عدد موجب يمكن أن يُحدث فيضاً حسابياً (Overflow).",
+    type: "boolean",
+    correctAnswer: true,
+    source: "Two's Complement Subtraction Rules",
+    explanation: "صحيح (True). طرح عدد سالب يكافئ جبرياً إضافة عدد موجب: (Positive - Negative = Positive + Positive). وجمع عددين موجبين كبيرين يمكن أن يتجاوز الحد الأقصى للمدى الموجب، فيتحول الناتج لعدد سالب وهو تعريف الـ Overflow!",
+    details: "Positive - Negative == Positive + Positive. If the sum exceeds 2^(n-1) - 1, signed overflow occurs."
+  },
+  {
+    id: "ext_tf_6",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "delete Pointer Nullification Myth",
+    text: "Executing 'delete ptr;' in C++ automatically resets the pointer 'ptr' to nullptr to prevent dangling pointers.",
+    textAr: "تنفيذ الأمر 'delete ptr;' في C++ يقوم تلقائياً بضبط المؤشر 'ptr' إلى nullptr لمنع المؤشرات المعلقة.",
+    type: "boolean",
+    correctAnswer: false,
+    source: "C++ Memory Management & Dangling Pointers",
+    explanation: "خطأ (False). أمر delete يقوم بتحرير مساحة الذاكرة في الـ Heap فقط، ولكنه يترك المؤشر ptr محتفظاً بنفس عنوان الذاكرة المحررة القديم (Dangling Pointer)! والمبرمج هو المسؤول حصراً عن كتابة ptr = nullptr; لتجنب الأخطاء الكارثية.",
+    details: "delete deallocates memory but never clears the pointer variable. It remains a dangling pointer unless explicitly set to nullptr."
+  },
+  {
+    id: "ext_tf_7",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "new Array Zero-Initialization Myth",
+    text: "In C++, executing 'int *arr = new int[100];' guarantees that all 100 elements are initialized to zero.",
+    textAr: "في لغة C++، كتابة 'int *arr = new int[100];' تضمن تهيئة جميع العناصر المائة بالصفر تلقائياً.",
+    type: "boolean",
+    correctAnswer: false,
+    source: "Default vs Value Initialization in C++ [dcl.init]",
+    explanation: "خطأ (False). كتابة new int[100] (بدون أقواس دائرية) تطبق التهيئة الافتراضية (Default Initialization)، مما يترك عناصر المصفوفة محتوية على قيم عشوائية غير محددة (Garbage values)! لتهيئتها بالصفر يجب كتابة: new int[100]() مع القوسين.",
+    details: "new int[100] leaves memory uninitialized (garbage). new int[100]() value-initializes all elements to 0."
+  },
+  {
+    id: "ext_tf_8",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "inline Keyword Guarantee Myth",
+    text: "Declaring a function with the 'inline' keyword guarantees that the C++ compiler will substitute the function code at every call site.",
+    textAr: "الإعلان عن دالة باستخدام الكلمة المحجوزة 'inline' يضمن أن مترجم C++ سيقوم باستبدال كود الدالة في مكان كل استدعاء بدون استثناء.",
+    type: "boolean",
+    correctAnswer: false,
+    source: "C++ inline Specifier Semantics [dcl.inline]",
+    explanation: "خطأ (False). الكلمة inline في لغة C++ هي مجرد اقتراح وتوجيه للمترجم وليست أمراً ملزماً! يحق للمترجم تماماً رفض تضمين الدالة (Inlining) إذا كانت معقدة أو تحتوي على تكرار ذاتي (Recursion). كما أن وظيفتها الأساسية المعيارية هي السماح بتعريف الدالة في ملفات رأسية متعددة دون خرق قاعدة التعريف الواحد (ODR).",
+    details: "The inline specifier is merely an optimization hint and linkage directive (ODR relaxation), not a mandatory command to the compiler."
+  },
+
+  // ==========================================
+  // 2. EXTREME IDENTIFY & FIX CODE ERRORS (اكتشف وصحح الأخطاء - ليفل الوحش)
+  // ==========================================
+  {
+    id: "ext_err_1",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Unsigned Counter Loop Underflow Bug",
+    text: "Identify and correct the fatal infinite loop bug in: for (unsigned int i = 10; i >= 0; i--) cout << i;",
+    textAr: "اكتب الكود المصحح لحلقة التكرار التالية التي تسبب حلقة لا نهائية بسبب طفحان unsigned: for (unsigned int i = 10; i >= 0; i--) cout << i;",
+    codeSnippet: `for (unsigned int i = 10; i >= 0; i--)
+    cout << i;`,
+    type: "interactive_fix",
+    source: "Unsigned Loop Underflow Elimination",
+    hint: "المتغير بدون إشارة لا يمكن أن يكون سالباً أبداً، فما هو النوع الصحيح للمتغير؟",
+    identifiedErrors: [
+      "استخدام unsigned int كعداد للحلقة التنازلية مع شرط (i >= 0)، مما يسبب طفحاناً عكسياً (Underflow) عند 0 إلى 4294967295 ويجعل الحلقة لا نهائية."
+    ],
+    correctCode: `for (int i = 10; i >= 0; i--) cout << i;`,
+    explanation: `الخطأ القاتل:
+المتغير unsigned int لا يقبل قيماً سالبة، فعندما يصل إلى 0 وينقص يصبح 4294967295، فيظل الشرط i >= 0 محققاً دائماً!
+التصحيح:
+تغيير نوع المتغير إلى signed int (أو ببساطة int).`
+  },
+  {
+    id: "ext_err_2",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "String Literal Mutation Access Violation Bug",
+    text: "Identify and correct the crash bug in: char *str = \"antigravity\"; str[0] = 'A';",
+    textAr: "اكتب الكود المصحح لمنع انهيار البرنامج عند تعديل النص: char *str = \"antigravity\"; str[0] = 'A';",
+    codeSnippet: `char *str = "antigravity";
+str[0] = 'A';`,
+    type: "interactive_fix",
+    source: "Read-Only Memory Protection Fix",
+    hint: "كيف تجعل السلسلة مصفوفة قابلة للتعديل في الـ Stack بدلاً من مؤشر لـ .rodata؟",
+    identifiedErrors: [
+      "تعريف السلسلة النصية كمؤشر char* يشير إلى نص حرفي مخزن في منطقة الذاكرة للقراءة فقط (.rodata)، مما يسبب انهيار البرنامج (Access Violation) عند محاولة تعديل المحرف الأول."
+    ],
+    correctCode: `char str[] = "antigravity"; str[0] = 'A';`,
+    explanation: `الخطأ:
+المؤشر char *str يؤشر إلى ذاكرة للقراءة فقط.
+التصحيح:
+تحويل المؤشر إلى مصفوفة محارف char str[]، حيث يتم نسخ النص إلى ذاكرة المكدس (Stack) المتاحة للقراءة والكتابة.`
+  },
+  {
+    id: "ext_err_3",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Scalar delete on Array Allocation Bug",
+    text: "Identify and correct the undefined behavior bug in: int *ptr = new int[50]; delete ptr;",
+    textAr: "اكتب الكود المصحح لتحرير مصفوفة ديناميكية وتفادي السلوك غير المحدد: int *ptr = new int[50]; delete ptr;",
+    codeSnippet: `int *ptr = new int[50];
+delete ptr;`,
+    type: "interactive_fix",
+    source: "C++ Memory Mismatch Standard Rule [expr.delete]",
+    hint: "ما هو المعامل المخصص لتحرير المصفوفات المحجوزة بـ new[]؟",
+    identifiedErrors: [
+      "استخدام معامل الحذف الفردي 'delete ptr;' مع مصفوفة تم حجزها بـ 'new int[50];' بدلاً من استخدام معامل حذف المصفوفات 'delete[] ptr;'."
+    ],
+    correctCode: `int *ptr = new int[50]; delete[] ptr;`,
+    explanation: `الخطأ:
+حجز الذاكرة تم باستخدام new[]، وتحريرها بـ delete الفردية يُعتبر سلوكاً غير محدد (Undefined Behavior) يسبب تسريب ذاكرة أو انهيار البرنامج.
+التصحيح:
+استخدام delete[] ptr; المخصصة للمصفوفات.`
+  },
+  {
+    id: "ext_err_4",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Bitwise AND vs Short-Circuit Logical AND Bug",
+    text: "Identify and correct the divide-by-zero crash in: int a = 10, b = 0; if (b != 0 & a / b > 2) cout << \"OK\";",
+    textAr: "اكتب الكود المصحح لمنع انهيار القسمة على صفر في جملة الشرط التالية: if (b != 0 & a / b > 2)",
+    codeSnippet: `int a = 10, b = 0;
+if (b != 0 & a / b > 2)
+    cout << "OK";`,
+    type: "interactive_fix",
+    source: "Bitwise AND vs Short-Circuit Logical Operator",
+    hint: "أي معامل يضمن عدم تقييم الطرف الأيمن عند فشل الطرف الأيسر؟",
+    identifiedErrors: [
+      "استخدام معامل البتات الفردي '&' بدلاً من معامل الربط المنطقي '&&'. المعامل '&' لا يطبق قصر الدائرة (No Short-Circuit) ويقيم كلاً من الطرفين، فيقسم على صفر وتتحطم الدالة."
+    ],
+    correctCode: `if (b != 0 && a / b > 2) cout << "OK";`,
+    explanation: `الخطأ:
+المعامل & يقيم الطرفين دائماً، فيحسب a / b و b تساوي 0 مما يسبب خطأ قسمة على صفر عتادي!
+التصحيح:
+استخدام المعامل المنطقي && الذي يطبق قصر الدائرة ويتوقف فوراً إذا كان b == 0.`
+  },
+
+  // ==========================================
+  // 3. EXTREME NUMBER SYSTEMS & IEEE-754 CALCULATIONS (حسابات أنظمة العد - ليفل الوحش)
+  // ==========================================
+  {
+    id: "ext_num_1",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "IEEE-754 Hexadecimal Pattern of -2.5f",
+    text: "Calculate the exact 32-bit Hexadecimal IEEE-754 single-precision bit pattern of the negative float -2.5f.",
+    textAr: "احسب النمط الست عشري الدقيق المكون من 32 بت وفق معيار IEEE-754 للرقم العشري السالب -2.5f (اكتبه بصيغة 0x... أو 8 خانات hex):",
+    type: "number_system",
+    source: "IEEE-754 Floating-Point Calculation Challenge",
+    inputs: [
+      { label: "Hexadecimal Pattern (32-bit)", expected: "C0200000", hint: "Sign: 1, Exponent: 128 (0x80), Mantissa: .01 (0x200000)" }
+    ],
+    stepByStep: `خطوات حساب نمط IEEE-754 للرقم -2.5f بالتفصيل:
+1) خانة الإشارة (Sign bit):
+   الرقم سالب -> Sign bit = 1.
+
+2) التحويل إلى ثنائي عادي:
+   2.5 = 2 + 0.5 = 10.1 ثنائياً.
+
+3) التنسيق العلمي المعياري (Normalized Scientific Notation):
+   10.1 = 1.01 × 2^1.
+   قيمة الأس الحقيقي (E) = 1.
+
+4) حساب الأس المنحاز (Biased Exponent):
+   الانحياز في 32-bit هو 127:
+   Biased Exponent = 1 + 127 = 128.
+   128 ثنائياً في 8 بت = 10000000.
+
+5) استخراج الكسر (Mantissa / Fraction):
+   نحذف الواحد الضمني (Implicit 1) من 1.01:
+   المتبقي هو: 01.
+   نكمل 23 بت بإضافة أصفار: 01000000000000000000000.
+
+6) تجميع الـ 32 بت:
+   Sign (1 بت): 1
+   Exponent (8 بت): 10000000
+   Fraction (23 بت): 01000000000000000000000
+   السلسلة الكاملة:
+   1100 0000 0010 0000 0000 0000 0000 0000
+
+7) التحويل إلى Hexadecimal:
+   1100 = C
+   0000 = 0
+   0010 = 2
+   0000 = 0
+   0000 = 0
+   0000 = 0
+   0000 = 0
+   0000 = 0
+   الناتج النهائي = C0200000 (أو 0xC0200000).`
+  },
+  {
+    id: "ext_num_2",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Signed Fixed-Point Q4.4 of -6.75",
+    text: "Calculate the exact 8-bit Two's Complement representation of decimal -6.75 in Q4.4 format (4 integer bits, 4 fractional bits).",
+    textAr: "احسب التمثيل الثنائي الدقيق بالمكمل الثنائي (Two's Complement) في نظام الفاصلة الثابتة Q4.4 المكون من 8 بت للرقم السالب -6.75:",
+    type: "number_system",
+    source: "Fixed-Point Two's Complement DSP Challenge",
+    inputs: [
+      { label: "8-bit Q4.4 Binary", expected: "10010100", hint: "احسب +6.75 ثم طبق مكمل ثنائي كامل" }
+    ],
+    stepByStep: `خطوات الحل لنظام Q4.4 (4 بت للصحيح، 4 بت للكسر):
+1) تمثيل القيمة الموجبة (+6.75):
+   - الجزء الصحيح (6) في 4 بت: 0110
+   - الجزء الكسري (0.75): 0.75 = 0.5 + 0.25 = 1100 في 4 بت
+   - القيمة الموجبة الكاملة: 0110.1100 (أو 01101100)
+
+2) إيجاد المكمل الأحادي (1's complement) بقلب جميع البتات:
+   01101100 -> 10010011
+
+3) إيجاد المكمل الثنائي (2's complement) بإضافة 1:
+     10010011
+   +        1
+   ----------
+     10010100
+
+الناتج النهائي لـ -6.75 هو: 10010100.`
+  },
+  {
+    id: "ext_num_3",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Double Dabble: 255.0625 to Hexadecimal",
+    text: "Convert decimal 255.0625 to its exact Hexadecimal representation.",
+    textAr: "حوّل الرقم العشري 255.0625 إلى مكافئه الدقيق في النظام الست عشري (Hexadecimal):",
+    type: "number_system",
+    source: "Advanced Fractional Base Conversion",
+    inputs: [
+      { label: "Hexadecimal Equivalent", expected: "FF.1", hint: "255 ست عشرياً + 0.0625 * 16" }
+    ],
+    stepByStep: `خطوات التحويل الدقيقة:
+1) الجزء الصحيح (255):
+   255 / 16 = 15 والباقي 15 (F)
+   15  / 16 = 0  والباقي 15 (F)
+   الجزء الصحيح = FF ست عشرياً (15*16 + 15 = 255).
+
+2) الجزء الكسري (0.0625) بالضرب في 16:
+   0.0625 × 16 = 1.0
+   الجزء الصحيح الناتج هو 1، والكسر المتبقي 0 (توقف فوري!).
+   الكسر ست عشرياً = .1
+
+3) الناتج الست عشري الإجمالي: FF.1.`
+  },
+  {
+    id: "ext_num_4",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "8-bit Two's Complement Arithmetic Overflow & Hex Result",
+    text: "Perform signed 8-bit Two's Complement addition of (+75)_10 and (+85)_10. Compute the 8-bit binary sum, its hexadecimal representation, its signed decimal value, and whether signed overflow occurred.",
+    textAr: "احسب ناتج جمع (+75) مع (+85) بنظام المكمل الثنائي (8-bit Two's Complement)، واكتب الناتج الثنائي، الست عشري، القيمة العشرية الناتجة، وهل حدث طفحان (Overflow)؟",
+    type: "number_system",
+    source: "ALU Overflow Detection & Signed Arithmetic",
+    inputs: [
+      { label: "8-bit Binary Sum", expected: "10100000", hint: "01001011 + 01010101" },
+      { label: "Hexadecimal Pattern", expected: "A0", hint: "1010 0000 ست عشرياً" },
+      { label: "Signed Decimal Interpretation", expected: "-96", hint: "قيمة 10100000 في المكمل الثنائي (سالب)" },
+      { label: "Signed Overflow Occurred? (YES/NO)", expected: "YES", hint: "جمع عددين موجبين أعطى سالباً (V=1)" }
+    ],
+    stepByStep: `خطوات الحل واكتشاف الطفحان (Overflow Detection):
+1) تمثيل العددين في 8-bit signed binary:
+   - (+75)_10:
+     75 = 64 + 8 + 2 + 1 -> (01001011)_2
+   - (+85)_10:
+     85 = 64 + 16 + 4 + 1 -> (01010101)_2
+
+2) الجمع الثنائي بت بالبت:
+      0 1 0 0 1 0 1 1  (+75)
+    + 0 1 0 1 0 1 0 1  (+85)
+    ------------------
+      1 0 1 0 0 0 0 0
+
+3) النمط الست عشري:
+   1010 0000 = A0 (أو 0xA0).
+
+4) التفسير العشري ذو الإشارة (Signed 2's Complement):
+   - البت الأثقل (MSB) = 1، إذاً العدد سالب!
+   - لإيجاد قيمته المطلقة، نأخذ المكمل الثنائي لـ 10100000:
+     قلب البتات: 01011111
+     إضافة 1:    01100000 = 64 + 32 = 96
+   - القيمة العشرية الناتجة = -96!
+
+5) كشف الطفحان العتادي (Signed Overflow Flag V):
+   - جمعنا عددين موجبين (+75 و +85) وكان الناتج سالباً (-96)، وهذا مستحيل رياضياً!
+   - السبب: الناتج الصحيح (+160) أكبر من الحد الأقصى المسموح به في 8 بت (+127).
+   - الحمل المنقول إلى خانة الإشارة (Carry-in to MSB) = 1.
+   - الحمل المنقول خارج خانة الإشارة (Carry-out of MSB) = 0.
+   - قاعدة علم العتاد: V = Carry_in XOR Carry_out = 1 XOR 0 = 1 (حدث طفحان YES).`
+  },
+
+  // ==========================================
+  // 4. EXTREME ESSAY & ARCHITECTURAL PROOFS (أسئلة مقالية وبراهين معمارية - ليفل الوحش)
+  // ==========================================
+  {
+    id: "ext_essay_1",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Mathematical Impossibility of Exact 0.1 in Binary",
+    text: "Explain mathematically why decimal 0.1 cannot be represented with finite bits in binary floating-point, and detail how repeated multiplication produces an infinite recurring expansion.",
+    textAr: "سؤال مقالي معمق: برهن رياضياً لماذا يستحيل تمثيل الكسر العشري البسيط 0.1 بعدد منتهٍ من البتات في النظام الثنائي ومعيار IEEE-754، موضحاً متسلسلة الضرب التكراري الناتجة.",
+    type: "essay",
+    source: "Discrete Mathematics & Number Representation Limits",
+    questionDetails: "اشرح شرط قابلية التمثيل المنتهي في أي نظام عد، واكتب خطوات الضرب المتكرر التي تثبت الدورية.",
+    modelAnswerAr: `البرهان الرياضي لعدم إمكانية تمثيل 0.1 ثنائياً:
+1. النظرية الرياضية الأساسية للكسور المنتهية:
+   في أي نظام عد أساسه B، الكسر العادي (P / Q) يكون له تمثيل منتهٍ إذا وفقط إذا كانت جميع العوامل الأولية للمقام Q من ضمن العوامل الأولية للأساس B.
+   - في النظام العشري (Base 10): العوامل الأولية لـ 10 هي (2 و 5). الكسر 1/10 مقامه 10 عوامله 2 و 5، ولذلك يُكتب منتهياً: 0.1.
+   - في النظام الثنائي (Base 2): العامل الأولي الوحيد هو 2 فقط. وحيث إن مقام الكسر (1/10) يحتوي على العامل 5، فإنه يستحيل تمثيله بعدد منتهٍ من قوى 2!
+
+2. إثبات الدورية بالضرب المتكرر في 2:
+   0.1 × 2 = 0.2 -> الجزء الصحيح 0
+   0.2 × 2 = 0.4 -> الجزء الصحيح 0
+   0.4 × 2 = 0.8 -> الجزء الصحيح 0
+   0.8 × 2 = 1.6 -> الجزء الصحيح 1
+   0.6 × 2 = 1.2 -> الجزء الصحيح 1
+   0.2 × 2 = 0.4 -> الجزء الصحيح 0 (عدنا لنفس الخطوة الثانية!)
+   ينتج الكسر الدوري اللا نهائي: 0.00011001100110011..._2
+
+3. النتيجة في الحواسب:
+   معيار IEEE-754 يقتطع السلسلة بعد 23 بت (في float) أو 53 بت (في double)، مما يؤدي لخطأ تقريب متأصل (Rounding Error)، ولذلك التعبير (0.1 + 0.2 == 0.3) يعيد false في لغات البرمجة!`,
+    modelAnswer: `A fraction P/Q has a finite representation in base B if and only if all prime factors of Q divide B. For base 2, the only prime factor is 2. The fraction 1/10 has denominator factors 2 and 5. Since 5 does not divide 2, 0.1 produces an infinite repeating binary expansion (0.000110011...). Rounding at bit 23/53 creates inherent representation error.`,
+    rubricChecklist: [
+      "ذكر شرط العوامل الأولية لمقام الكسر وعلاقته بأساس النظام الثنائي (الرقم 5 لا يقسم 2).",
+      "كتابة خطوات الضرب التكراري وإثبات تكرار النمط 0011 الدوري.",
+      "توضيح اقتطاع المعالج للبتات في معيار IEEE-754 وحدوث خطأ التقريب Rounding Error.",
+      "الربط مع فشل مقارنة (0.1 + 0.2 == 0.3) في الحواسب."
+    ]
+  },
+  {
+    id: "ext_essay_2",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "MESI Cache Coherency Protocol & False Sharing",
+    text: "Explain the four states of the MESI cache coherency protocol and detail how False Sharing severely degrades multi-core CPU throughput, explaining the solution using memory padding.",
+    textAr: "سؤال مقالي معمارية حاسب: اشرح الحالات الأربع لبروتوكول تماسك الكاش MESI، وكيف تتسبب ظاهرة 'المشاركة الكاذبة' (False Sharing) في انهيار كفاءة المعالجات متعددة الأنوية، موضحاً الحل الهندسي باستخدام الـ Padding.",
+    type: "essay",
+    source: "Advanced Multi-Core Cache Architecture & High-Performance Computing",
+    questionDetails: "اشرح الحالات: Modified, Exclusive, Shared, Invalid وكيف يؤدي سطر الكاش المشترك لـ Cache Invalidation ping-pong.",
+    modelAnswerAr: `بروتوكول MESI وظاهرة المشاركة الكاذبة:
+
+1. الحالات الأربع لسطر الكاش في بروتوكول MESI:
+   - Modified (M): السطر تم تعديله بواسطة هذه النواة فقط، والبيانات في الـ RAM أصبحت قديمة (Dirty)، ويجب كتابتها للـ RAM قبل إخلاء السطر.
+   - Exclusive (E): السطر موجود في كاش هذه النواة فقط ومطابق تماماً للبيانات في الـ RAM (Clean).
+   - Shared (S): السطر موجود في كاش هذه النواة ونواة أخرى أو أكثر ومطابق للذاكرة (للقراءة فقط).
+   - Invalid (I): السطر غير صالح ولا يحتوي على بيانات موثوقة ويجب إعادة سحبه من الذاكرة أو الكاشات الأخرى.
+
+2. آلية حدوث المشاركة الكاذبة (False Sharing):
+   - في المعالجات الحديثة، أصغر وحدة نقل للبيانات هي سطر الكاش (Cache Line بحجم 64 بايت).
+   - إذا كان الخيط Thread 1 على النواة Core 1 يعدل المتغير varA، والخيط Thread 2 على النواة Core 2 يعدل المتغير varB.
+   - وكان المتغيران متجاورين في الذاكرة بحيث يقعان معاً داخل نفس الـ 64 بايت!
+   - في كل مرة يكتب فيها Core 1 على varA، يرسل بروتوكول MESI إشارة إبطال (Invalidate) لسطر الكاش بالكامل في Core 2 فتتحول حالته إلى Invalid!
+   - وعندما يحاول Core 2 تعديل varB، يكتشف أن السطر Invalid، فيطلب السطر مجدداً عبر الـ Bus، ويبطل سطر Core 1 بدوره!
+   - ينتج عن ذلك صراع مستمر (Cache Line Bouncing / Ping-Pong) يعطل خطوط أنابيب المعالج ويهدر زمن الـ Bus بالكامل.
+
+3. الحل الهندسي (Memory Alignment & Padding):
+   - فصل المتغيرين بحشو فارغ (Padding) أو استخدام مواصفة المحاذاة في C++: alignas(64).
+   - هذا يضمن أن كل متغير يقع في سطر كاش مستقل ومنفصل بحجم 64 بايت، فتعدل الأنوية في هدوء واستقلالية تامة دون أي إبطال متبادل.`,
+    modelAnswer: `MESI States: Modified (dirty, exclusive), Exclusive (clean, exclusive), Shared (clean, multiple cores), Invalid (stale). False Sharing occurs when two threads on different cores modify independent variables located on the exact same 64-byte cache line. Each write triggers an Invalid state on the other core's cache, forcing continuous cache line reloading across the interconnect (cache ping-pong). Solution: Align variables to 64-byte boundaries using alignas(64) or structure padding.`,
+    rubricChecklist: [
+      "شرح الحالات الأربع: Modified, Exclusive, Shared, Invalid بدقة.",
+      "توضيح أن وحدة النقل والإبطال العتادية هي سطر الكاش (Cache Line 64 Bytes).",
+      "شرح صراع الإبطال المتبادل (Invalidation Ping-Pong) بين النواتين.",
+      "ذكر الحل المعماري باستخدام المحاذاة alignas(64) أو الـ Padding."
+    ]
+  },
+  {
+    id: "ext_essay_3",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "Memory Alignment, Structure Padding & Hardware Split Cycles",
+    text: "Explain how 64-bit CPU data bus architecture enforces memory alignment, why struct { char a; double b; int c; } occupies 24 bytes instead of 13, and the hardware cost of unaligned memory access.",
+    textAr: "سؤال مقالي معماري: اشرح كيف تفرض معمارية الحواسب الحديثة 64-bit محاذاة الذاكرة (Memory Alignment)، ولماذا يشغل الهيكل struct { char a; double b; int c; } مساحة 24 بايت بدلاً من 13 بايت، موضحاً التكلفة العتادية للوصول غير المحاذي (Unaligned Access).",
+    type: "essay",
+    source: "Computer Architecture, Bus Protocols & Data Alignment",
+    questionDetails: "اشرح قاعدة Natural Alignment، واحسب الـ Padding لكل حقل، واشرح ما يفعله المعالج عند قراءة متغير غير محاذٍ.",
+    modelAnswerAr: `محاذاة الذاكرة وحشو الهياكل (Struct Padding & Alignment):
+
+1. مفهوم المحاذاة الطبيعية (Natural Alignment):
+   - في معمارية الحواسب، خطوط نقل البيانات (Data Bus) بعرض 64 بت (8 بايت) تقرأ البيانات من عناوين تكون مضاعفات لـ 8 بايت (0x0, 0x8, 0x10...).
+   - قاعدة المحاذاة: أي نوع بياني بحجم N بايت يجب أن يقع في عنوان ذاكرة يقبل القسمة على N (العنوان % N == 0).
+   - المتغير char (1 بايت) يحاذى عند مضاعفات 1.
+   - المتغير int (4 بايت) يحاذى عند مضاعفات 4.
+   - المتغير double (8 بايت) يحاذى عند مضاعفات 8.
+
+2. تحليل حجم الهيكل { char a; double b; int c; }:
+   - الإزاحة 0: الحقل 'a' بحجم 1 بايت (العنوان 0).
+   - الحقل التالي 'b' بحجم 8 بايت، فيجب أن يبدأ عند عنوان من مضاعفات 8! لذلك يضيف المترجم (Compiler) حشواً فارغاً (Padding) مقداره 7 بايت (العناوين 1 إلى 7 مهدرة).
+   - الإزاحة 8: الحقل 'b' يشغل 8 بايت (العناوين 8 إلى 15).
+   - الإزاحة 16: الحقل 'c' بحجم 4 بايت يشغل (العناوين 16 إلى 19).
+   - الحجم الإجمالي حتى الآن = 20 بايت.
+   - قاعدة الحجم الكلي للهيكل: يجب أن يكون مضاعفاً لأكبر محاذاة في الهيكل (alignof(double) = 8). لذلك يضاف حشو أخير مقداره 4 بايت في نهاية الهيكل (العناوين 20 إلى 23).
+   - الحجم النهائي في الذاكرة = 24 بايت (مع أن البيانات الفعلية 13 بايت فقط!).
+
+3. الحل الهندسي لتقليل الهدر (Field Reordering):
+   - إعادة ترتيب الحقول تنازلياً حسب الحجم: { double b; int c; char a; }
+   - double b: 8 بايت (0-7).
+   - int c: 4 بايت (8-11).
+   - char a: 1 بايت (12).
+   - حشو أخير 3 بايت (13-15) ليصبح المجموع 16 بايت فقط! (وفرنا 33% من الذاكرة).
+
+4. التكلفة العتادية للوصول غير المحاذي (Unaligned Access):
+   - إذا سُمح لمتغير double (8 بايت) أن يبدأ عند عنوان فردي (مثلاً 0x5)، فإنه يمتد عبر كلمتي ذاكرة (Memory Words)!
+   - المعالج يضطر لتنفيذ دورتي ناقل ذاكرة (Two Memory Bus Cycles) بدلاً من دورة واحدة، ثم يقوم بوحدة العتاد بعمل Shift و Mask لدمج الجزأين في السجل.
+   - في بعض معماريات RISC و ARM الصارمة، الوصول غير المحاذي يولد فوراً استثناء عتادياً قاتلاً (Hardware Fault / Alignment Exception / SIGBUS) يؤدي لإيقاف البرنامج.`,
+    modelAnswer: `Memory alignment ensures data addresses are multiples of data size (address % sizeof(T) == 0) matching CPU word fetch lines. In {char a; double b; int c;}: 'a' takes 1 byte + 7 bytes padding so 'b' (8 bytes) aligns at offset 8. 'c' takes 4 bytes (offsets 16-19) + 4 bytes tail padding to make total size a multiple of alignof(double)=8 -> 24 bytes total. Unaligned access spans two cache lines/bus words, triggering two memory read cycles plus bitwise shifts, degrading performance or causing hardware alignment traps (SIGBUS) on RISC systems.`,
+    rubricChecklist: [
+      "شرح مفهوم Natural Alignment (العنوان يقبل القسمة على حجم المتغير).",
+      "تفصيل حساب الـ Padding في الهيكل الأول (7 بايت بعد char و 4 بايت بعد int) ليصل المجموع إلى 24 بايت.",
+      "ذكر تقنية إعادة ترتيب الحقول لتقليص الحجم إلى 16 بايت.",
+      "شرح التكلفة العتادية للوصول غير المحاذي (دورتي ناقل ذاكرة أو استثناء عتادي SIGBUS)."
+    ]
+  },
+  {
+    id: "ext_essay_4",
+    category: "extreme",
+    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
+    title: "C++ Virtual Method Table (vtable), vptr & Dynamic Dispatch Internals",
+    text: "Detail the compiler and runtime mechanics of C++ virtual functions, explaining vtable storage, object vptr layout, indirect CPU calling sequence, and why dynamic dispatch is disabled during object construction and destruction.",
+    textAr: "سؤال مقالي C++ معمق: اشرح بالتفصيل الآلية الداخلية التي ينفذ بها المترجم والمعالج الدوال الافتراضية (Virtual Functions) وتعدد الأشكال الديناميكي (Dynamic Polymorphism) عبر جدول الدوال الافتراضية (vtable) والمؤشر الافتراضي (vptr)، معللاً لماذا يتعطل الاستدعاء المتعدد داخل البواني (Constructors) والمهدمات (Destructors).",
+    type: "essay",
+    source: "C++ ABI (Itanium/MSVC) & Dynamic Dispatch Internals",
+    questionDetails: "اشرح بنية vtable ومكانها في الذاكرة، وبنية vptr في الكائن، وكيفية ترجمة الاستدعاء لتعليمات تجميع غير مباشرة، وخطر الاستدعاء في الباني.",
+    modelAnswerAr: `الآلية الداخلية للدوال الافتراضية والربط الديناميكي في C++:
+
+1. جدول الدوال الافتراضية (vtable - Virtual Method Table):
+   - لكل فئة (Class) تحتوي على دالة افتراضية واحدة على الأقل، ينشئ المترجم جدولاً ثابتاً (Static Array of Function Pointers) أثناء وقت التصريف.
+   - يحتوي الجدول على عناوين الدوال الافتراضية بالترتيب.
+   - يتم تخزين الـ vtable في قسم البيانات المخصصة للقراءة فقط (.rodata / Text segment) في الذاكرة، ويوجد جدول واحد فقط لكل فئة تشترك فيه جميع كائنات تلك الفئة.
+
+2. المؤشر الافتراضي (vptr - Virtual Pointer):
+   - في كل كائن ينتمي لفئة فيها دوال افتراضية، يزرع المترجم حقلاً خفياً غير مرئي يسمى vptr (عادة في أول 8 بايت من الكائن في معمارية 64-bit).
+   - هذا المؤشر يشير إلى الـ vtable الخاصة بالفئة التي ينتمي إليها الكائن الفعلي في الـ Run-time.
+   - يتولى الباني (Constructor) تهيئة قيمة الـ vptr ليشير للجدول الصحيح.
+
+3. تسلسل الاستدعاء العتادي (Assembly Indirect Call Sequence):
+   - عند تنفيذ السطر: ptr->speak();
+   - لا ينفذ المعالج قفزاً مباشراً (call address)، بل ينفذ استدعاء غير مباشر:
+     1) قراءة مؤشر الكائن في السجل (mov rax, [ptr]).
+     2) فك إرجاع الـ vptr من أول الكائن (mov rdx, [rax]).
+     3) جلب عنوان الدالة speak من الفهرس المخصص لها في الـ vtable (مثلاً الإزاحة 0: mov rcx, [rdx + 0]).
+     4) القفز غير المباشر وتنفيذ الدالة (call rcx).
+   - هذا يسبب تكلفة إضافية طفيفة (Pointer Dereference و Branch Misprediction محتمل).
+
+4. تعطل الربط الديناميكي داخل الباني والمُهدم (Constructor / Destructor Traps):
+   - عند إنشاء كائن مشتق Derived من فئة قاعدة Base:
+     يتم تنفيذ باني Base أولاً! وأثناء تنفيذ باني Base، يكون الـ vptr يشير إلى vtable الخاصة بـ Base فقط!
+   - السبب الجوهري: حقول الفئة المشتقة Derived لم تُبنَ بعد في الذاكرة. إذا سُمح باستدعاء الدالة المتعددة لـ Derived، فإنها قد تقرأ حقولاً غير مهيأة تسبب انهيار البرنامج.
+   - لذلك، يضمن معيار C++ أنه داخل الباني والمُهدم، يتم استدعاء دالة الفئة الحالية فقط بشكل مبكر وتتعطل آلية التعددية الحقيقية (No Dynamic Dispatch to Derived).`,
+    modelAnswer: `For each class with virtual functions, the compiler generates a static vtable (array of function pointers stored in .rodata). Each object contains an implicit hidden pointer (vptr, 8 bytes on 64-bit) pointing to its class vtable. Dynamic dispatch ptr->foo() resolves via indirect call: load object -> dereference vptr -> index vtable -> indirect call (call [vptr + offset]). In constructors/destructors, vptr points strictly to the currently executing class vtable because derived members are uninitialized/already destroyed; polymorphic calls to derived overrides are prohibited to prevent undefined behavior.`,
+    rubricChecklist: [
+      "شرح جدول الـ vtable وتخزينه في منطقة القراءة فقط (.rodata) كجدول مؤشرات دوال.",
+      "شرح المؤشر الافتراضي vptr وحجمه (8 بايت في 64-bit) وتخزينه داخل بنية كل كائن.",
+      "توضيح خطوات الاستدعاء غير المباشر على مستوى المعالج (Dereference vptr -> Index vtable -> Indirect Call).",
+      "تعليل سلوك الدوال الافتراضية داخل الباني والمهدم وحماية الكائن من استخدام حقول غير مهيأة."
+    ]
+  },
+
+  // ==========================================
+  // 5. EXTREME CODE TRACING & ARCHITECTURAL LOGIC (تتبع الأكواد العميقة ليفل الوحش)
   // ==========================================
   {
     id: "ext_1",
@@ -258,8 +777,7 @@ cout << y;`,
     explanation: `الخيار (b) هو الصحيح: 11 (ويعمل بدون أي خطأ تجميع)!
 المصيدة:
 قواعد auto في C++ تنص على أنها عند إنشاء نسخة جديدة بالقيمة (By-value deduction)، تقوم بحذف الكلمة المفتاحية const العلوية (Top-level const)!
-لذلك نوع y هو int عادي وليس const int، وبالتالي يمكن تعديله وزيادته ليصبح 11!
-لو أردت الحفاظ على الثبات يجب كتابة: const auto y = x أو auto& y = x.`,
+لذلك نوع y هو int عادي وليس const int، وبالتالي يمكن تعديله وزيادته ليصبح 11!`,
     details: "By-value auto deduction strips top-level const and reference qualifiers."
   },
   {
@@ -329,8 +847,7 @@ cout << y;`,
 المفهوم:
 في C++، التعبير p[-2] يُترجم بدقة إلى: *(p - 2).
 المؤشر p يشير إلى العنصر في الفهرس 3 (قيمة 40).
-عند طرح 2 (p - 2)، يرجع المؤشر خطوتين للوراء ليشير إلى الفهرس 1 (العنصر 20)!
-الفهارس السالبة قانونية تماماً مع المؤشرات إذا ظلت ضمن حدود الذاكرة المخصصة.`,
+عند طرح 2 (p - 2)، يرجع المؤشر خطوتين للوراء ليشير إلى الفهرس 1 (العنصر 20)!`,
     details: "p[-2] is strictly equivalent to *(p - 2). From index 3, moving back 2 positions lands at index 1 (value 20)."
   },
   {
@@ -358,115 +875,11 @@ int main() {
     source: "Static Storage Duration Mechanics",
     explanation: `الخيار (b) هو الصحيح: 10 11 12!
 المفهوم:
-المتغير المعرف بـ static داخل دالة يتم تهيئته لمرة واحدة فقط طوال فترة تشغيل البرنامج (في أول استدعاء)، ويحتفظ بقيمته في الذاكرة الثابتة (Data Segment) بين الاستدعاءات المختلفة.
-الاستدعاء الأول: يطبع 10 ثم يصبح 11.
-الاستدعاء الثاني: يطبع 11 ثم يصبح 12.
-الاستدعاء الثالث: يطبع 12.`,
+المتغير المعرف بـ static داخل دالة يتم تهيئته لمرة واحدة فقط طوال فترة تشغيل البرنامج (في أول استدعاء)، ويحتفظ بقيمته في الذاكرة الثابتة (Data Segment) بين الاستدعاءات المختلفة.`,
     details: "Static local variables maintain their value across function invocations and are initialized only once."
   },
   {
     id: "ext_15",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Ternary False Branch Execution Only",
-    text: "What is the final value of x in: int x = 0; 0 ? x++ : x--; cout << x;?",
-    textAr: "ما هي القيمة النهائية للمتغير x في: int x = 0; 0 ? x++ : x--; cout << x; ؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) 0" },
-      { id: "b", text: "b) -1" },
-      { id: "c", text: "c) 1" },
-      { id: "d", text: "d) Undefined" }
-    ],
-    correctAnswer: "b",
-    source: "Ternary Operator Conditional Execution",
-    explanation: `الخيار (b) هو الصحيح: -1!
-المعامل الثلاثي ?: يضمن تنفيذ فرع واحد فقط حصرياً:
-بما أن الشرط هو 0 (False)، فإن فرع True (وهو x++) يتم تجاهله تماماً دون أي أثر جانبي، ويُنفذ فقط فرع False (وهو x--)، فتنقص قيمة x من 0 إلى -1.`,
-    details: "The ternary operator evaluates only the chosen branch, guaranteeing no side effects from the unchosen branch."
-  },
-  {
-    id: "ext_16",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Preprocessor Macro Side-Effect Multiplication",
-    text: "What will be printed by: #define CUBE(x) x*x*x when called as CUBE(1 + 2)?",
-    textAr: "ما هو الناتج المطبوع من استدعاء الماكرو التالي: CUBE(1 + 2)؟",
-    codeSnippet: `#define CUBE(x) x * x * x
-cout << CUBE(1 + 2);`,
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) 27" },
-      { id: "b", text: "b) 7" },
-      { id: "c", text: "c) 9" },
-      { id: "d", text: "d) 15" }
-    ],
-    correctAnswer: "b",
-    source: "C Preprocessor Replacement Pitfalls",
-    explanation: `الخيار (b) هو الصحيح: 7 وليس 27!
-المصيدة:
-الماكرو لا يحسب (1 + 2 = 3) أولاً، بل يستبدل النص حرفياً:
-1 + 2 * 1 + 2 * 1 + 2
-أسبقية الضرب أولاً:
-(2 * 1) = 2، و (2 * 1) = 2
-تصبح المعادلة:
-1 + 2 + 2 + 2 = 7!`,
-    details: "Textual expansion yields 1 + 2 * 1 + 2 * 1 + 2 = 1 + 2 + 2 + 2 = 7."
-  },
-  {
-    id: "ext_17",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Rightmost Bit Clearing Expression",
-    text: "What does the bitwise operation: n = n & (n - 1) do in a single step?",
-    textAr: "ماذا تفعل العملية الثنائية n = n & (n - 1) في خطوة واحدة؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Clears the most significant bit (MSB)." },
-      { id: "b", text: "b) Clears the least significant set bit (rightmost 1-bit)." },
-      { id: "c", text: "c) Inverts all bits of n." },
-      { id: "d", text: "d) Multiplies n by 2." }
-    ],
-    correctAnswer: "b",
-    source: "Brian Kernighan's Bit Manipulation Algorithm",
-    explanation: `الخيار (b) هو الصحيح: تطفئ أول بت قيمته 1 من جهة اليمين (Clears the rightmost 1-bit)!
-مثال: إذا كان n = 12 (ثنائياً 1100).
-n - 1 = 11 (ثنائياً 1011).
-عند إجراء AND بينهما:
-1100 & 1011 = 1000 (تم مسح البت 1 الأيمن).
-هذه الخدعة هي أساس خوارزمية Brian Kernighan لعد الآحاد في زمن قياسي O(عدد الآحاد).`,
-    details: "n & (n - 1) resets the lowest set bit to 0."
-  },
-  {
-    id: "ext_18",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Isolating the Lowest Set Bit",
-    text: "What does the expression (x & -x) compute in two's complement arithmetic?",
-    textAr: "ماذا تعيد المعادلة الثنائية السحرية (x & -x) في نظام المكمل الثنائي؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Always zero." },
-      { id: "b", text: "b) Isolates the lowest (rightmost) set 1-bit as a power of 2." },
-      { id: "c", text: "c) Inverts the sign of x." },
-      { id: "d", text: "d) Checks if x is odd." }
-    ],
-    correctAnswer: "b",
-    source: "Binary Indexed Trees (Fenwick Tree) Core Formula",
-    explanation: `الخيار (b) هو الصحيح: تعزل البت 1 الأيمن وتصفر جميع البتات الأخرى!
-البرهان:
-في نظام Two's complement: -x = (~x + 1).
-عملية إضافة 1 تقلب كل الأصفار السفلية حتى تصل لأول 1 فتتركه كما هو وتقلب ما بعده.
-عند عمل AND بين x و -x، تصبح كل الخانات 0 باستثناء خانة البت 1 الأقل وزناً!
-وهي المعادلة المستخدمة في خوارزميات Fenwick Trees الشهيرة في المسابقات البرمجية العالمية.`,
-    details: "x & -x isolates the least significant 1-bit (LSB)."
-  },
-
-  // ==========================================
-  // PART 2: HARDCORE NUMBER SYSTEMS & IEEE-754 TRAPS (أنظمة العد ليفل الوحش)
-  // ==========================================
-  {
-    id: "ext_19",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Branchless Absolute Value Formula",
@@ -489,7 +902,7 @@ n - 1 = 11 (ثنائياً 1011).
     details: "If positive, mask=0 -> (x^0)-0=x. If negative, mask=-1 -> (x^-1)-(-1) = ~x + 1 = -x. Computes abs(x) with zero CPU branch penalties."
   },
   {
-    id: "ext_20",
+    id: "ext_16",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "IEEE-754 Single-Precision Representation of +1.0f",
@@ -506,19 +919,14 @@ n - 1 = 11 (ثنائياً 1011).
     source: "IEEE-754 Floating-Point Standard Bit Layout",
     explanation: `الخيار (b) هو الصحيح: 0x3F800000!
 التفكيك المعماري للرقم +1.0:
-1) بت الإشارة (Sign bit): 0 (موجب).
-2) الأس المنحاز (Biased Exponent): 1.0 = 1.0 × 2^0. الأس هو 0.
-   مع الانحياز (Bias = 127): 0 + 127 = 127 = (01111111) ثنائياً.
-3) الكسر (Mantissa): 1.0 يحتوي على 1 ضمني (Implicit 1)، والجزء الكسري المتبقي هو 23 صفراً.
-تجميع البتات:
-0 01111111 00000000000000000000000
-تجميع رباعيات:
-0011 1111 1000 0000 0000 0000 0000 0000
-= 0x3F800000!`,
+1) بت الإشارة: 0 (موجب).
+2) الأس المنحاز: 0 + 127 = 127 = 01111111 ثنائياً.
+3) الكسر: 23 صفراً بعد حذف الـ 1 الضمني.
+تجميع البتات: 0011 1111 1000 0000 ... = 0x3F800000.`,
     details: "Sign: 0, Exponent: 127 (01111111), Fraction: 0. Hex = 0x3F800000."
   },
   {
-    id: "ext_21",
+    id: "ext_17",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "IEEE-754 NaN Self-Equality Property",
@@ -534,154 +942,11 @@ n - 1 = 11 (ثنائياً 1011).
     correctAnswer: "b",
     source: "IEEE-754 Section 5.11 Comparison Specifications",
     explanation: `الخيار (b) هو الصحيح: false دائماً!
-القاعدة الفريدة في علوم الحاسوب:
-القيمة NaN (Not a Number) هي القيمة الوحيدة في معمارية الحواسب التي لا تساوي نفسها أبداً رياضياً وبرمجياً (NaN == NaN يعيد false دائماً)!
-ولذلك، الطريقة القياسية لفحص ما إذا كان المتغير x هو NaN هي: if (x != x) { /* x is NaN */ }.`,
+القيمة NaN (Not a Number) هي القيمة الوحيدة في معمارية الحواسب التي لا تساوي نفسها أبداً رياضياً وبرمجياً (NaN == NaN يعيد false دائماً).`,
     details: "By IEEE-754 definition, any comparison involving NaN (except !=) returns false. NaN != NaN returns true."
   },
   {
-    id: "ext_22",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "IEEE-754 Denormalized (Subnormal) Numbers",
-    text: "In IEEE-754 single precision, when the exponent bits are all zeros (00000000) and the fraction is non-zero, what is this number called?",
-    textAr: "في معيار IEEE-754، عندما تكون جميع بتات الأس أصفاراً والكسر غير صفري، ماذا يُسمى هذا الرقم؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Normalized Number" },
-      { id: "b", text: "b) Subnormal (Denormalized) Number" },
-      { id: "c", text: "c) Quiet NaN" },
-      { id: "d", text: "d) Negative Infinity" }
-    ],
-    correctAnswer: "b",
-    source: "IEEE-754 Gradual Underflow Architecture",
-    explanation: `الخيار (b) هو الصحيح: الأرقام دون الطبيعية (Subnormal / Denormalized)!
-الأهمية المعمارية:
-في الأرقام الطبيعية، يوجد 1 ضمني قبل الفاصلة (1.fraction).
-لكن عند الاقتراب الشديد من الصفر، تصبح بتات الأس كلها 0، ويسقط الواحد الضمني ليصبح 0 (0.fraction)، مما يتيح تمثيل أرقام فائقة الصغر ويمنع حدوث انقطاع حاد (Underflow Cliff) فيما يعرف بـ Gradual Underflow.`,
-    details: "Subnormals have exponent = 0, implicit leading bit = 0, enabling gradual underflow near zero."
-  },
-  {
-    id: "ext_23",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Floating-Point Non-Associativity Trap",
-    text: "Why does (1e20 + -1e20) + 1.0 evaluate to 1.0, while 1e20 + (-1e20 + 1.0) evaluates to 0.0 in C++?",
-    textAr: "لماذا ينتج عن (1e20 + -1e20) + 1.0 الناتج 1.0، بينما ينتج عن 1e20 + (-1e20 + 1.0) الناتج 0.0؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Floating point arithmetic is NOT associative due to finite mantissa precision." },
-      { id: "b", text: "b) Compiler optimization bug." },
-      { id: "c", text: "c) 1e20 exceeds the maximum limit of double." },
-      { id: "d", text: "d) Undefined sequence point." }
-    ],
-    correctAnswer: "a",
-    source: "Floating-Point Loss of Significance Trap",
-    explanation: `الخيار (a) هو الصحيح: الجمع العشري غير تبادلي تجميعياً (Non-associative) بسبب محدودية خانات الدقة (Mantissa)!
-في المعادلة الثانية:
-عند محاولة جمع الرقم الضخم -1e20 مع الرقم الصغير 1.0، ولأن دقة double تحتوي على 53 بت فقط، فإن الرقم 1.0 يقع خارج نطاق الخانات المتاحة تماماً ويسقط بالتقريب (Round-off to -1e20)، ثم 1e20 + (-1e20) = 0.0!
-أما في المعادلة الأولى:
-(1e20 + -1e20) تصبح 0.0 أولاً، ثم 0.0 + 1.0 = 1.0!`,
-    details: "Floating point addition does not obey mathematical associativity because small numbers are lost when aligned with huge exponents."
-  },
-  {
-    id: "ext_24",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Branchless Signed Overflow Detection Formula",
-    text: "Given sum = a + b for two 32-bit signed integers, which formula correctly detects signed overflow?",
-    textAr: "بافتراض أن sum = a + b لعددين صحيحين 32-bit، أي صيغة منطقية تكشف حدوث الـ Overflow بدقة متناهية؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) ((a ^ sum) & (b ^ sum)) < 0" },
-      { id: "b", text: "b) (a + b) > sum" },
-      { id: "c", text: "c) (a > 0) && (b > 0)" },
-      { id: "d", text: "d) (sum & 0x80000000) == 0" }
-    ],
-    correctAnswer: "a",
-    source: "ALU Overflow Logic Implementation",
-    explanation: `الخيار (a) هو الصحيح: ((a ^ sum) & (b ^ sum)) < 0!
-البرهان المنطقي:
-1) (a ^ sum) خانتها اليسرى 1 إذا وفقط إذا اختلفت إشارة a عن إشارة الناتج sum.
-2) (b ^ sum) خانتها اليسرى 1 إذا وفقط إذا اختلفت إشارة b عن إشارة الناتج sum.
-3) عند عمل AND بينهما، تكون الخانة اليسرى 1 (أي < 0) إذا وفقط إذا كان للرقمين a و b نفس الإشارة، ولكن الناتج sum جاء بإشارة مختلفة عنهما معاً! وهذا هو تعريف الـ Overflow الصارم.`,
-    details: "Checks if both a and b have sign bits different from sum. Negative result indicates sign bit 1 (overflow)."
-  },
-  {
-    id: "ext_25",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Fast Parity Check Bit Trick",
-    text: "What does the expression (x ^ (x >> 1) ^ (x >> 2) ... ) determine about a binary number?",
-    textAr: "ماذا يحدد فحص التماثل (Parity) لسلسلة بتات ثنائية؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Whether the total count of 1-bits is odd or even." },
-      { id: "b", text: "b) If the number is negative." },
-      { id: "c", text: "c) The position of the highest 1-bit." },
-      { id: "d", text: "d) If the number is a palindrome." }
-    ],
-    correctAnswer: "a",
-    source: "Error Detection Coding (Parity Bit Theory)",
-    explanation: `الخيار (a) هو الصحيح: فحص ما إذا كان عدد الآحاد فردياً أم زوجياً (Parity Check)!
-تطبيق المعامل XOR التراكمي على كل البتات يعيد 1 إذا كان عدد الآحاد فردياً (Odd Parity)، ويعيد 0 إذا كان عدد الآحاد زوجياً (Even Parity)، وهو أساس بروتوكولات كشف الأخطاء في الشبكات وذواكر ECC.`,
-    details: "Parity is the XOR sum of all bits, indicating whether the count of 1s is odd (1) or even (0)."
-  },
-  {
-    id: "ext_26",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Q3.4 Fixed-Point Binary Format",
-    text: "In a signed Q3.4 fixed-point representation (1 sign bit, 3 integer bits, 4 fractional bits), what is the binary representation of decimal +2.75?",
-    textAr: "في نظام الفاصلة الثابتة Q3.4 (بت إشارة، 3 بت للصحيح، و 4 بت للكسر)، كيف يُكتب الرقم +2.75؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) 00101100" },
-      { id: "b", text: "b) 00111100" },
-      { id: "c", text: "c) 00100110" },
-      { id: "d", text: "d) 10101100" }
-    ],
-    correctAnswer: "a",
-    source: "Fixed-Point Arithmetic in Embedded DSPs",
-    explanation: `الخيار (a) هو الصحيح: 00101100!
-التفكيك:
-- بت الإشارة: 0 (موجب).
-- الجزء الصحيح (2): 010 في 3 بت.
-  (يصبح الجزء الصحيح كاملاً مع الإشارة: 0010).
-- الجزء الكسري (0.75):
-  0.75 = 0.5 + 0.25 = (1100) في 4 بت ثنائية.
-الدمج الكامل: 0010 1100.`,
-    details: "Sign + 3 int bits = 0010 (2). 4 fractional bits = 1100 (0.75). Total 8-bit word = 00101100."
-  },
-  {
-    id: "ext_27",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Carry Out with Two Positive Numbers",
-    text: "Can adding two POSITIVE numbers in two's complement generate a Carry-out from the MSB?",
-    textAr: "هل يمكن لجمع عددين موجبين بنظام المكمل الثنائي أن يُنتج حملاً خارجاً (Carry-out = 1) من الخانة اليسرى MSB؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Impossible: adding two positives never generates carry-out from MSB." },
-      { id: "b", text: "b) Yes, whenever overflow occurs." },
-      { id: "c", text: "c) Yes, always." },
-      { id: "d", text: "d) Only in 64-bit architectures." }
-    ],
-    correctAnswer: "a",
-    source: "Digital Logic Design Truth Tables",
-    explanation: `الخيار (a) هو الصحيح: مستحيل هندسياً ورياضياً!
-البرهان:
-العدد الموجب تكون خانة إشارته MSB دائماً 0.
-جمع الخانتين الأيسرين: 0 + 0 لا يمكن أن يُنتج حملاً 1 أبداً، حتى وإن كان هناك حمل قادم من الخانة السابقة (0 + 0 + 1 = 1 والحمل الخارج = 0).
-لذلك جمع عددين موجبين لا يمكن أن يُنتج Carry-out = 1 إطلاقاً!`,
-    details: "Since MSBs of both positives are 0, max sum at MSB is 0 + 0 + 1(carry-in) = 1 with carry-out = 0."
-  },
-
-  // ==========================================
-  // PART 3: CPU ARCHITECTURE, CACHE & PIPELINE (المعمارية والكاش ميموري)
-  // ==========================================
-  {
-    id: "ext_28",
+    id: "ext_18",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Cache Line Spatial Locality & Matrix Traversal",
@@ -697,15 +962,12 @@ n - 1 = 11 (ثنائياً 1011).
     correctAnswer: "a",
     source: "Hardware Spatial Locality & CPU Cache Lines",
     explanation: `الخيار (a) هو الصحيح!
-السر المعماري:
-في لغة C++، تُخزن المصفوفات في الذاكرة بنظام Row-Major (عناصر الصف الواحد متجاورة وراء بعضها).
-عندما يطلب المعالج عنصراً، يسحب خط كاش كامل (Cache Line بحجم 64 بايت) يحتوي على العناصر المجاورة فوراً في الـ L1 Cache.
-- في مسح الصفوف: 100% Cache Hits!
-- في مسح الأعمدة: المعالج يقفز في الذاكرة بمسافات ضخمة، فيحدث Cache Miss في كل دورة ويضطر لانتظار الـ RAM البطيئة!`,
+في C++ المصفوفات تُخزن في الذاكرة بنظام Row-Major (عناصر الصف الواحد متجاورة).
+مسح الصفوف يسحب سطور الكاش (64 بايت) بالتتابع ويحقق 100% Cache Hits، بينما مسح الأعمدة يقفز بمسافات هائلة ويحدث Cache Miss في كل وصول.`,
     details: "C++ stores 2D arrays in contiguous row-major order. Sequential access leverages 64-byte L1 cache lines."
   },
   {
-    id: "ext_29",
+    id: "ext_19",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Branch Predictor Penalty in Unsorted vs Sorted Arrays",
@@ -721,14 +983,12 @@ n - 1 = 11 (ثنائياً 1011).
     correctAnswer: "a",
     source: "Stack Overflow #1 All-time Question (CPU Branch Prediction)",
     explanation: `الخيار (a) هو الصحيح!
-اللغز الأكثر شهرة في تاريخ البرمجة:
-المعالجات الحديثة تمتلك وحدة متقدمة تسمى متنبئ التفرع (Branch Predictor) لتوقع نتيجة الشرط وسحب التعليمات مسبقاً في الـ Pipeline.
-- في المصفوفة المرتبة: تأتي كل العناصر الأصغر أولاً (كلها False) ثم كل العناصر الأكبر (كلها True)، فتكون دقة التنبؤ 99%!
-- في المصفوفة غير المرتبة: الشرط يتأرجح عشوائياً (True, False, True...)، مما يفشل التنبؤ (Branch Misprediction) ويضطر المعالج لتفريغ الـ Pipeline بالكامل وإعادة العمل من الصفر!`,
+وحدة متنبئ التفرع (Branch Predictor) تتوقع نتائج الشروط مسبقاً في الـ Pipeline.
+في المصفوفة المرتبة تأتي كل الـ Falses معاً ثم كل الـ Trues معاً فتكون الدقة 99%، بينما في غير المرتبة يفشل التنبؤ (Branch Misprediction) ويفرغ المعالج الـ Pipeline بالكامل.`,
     details: "Branch misprediction flushes the entire instruction pipeline, wasting 15-20 CPU cycles per miss."
   },
   {
-    id: "ext_30",
+    id: "ext_20",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Struct Memory Alignment & Padding Trap",
@@ -750,63 +1010,15 @@ cout << sizeof(S);`,
     correctAnswer: "b",
     source: "Data Structure Alignment & Hardware Padding Rules",
     explanation: `الخيار (b) هو الصحيح: 12 بايت وليس 6 بايت!
-المصيدة المعمارية:
-المعالج لا يقرأ البايتات عشوائياً، بل يتطلب محاذاة العناوين (Data Alignment) لتسريع القراءة:
-1) char a يحجز 1 بايت، يليه 3 بايت حشو فارغ (Padding) حتى يبدأ int b على عنوان مضاعف لـ 4.
-2) int b يحجز 4 بايت.
-3) char c يحجز 1 بايت، يليه 3 بايت حشو إضافي (Tail Padding) حتى يكون الحجم الكلي مضاعفاً لأكبر عنصر (4 بايت).
-الإجمالي: 1 + 3(pad) + 4 + 1 + 3(pad) = 12 بايت!
-(لو أعدنا ترتيب الحقول: int b; char a; char c; لأصبح الحجم 8 بايت فقط!).`,
+بسبب محاذاة العناوين (Data Alignment) بمضاعفات الـ 4 بايت:
+char a (1 بايت) + 3 بايت حشو (Padding).
+int b (4 بايت).
+char c (1 بايت) + 3 بايت حشو نهائي (Tail Padding).
+الإجمالي = 12 بايت!`,
     details: "Alignment requires variables to sit on memory addresses multiples of their size. Padding expands size from 6 to 12 bytes."
   },
   {
-    id: "ext_31",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "False Sharing in Multi-Core CPU Caching",
-    text: "What is 'False Sharing' in high-performance multithreaded systems?",
-    textAr: "ما هو مفهوم 'المشاركة الكاذبة' (False Sharing) في المعالجات متعددة الأنوية؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Two CPU cores modifying independent variables that happen to share the same 64-byte cache line." },
-      { id: "b", text: "b) Sharing RAM with GPU." },
-      { id: "c", text: "c) An illegal thread access to private memory." },
-      { id: "d", text: "d) Multiple threads reading the same constant." }
-    ],
-    correctAnswer: "a",
-    source: "Multi-core Cache Coherency (MESI Protocol)",
-    explanation: `الخيار (a) هو الصحيح!
-الكارثة الصامتة في الأنظمة متعددة الأنوية:
-عندما يُعدل الخيط A المتغير x، ويُعدل الخيط B المتغير y، ورغم أنهما متغيران مختلفان تماماً، إلا أنهما متجاوران في الذاكرة ويقعان على نفس سطر الكاش (Cache Line 64 بايت)!
-بروتوكول تماسك الكاش (MESI) يُبطل سطر الكاش بالكامل في النواة الأخرى في كل كتابة، مما يُجبر الأنوية على تبادل البيانات ذهاباً وإياباً في الـ Bus وبطء هائل للنظام.`,
-    details: "False sharing causes destructive cache line invalidations across cores without actual data dependency."
-  },
-  {
-    id: "ext_32",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Virtual Memory Page Size Standard",
-    text: "What is the standard hardware memory page size on modern x86/x86-64 architectures?",
-    textAr: "ما هو الحجم القياسي لصفحة الذاكرة الافتراضية (Memory Page Size) في معمارية x86 و x64؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) 64 Bytes" },
-      { id: "b", text: "b) 4 Kilobytes (4096 Bytes)" },
-      { id: "c", text: "c) 1 Megabyte" },
-      { id: "d", text: "d) 512 Bytes" }
-    ],
-    correctAnswer: "b",
-    source: "Operating System Virtual Memory Paging",
-    explanation: `الخيار (b) هو الصحيح: 4 كيلوبايت (4096 بايت)!
-وحدة إدارة الذاكرة (MMU) في المعالج ونظام التشغيل تقسم الذاكرة الفيزيائية والافتراضية إلى وحدات قياسية ثابتة الحجم تُسمى Pages، وحجمها الأساسي هو 4KB (4096 بايت = 2^12 بايت، حيث تخصص 12 بت للإزاحة Offset).`,
-    details: "Standard x86/x64 memory page size is 4KB (2^12 bytes offset)."
-  },
-
-  // ==========================================
-  // PART 4: ALGORITHMIC FINAL BOSS & MATHEMATICAL COMPLEXITY (خوارزميات ليفل الوحش)
-  // ==========================================
-  {
-    id: "ext_33",
+    id: "ext_21",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Nested Multiplicative Loop Exact Complexity",
@@ -828,16 +1040,12 @@ for (int i = 1; i <= n; i *= 2) {
     correctAnswer: "b",
     source: "Geometric Series Loop Analysis Trap",
     explanation: `الخيار (b) هو الصحيح: O(n) خطي وليس O(n log n)!
-المصيدة الرياضية التي تسقط 95% من أساتذة الخوارزميات:
-عدد العمليات في كل دورة داخلية:
-1 + 2 + 4 + 8 + 16 + ... + n
-هذه متسلسلة هندسية أساسها 2:
-مجموع المتسلسلة = (2 × n) - 1.
-وحيث إن (2n - 1) دالة خطية، فإن التعقيد الزمني الكلي هو O(n) حصراً!`,
+عدد التكرارات: 1 + 2 + 4 + 8 + ... + n = 2n - 1.
+وحيث إن (2n - 1) دالة خطية بحتة، فالتعقيد هو O(n).`,
     details: "Sum: 1 + 2 + 4 + ... + 2^k where 2^k <= n is bounded by 2n - 1 = O(n)."
   },
   {
-    id: "ext_34",
+    id: "ext_22",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Floyd's Cycle Detection Space Complexity",
@@ -853,12 +1061,11 @@ for (int i = 1; i <= n; i *= 2) {
     correctAnswer: "a",
     source: "Competitive Programming Classic Algorithms",
     explanation: `الخيار (a) هو الصحيح: تحتاج فقط مساحة ذاكرة إضافية O(1) ثابتة بدلاً من O(n)!
-الخوارزمية تستخدم مؤشرين فقط (Slow يتحرك خطوة، و Fast يتحرك خطوتين).
-الفارق النسبي بينهما هو خطوة واحدة في كل تكرار، مما يضمن لقاءهما داخل أي حلقة خلال O(n) من الزمن وبدون استهلاك أي ذاكرة إضافية إطلاقاً (O(1) Memory).`,
+تستخدم مؤشرين فقط (Slow يتحرك خطوة، و Fast يتحرك خطوتين)، وتلتقي في أي حلقة مغلقة بزمن O(n) وبدون أي مصفوفات أو جداول هاش إضافية.`,
     details: "Floyd's algorithm runs in O(n) time and O(1) auxiliary space."
   },
   {
-    id: "ext_35",
+    id: "ext_23",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Extended Master Theorem Recurrence Case",
@@ -874,16 +1081,12 @@ for (int i = 1; i <= n; i *= 2) {
     correctAnswer: "b",
     source: "Extended Master Theorem Case 2b",
     explanation: `الخيار (b) هو الصحيح: O(n log^2 n)!
-الشرح:
-هنا a = 2, b = 2, f(n) = n log n.
-قيمة n^(log_b a) = n^(log_2 2) = n^1 = n.
-بما أن f(n) = n * log^k(n) مع k = 1:
-طبقاً للحالة الممتدة من نظرية الماستر (Case 2 Extended Master Theorem):
-T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
+وفق الحالة الممتدة من نظرية الماستر (Case 2 Extended Master Theorem):
+حيث إن a=2, b=2, n^(log_b a) = n، ودالة العمل f(n) = n log^1 n، فإن الناتج يرفع قوة اللوغاريتم بمقدار 1: Θ(n log^2 n).`,
     details: "By Extended Master Theorem Case 2: when f(n) = Theta(n^(log_b a) * log^k n), T(n) = Theta(n^(log_b a) * log^(k+1) n)."
   },
   {
-    id: "ext_36",
+    id: "ext_24",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "QuickSort Inherent Instability Cause",
@@ -899,12 +1102,11 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     correctAnswer: "a",
     source: "Sorting Stability Definitions",
     explanation: `الخيار (a) هو الصحيح!
-الخوارزمية المستقرة (Stable Sort) تحافظ على الترتيب النسبي الأصلي للعناصر المتساوية في القيمة.
-في QuickSort، عمليات التبديل تتم عبر مسافات بعيدة عبر المحور (Pivot Partitioning)، مما قد يقفز بعنصر فوق عنصر مساوٍ له ويغير ترتيبهما النسبي الأصلي.`,
+في QuickSort، عمليات التبديل تتم عبر مسافات بعيدة عبر المحور (Pivot Partitioning)، مما قد يقفز بعنصر فوق عنصر مساوٍ له ويغير ترتيبهما النسبي الأصلي في المصفوفة.`,
     details: "Partitioning swaps non-adjacent elements over the pivot, disrupting relative order of equal keys."
   },
   {
-    id: "ext_37",
+    id: "ext_25",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Turing's Halting Problem Impossibility",
@@ -920,34 +1122,11 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     correctAnswer: "a",
     source: "Theoretical Computer Science & Computability Theory",
     explanation: `الخيار (a) هو الصحيح!
-أحد أعظم إنجازات علوم الحاسوب: أثبت تورينج باستخدام برهان التناقض (Diagonalization) أنه يستحيل وجود خوارزمية حاسوبية عامة يمكنها فحص أي كود عشوائي وتحديد ما إذا كان سيتوقف حتماً أم سيدخل في حلقة لا نهائية! المشكلة غير قابلة للحل حاسوبياً (Undecidable Problem).`,
+أثبت تورينج بالبرهان الرياضي أنه يستحيل وجود خوارزمية حاسوبية عامة يمكنها فحص أي كود عشوائي وتحديد ما إذا كان سيتوقف حتماً أم سيدخل في حلقة لا نهائية (Undecidable Problem).`,
     details: "The Halting Problem is undecidable; no universal algorithm can solve it for all program-input pairs."
   },
   {
-    id: "ext_38",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Amortized Complexity of Dynamic Array Doubling",
-    text: "What is the amortized time complexity of inserting n elements into a std::vector using capacity doubling?",
-    textAr: "ما هو التعقيد الزمني المستهلك (Amortized Complexity) لكل عملية إضافة عنصر في std::vector عند مضاعفة السعة؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) O(1) amortized per insertion" },
-      { id: "b", text: "b) O(n) per insertion" },
-      { id: "c", text: "c) O(log n) per insertion" },
-      { id: "d", text: "d) O(n^2) total" }
-    ],
-    correctAnswer: "a",
-    source: "Amortized Analysis (Aggregate & Banker's Method)",
-    explanation: `الخيار (a) هو الصحيح: O(1) مستهلك لكل عملية!
-الشرح:
-رغم أن بعض عمليات الإضافة تتطلب نسخ المصفوفة بالكامل بزمن O(n) عند امتلاء السعة، إلا أن هذا يحدث بتباعد متضاعف (1, 2, 4, 8, 16...).
-إجمالي تكلفة نسخ n عنصر عبر التاريخ هو: n + n/2 + n/4 + ... < 2n.
-بقسمة إجمالي التكلفة 2n على عدد العمليات n، يكون نصيب كل عملية فردية O(1) ثابت فقط!`,
-    details: "Total reallocation cost for n items is bounded by 2n, yielding O(1) amortized cost per push_back."
-  },
-  {
-    id: "ext_39",
+    id: "ext_26",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Two's Complement Fraction Overflow Edge",
@@ -963,13 +1142,11 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     correctAnswer: "b",
     source: "x86 IDIV Hardware Division Overflow Trap",
     explanation: `الخيار (b) هو الصحيح: خطأ فيض عتادي مميت يوقف البرنامج (Divide Error)!
-المصيدة النادرة:
-في معالجات x86 و C++، قسمة أصغر رقم سالب INT_MIN على -1 تُنتج رياضياً +128 (أو +2147483648 في 32-bit).
-وحيث إن الحد الأقصى الموجب هو +127 (أو +2147483647)، فإن الناتج لا يمكن تمثيله في السجل، فيطلق المعالج مقاطعة عتادية فتاكة: Divide Error / SIGFPE ويتحطم البرنامج فوراً!`,
+في معالجات x86 و C++، قسمة أصغر رقم سالب INT_MIN على -1 تُنتج رياضياً +128، وهو خارج المدى الموجب الأقصى (+127)، فيطلق المعالج استثناء عتادياً فتاكاً (Divide Error) ويتحطم البرنامج فوراً!`,
     details: "INT_MIN / -1 overflows positive signed range, triggering an x86 integer division exception crash."
   },
   {
-    id: "ext_40",
+    id: "ext_27",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Dutch National Flag Algorithm Passes",
@@ -984,13 +1161,12 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     ],
     correctAnswer: "a",
     source: "Dijkstra's Three-Way Partitioning",
-    explanation: `الخيار (a) هو الصحيح: مرور واحد فقط (Single Pass)!
-خوارزمية ديكسترا العبقرية تستخدم 3 مؤشرات (Low, Mid, High).
-في كل خطوة يتم فحص العنصر عند Mid وتبديله إما مع Low أو High، وبذلك تترتب المصفوفة في مسح واحد مستمر من البداية للنهاية بزمن O(n) وبدون أي مصفوفات إضافية O(1) space.`,
+    explanation: `الخيار (a) هو الصحيح: مرور واحد فقط (Single Pass O(n))!
+تستخدم 3 مؤشرات وتفرز المصفوفة في مسح واحد مستمر دون أي مصفوفات مساعدة O(1) space.`,
     details: "Dijkstra's Dutch National Flag algorithm partitions 3 distinct keys in exactly one pass using 3 pointers."
   },
   {
-    id: "ext_41",
+    id: "ext_28",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Sign-Magnitude Multiplication Sign Rule",
@@ -1006,15 +1182,11 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     correctAnswer: "a",
     source: "Computer Arithmetic Hardware Design",
     explanation: `الخيار (a) هو الصحيح: Sign_A XOR Sign_B!
-جدول الحقيقة:
-- موجب (0) × موجب (0) = 0 ^ 0 = 0 (موجب).
-- موجب (0) × سالب (1) = 0 ^ 1 = 1 (سالب).
-- سالب (1) × سالب (1) = 1 ^ 1 = 0 (موجب).
-لذلك تستخدم المعالجات بوابة XOR وحيدة لحساب إشارة ناتج الضرب في دورة ساعة واحدة.`,
+بوابة XOR تعيد 0 إذا تماثلت الإشارات (موجب × موجب = موجب، وسالب × سالب = موجب)، وتعيد 1 إذا اختلفت الإشارات، في دورة ساعة واحدة.`,
     details: "XOR gate directly mirrors the mathematical multiplication sign rule: same signs -> 0, different signs -> 1."
   },
   {
-    id: "ext_42",
+    id: "ext_29",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Virtual Table (vtable) Pointer Overhead",
@@ -1030,11 +1202,11 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     correctAnswer: "a",
     source: "C++ Object Model & Dynamic Polymorphism",
     explanation: `الخيار (a) هو الصحيح: مؤشر خفي vptr بحجم 8 بايت!
-لتطبيق الـ Dynamic Polymorphism وقت التشغيل، يُنشئ المترجم جدول دوال وهمية (vtable)، ويضع داخل كل كائن مؤشراً خفياً (vptr) يؤشر إلى جدول الدوال المناسب، مما يزيد حجم الكائن بمقدار 8 بايت في معمارية 64-bit.`,
+يُنشئ المترجم جدول دوال وهمية (vtable)، ويضع داخل كل كائن مؤشراً خفياً (vptr) بحجم 8 بايت في معمارية 64-bit.`,
     details: "Classes with virtual functions contain an implicit vptr pointing to the class's vtable."
   },
   {
-    id: "ext_43",
+    id: "ext_30",
     category: "extreme",
     categoryName: "أسئلة الدمار (Extreme) 💀🔥",
     title: "Order of Evaluation in Function Arguments C++17",
@@ -1049,166 +1221,14 @@ T(n) = Θ(n * log^(k+1) n) = Θ(n * log^2 n)!`,
     ],
     correctAnswer: "b",
     source: "C++17 Order of Evaluation [expr.call]",
-    explanation: `الخيار (b) هو الصحيح: ترتيب غير محدد تحدده البيئة (Unspecified)، ولكن بدون تداخل!
-معيار C++ لا يحدد ما إذا كان المترجم سيبدأ بـ a() أو b() أو c()، ولكنه يضمن في C++17 أن كل دالة تنتهي بالكامل قبل بدء التالية (Indeterminately sequenced). لذلك الاعتماد على ترتيب تقييم الوسائط يُعتبر فخاً برمجياً خطيراً.`,
+    explanation: `الخيار (b) هو الصحيح: ترتيب غير محدد (Unspecified)، ولكن بدون تداخل!
+معيار C++ لا يفرض ما إذا كان المترجم سيبدأ بـ a() أو b() أو c()، ولكنه يضمن في C++17 أن كل استدعاء يكتمل كلياً قبل بدء التالي دون تداخل.`,
     details: "Function arguments have unspecified evaluation order; code depending on a specific argument evaluation order is non-portable."
-  },
-  {
-    id: "ext_44",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Hamming Weight Bitwise Mask Formula",
-    text: "What does the parallel bitwise algorithm: x = (x & 0x55555555) + ((x >> 1) & 0x55555555) achieve in its first step?",
-    textAr: "ماذا تفعل الخطوة الأولى من خوارزمية الأقنعة الثنائية المتوازية (0x55555555)؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Sums the number of 1-bits in adjacent pairs of bits." },
-      { id: "b", text: "b) Reverses the byte order." },
-      { id: "c", text: "c) Tests if the number is divisible by 5." },
-      { id: "d", text: "d) Clears all odd bits." }
-    ],
-    correctAnswer: "a",
-    source: "Hamming Weight / Popcount Divide & Conquer",
-    explanation: `الخيار (a) هو الصحيح: جمع عدد الآحاد في كل زوج بتات متجاور في نفس الوقت!
-القناع 0x55555555 هو ثنائياً: 010101010101...
-تقوم الخوارزمية بجمع كل خانتين متجاورتين بالتوازي (Divide & Conquer) لحساب الـ Popcount في زمن O(log bits) بدلاً من فحص كل خانة على حدة.`,
-    details: "First step of parallel popcount: adds bit counts of 2-bit fields simultaneously using 0101... masks."
-  },
-  {
-    id: "ext_45",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Instruction Throughput vs Latency Tradeoff",
-    text: "In a 5-stage CPU pipeline running at 2 GHz, what is the ideal instruction execution throughput once the pipeline is full?",
-    textAr: "في معالج ذي خط أنابيب مكون من 5 مراحل بتردد 2 GHz، ما هو معدل إنجاز التعليمات المثالي (Throughput) عندما يمتلئ خط الأنابيب؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) 1 instruction every 5 clock cycles" },
-      { id: "b", text: "b) 1 instruction every 1 clock cycle (CPI = 1)" },
-      { id: "c", text: "c) 5 instructions every 1 clock cycle" },
-      { id: "d", text: "d) 2.5 instructions per cycle" }
-    ],
-    correctAnswer: "b",
-    source: "Computer Architecture Pipeline Throughput Fundamentals",
-    explanation: `الخيار (b) هو الصحيح: تعليمة واحدة في كل دورة ساعة واحدة (CPI = 1)!
-المفهوم المعماري:
-رغم أن التعليمة الواحدة تستغرق 5 دورات ساعة كاملة لتنتهي (Latency = 5 cycles)، إلا أنه بسبب تداخل المراحل (Pipelining)، تخرج تعليمة مكتملة في كل دورة ساعة جديدة بمجرد امتلاء الخط، مما يجعل الإنتاجية تعليمة/دورة.`,
-    details: "Pipelining maximizes throughput to 1 instruction per cycle (ideal CPI = 1) while individual latency remains 5 cycles."
-  },
-  {
-    id: "ext_46",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Two's Complement Signed Magnitude Comparison Trap",
-    text: "Which number representation allows comparing two signed numbers directly using identical hardware logic as unsigned magnitude comparisons?",
-    textAr: "أي نظام تمثيل يسمح بمقارنة الأرقام السالبة والموجبة بنفس عتاد مقارنة الأرقام الموجبة المباشر؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Biased (Excess-K / Offset Binary) Representation" },
-      { id: "b", text: "b) Sign-Magnitude" },
-      { id: "c", text: "c) One's Complement" },
-      { id: "d", text: "d) Two's Complement" }
-    ],
-    correctAnswer: "a",
-    source: "Biased Exponent Architecture (IEEE-754)",
-    explanation: `الخيار (a) هو الصحيح: نظام الانحياز (Biased / Offset Binary)!
-السر الهندسي:
-لهذا السبب بالذات يستخدم معيار IEEE-754 نظام الأس المنحاز (Biased Exponent = E + 127)!
-في هذا النظام، أصغر رقم سالب يتحول إلى 00000000، وأكبر رقم موجب يتحول إلى 11111111، مما يتيح للمعالج مقارنة الأرقام العشرية بسرعة هائلة باستخدام مقارن أعداد موجبة عادي (Unsigned Comparator) دون أي فحص إشارة!`,
-    details: "Biased notation shifts all numbers into non-negative range, allowing direct unsigned magnitude comparison hardware."
-  },
-  {
-    id: "ext_47",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "LIFO Destruction Order in Multiple Variables",
-    text: "Given: class Test { ... }; In: { Test t1; Test t2; Test t3; } in what exact order are destructors called?",
-    textAr: "في كتلة برمجية: { Test t1; Test t2; Test t3; }، ما هو الترتيب الصارم لاستدعاء دوال الهدم (Destructors) عند الخروج؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) t1 then t2 then t3" },
-      { id: "b", text: "b) t3 then t2 then t1 (Strict LIFO order)" },
-      { id: "c", text: "c) Random / Compiler-dependent" },
-      { id: "d", text: "d) All destructors execute in parallel" }
-    ],
-    correctAnswer: "b",
-    source: "C++ RAII & Automatic Object Lifetime",
-    explanation: `الخيار (b) هو الصحيح: t3 ثم t2 ثم t1 (ترتيب عكسي صارم LIFO)!
-قاعدة معيار C++:
-الكائنات ذات التخزين التلقائي تُبنى بالترتيب من الأعلى للأسفل (t1, t2, t3).
-وعند مغادرة النطاق، تُهدم دائماً بالترتيب العكسي التام (t3 أولاً، ثم t2، ثم t1)، لضمان أن الكائنات المبنية أخيراً والتي قد تعتمد على كائنات سابقة تُهدم قبل تدمير ما تعتمد عليه.`,
-    details: "Automatic objects are destroyed in strict reverse order of construction (LIFO / Stack discipline)."
-  },
-  {
-    id: "ext_48",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Branchless Sign Function sgn(x)",
-    text: "What does the expression: (x > 0) - (x < 0) compute for any integer x?",
-    textAr: "ماذا تحسب المعادلة الرياضية العبقرية: (x > 0) - (x < 0) لأي رقم صحيح x؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) sgn(x): returns +1 if positive, -1 if negative, 0 if zero." },
-      { id: "b", text: "b) Always returns 0." },
-      { id: "c", text: "c) Returns x squared." },
-      { id: "d", text: "d) Returns 1 for all non-zero numbers." }
-    ],
-    correctAnswer: "a",
-    source: "Signum Function Branchless Implementation",
-    explanation: `الخيار (a) هو الصحيح: دالة إشارة الرقم sgn(x)!
-التجربة:
-- لو x = 5 (موجب): (1) - (0) = +1.
-- لو x = -9 (سالب): (0) - (1) = -1.
-- لو x = 0: (0) - (0) = 0.
-وهذه هي أسرع طريقة قياسية لحساب إشارة أي رقم في سطر واحد بدون أي تفرع شرطي.`,
-    details: "(x > 0) - (x < 0) evaluates to +1, -1, or 0 with optimal branchless instruction generation."
-  },
-  {
-    id: "ext_49",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "Cache Coherence Invalidation Unit",
-    text: "What is the smallest unit of data transfer and invalidation between CPU L1/L2 caches and memory?",
-    textAr: "ما هي أصغر وحدة لنقل البيانات وتماسك الكاش بين أنوية المعالج وذواكر L1/L2 والـ RAM؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) 1 Byte" },
-      { id: "b", text: "b) 1 Word (4 or 8 Bytes)" },
-      { id: "c", text: "c) 1 Cache Line (typically 64 Bytes)" },
-      { id: "d", text: "d) 1 Page (4096 Bytes)" }
-    ],
-    correctAnswer: "c",
-    source: "Cache Coherency Hardware Specifications",
-    explanation: `الخيار (c) هو الصحيح: سطر الكاش (Cache Line - عادة 64 بايت)!
-المعالج لا يقرأ أو يكتب أو يبطل البيانات في الكاش بايت ببايت، بل يقرأ ويبطل سطر كاش كامل بحجم 64 بايت دائماً دفعة واحدة، وهو ما يفسر كل ظواهر الـ Spatial Locality والـ False Sharing.`,
-    details: "The atomic granularity of cache transfer and coherency invalidation is the cache line (64 bytes)."
-  },
-  {
-    id: "ext_50",
-    category: "extreme",
-    categoryName: "أسئلة الدمار (Extreme) 💀🔥",
-    title: "The Ultimate Two's Complement Bit Reversal Property",
-    text: "What is the result of the hardware operation: (~x + 1) == -x for all signed integers in two's complement?",
-    textAr: "في جميع الحواسب التي تستخدم المكمل الثنائي، ما هي القيمة المنطقية للتعبير: (~x + 1) == -x؟",
-    type: "mcq",
-    options: [
-      { id: "a", text: "a) Always true for all representable values, defining the mathematical identity of Two's Complement." },
-      { id: "b", text: "b) False for x = 0." },
-      { id: "c", text: "c) False for positive numbers." },
-      { id: "d", text: "d) True only in 64-bit." }
-    ],
-    correctAnswer: "a",
-    source: "Fundamental Two's Complement Algebraic Identity",
-    explanation: `الخيار (a) هو الصحيح: صحيح دائماً 100% ويُمثل الهوية الجبرية الأساسية لنظام المكمل الثنائي!
-المعادلة (~x + 1) تعني رياضياً: قلب جميع البتات ثم إضافة 1.
-وهذه العملية تطابق هندسياً وجبرياً ضرب الرقم في -1 في جميع أجهزة الحواسب الحديثة، وهي الحقيقة التي بُني عليها كل علم المعالجات الرقمية في القرن الحادي والعشرين!`,
-    details: "(~x + 1) is the universal mathematical definition of negation in two's complement arithmetic."
   }
 ];
 
 // Automatically register into questionsData if loaded
 if (typeof questionsData !== 'undefined') {
-  // Replace or add extreme questions
   const nonExtreme = questionsData.filter(q => q.category !== 'extreme');
   questionsData.length = 0;
   questionsData.push(...nonExtreme, ...extremeQuestionsData);
